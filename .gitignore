@@ -1,0 +1,34 @@
+# Flutter/Dart
+build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.idea/
+.metadata
+
+# iOS
+ios/Flutter/.last_build_id
+ios/Flutter/Generated.xcconfig
+ios/Pods/
+ios/Runner.xcworkspace/
+
+# macOS
+macos/Flutter/ephemeral/
+macos/Flutter/Generated.xcconfig
+macos/Pods/
+macos/Runner.xcworkspace/
+
+# Android
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# VS Code
+.vscode/
+
+# IDEs and editors
+.idea/
+*.iml
