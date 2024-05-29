@@ -1,0 +1,1 @@
+const url_image= "assets/images/";
