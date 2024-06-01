@@ -9,8 +9,9 @@ class Facebooklogin extends StatefulWidget {
 }
 
 class _FacebookloginState extends State<Facebooklogin> {
-  void gotoRegisterPage( ) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+  void gotoRegisterPage() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const RegisterPage()));
   }
 
   @override
@@ -52,25 +53,19 @@ class _FacebookloginState extends State<Facebooklogin> {
                 const SizedBox(
                   height: 30,
                 ),
-                TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue)),
-                    onPressed: () {},
-                    child: const Text("Login")),
+                TextButton(onPressed: () {}, child: const Text("Login")),
                 const SizedBox(
                   height: 30,
                 ),
                 TextButton(
-                    onPressed:  gotoRegisterPage,
+                    onPressed: gotoRegisterPage,
                     child: const Text("You forget password !!!")),
                 const SizedBox(
                   height: 90,
                 ),
                 TextButton(
-                    onPressed: () {}, child: const Text("Create new account ??"))
+                    onPressed: () {},
+                    child: const Text("Create new account ??"))
               ],
             ),
           ),

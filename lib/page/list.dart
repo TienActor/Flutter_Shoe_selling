@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tien/page/grid.dart';
 import '../data/data.dart';
 import '../data/model.dart';
 import '../Config/const.dart';
@@ -29,7 +30,7 @@ class _MyListState extends State<MyList> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const GridPage() ));
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),

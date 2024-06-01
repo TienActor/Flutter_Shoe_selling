@@ -39,7 +39,6 @@ class _GridPageState extends State<GridPage> {
       break;
       case 3:
       nameWidget="Setting";
-
       default:
       nameWidget="None";
       break;
