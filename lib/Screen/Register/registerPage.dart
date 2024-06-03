@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tien/Lab_3/dialog_manager.dart';
+import 'package:tien/Screen/Login/login_screen.dart';
 import 'package:tien/data/string_extention.dart';
 import 'package:tien/page/grid.dart';
 
-class SecondPage extends StatefulWidget {
-  const SecondPage({super.key});
+class registerPage extends StatefulWidget {
+  const registerPage({super.key});
 
   @override
-  State<SecondPage> createState() => _SecondPageState();
+  State<registerPage> createState() => _registerPageState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _registerPageState extends State<registerPage> {
   /// thiet lap mau
   static Color _selectedColor = Colors.black;
   static Color _unselectedColor = Colors.grey;
@@ -99,7 +98,7 @@ class _SecondPageState extends State<SecondPage> {
                 Container(
                   alignment: Alignment.topCenter,
                   child: const Text(
-                    "User infomation",
+                    "Thông tin người dùng",
                     style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w100,
@@ -258,8 +257,11 @@ class _SecondPageState extends State<SecondPage> {
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
+                    SizedBox(
+                      height: 56,
+                      width: 199,
                         child: ElevatedButton(
                       onPressed: () {
                         var fullname = _nameController.text;
@@ -273,7 +275,7 @@ class _SecondPageState extends State<SecondPage> {
                               );
                             });
                       },
-                      child: const Text("Register"),
+                      child: const Text("Đăng kí"),
                     )),
                   ],
                 ),
@@ -281,7 +283,7 @@ class _SecondPageState extends State<SecondPage> {
                   height: 16,
                 ),
                 SizedBox(
-                    width: 109,
+                    width: 199,
                     height: 56,
                     child: OutlinedButton(
                         onPressed: () {
@@ -289,14 +291,14 @@ class _SecondPageState extends State<SecondPage> {
                               Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const GridPage(),
+                                  builder: (context) => const LoginScreen(),
                               ),
                               );
                           }
 
                       
                         },
-                        child: const Text("Login")))
+                        child: const Text("Đăng nhập")))
               ],
             ),
           ),

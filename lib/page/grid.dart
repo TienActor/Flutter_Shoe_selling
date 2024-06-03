@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Lab_3/settingPage.dart';
 import 'package:tien/data/data.dart';
 import 'package:tien/data/model.dart';
 import 'package:tien/page/casourel.dart';
@@ -15,35 +16,39 @@ class GridPage extends StatefulWidget {
 
 class _GridPageState extends State<GridPage> {
   List<ProductModel> lstProduct = [];
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
 
   // handle tap icon on navigator menu
 
-  void _onItemTapped(int index){
+  void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex=index;
+      _selectedIndex = index;
     });
   }
 
-  _loadWidget(int index){
-    var nameWidget ="Home";
-    switch (index){
+  _loadWidget(int index) {
+    var nameWidget = "Home";
+    switch (index) {
       case 0:
-      nameWidget="Home";
-      break;
+        nameWidget = "Home";
+        break;
       case 1:
-      nameWidget="Favorite";
-      break;
+        nameWidget = "Favorite";
+        break;
       case 2:
-      nameWidget="Love";
-      break;
+        nameWidget = "Love";
+        break;
       case 3:
-      nameWidget="Setting";
-      default:
-      nameWidget="None";
-      break;
-    }
+        {
+          nameWidget = "Setting";
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const settingPage()));
+          break;
+        }
 
+      default:
+        nameWidget = "None";
+        break;
+    }
   }
 
   @override
@@ -76,7 +81,8 @@ class _GridPageState extends State<GridPage> {
                 icon: const Icon(Icons.list))
           ],
         ),
-        body: Container(
+        body:
+         Container(
           padding: const EdgeInsets.all(16),
           alignment: Alignment.center,
           child: GridView.builder(
@@ -89,21 +95,23 @@ class _GridPageState extends State<GridPage> {
               itemBuilder: (context, index) {
                 return itemGridView(lstProduct[index]);
               }),
-        ),
+              
 
-        bottomNavigationBar: BottomNavigationBar(items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.filter_vintage_outlined),label: "Favorite"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite),label: "Love"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings),label: "Setting")
-
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[600],
-        unselectedItemColor:Colors.grey ,
-        onTap: _onItemTapped,
         ),
-        
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.filter_vintage_outlined), label: "Favorite"),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Love"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: "Setting")
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[600],
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
