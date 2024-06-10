@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tien/responsive.dart';
 import 'package:tien/Screen/Login/login_form.dart';
+import 'package:tien/responsive.dart';
 import 'package:tien/Screen/Login/login_screen_top_image.dart';
-
 import '../../Screen/components/background.dart';
 
 
@@ -26,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 450,
-                      child: LoginForm(),
+                       child: LoginFrom(), // Sử dụng LoginForm thay vì LoginScreen
                     ),
                   ],
                 ),
@@ -55,7 +54,7 @@ class MobileLoginScreen extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: LoginForm(),
+              child: LoginFrom(), // Sử dụng LoginForm
             ),
             Spacer(),
           ],

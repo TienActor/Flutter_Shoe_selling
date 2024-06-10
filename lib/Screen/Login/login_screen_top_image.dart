@@ -14,7 +14,7 @@ class LoginScreenTopImage extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "LOGIN",
+          "Đăng nhập",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding * 2),

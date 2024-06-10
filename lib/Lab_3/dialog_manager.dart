@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tien/Screen/registerPage.dart';
+import 'package:tien/Screen/Register/registerPage.dart';
 
 
 class DialogManager {

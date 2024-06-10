@@ -110,7 +110,7 @@ class _GridPageState extends State<GridPage> {
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.amber[600],
           unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped,
+          onTap: _loadWidget,
         ),
       ),
     );

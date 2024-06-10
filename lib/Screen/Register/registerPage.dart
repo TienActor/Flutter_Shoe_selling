@@ -108,8 +108,7 @@ class _registerPageState extends State<registerPage> {
                 TextFormField(
                   decoration: const InputDecoration(
                       labelText: "Full name", icon: Icon(Icons.person)),
-                
-                      controller: _nameController,
+                  controller: _nameController,
                 ),
                 const SizedBox(
                   height: 16,
@@ -121,8 +120,8 @@ class _registerPageState extends State<registerPage> {
                         Icons.mail_outline,
                         color: Colors.black,
                       )),
-                      focusNode: _emailTFColorFocus,
-                      controller: _emailController,
+                  focusNode: _emailTFColorFocus,
+                  controller: _emailController,
                 ),
                 const SizedBox(
                   height: 16,
@@ -131,9 +130,8 @@ class _registerPageState extends State<registerPage> {
                   obscureText: true,
                   decoration: const InputDecoration(
                       labelText: "Password", icon: Icon(Icons.password)),
-                      focusNode: _passwordColorFocus,
-                      controller: 
-                      _passwordController,
+                  focusNode: _passwordColorFocus,
+                  controller: _passwordController,
                 ),
                 const SizedBox(
                   height: 16,
@@ -260,23 +258,21 @@ class _registerPageState extends State<registerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 56,
-                      width: 199,
+                        height: 56,
+                        width: 199,
                         child: ElevatedButton(
-                      onPressed: () {
-                        var fullname = _nameController.text;
-                        var email = _emailController.text;
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content:
-                                    Text("Full name :$fullname\nEmail: $email"),
+                          onPressed: () {
+                            if (_validateInput()) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const GridPage(),
+                                ),
                               );
-                            });
-                      },
-                      child: const Text("Đăng kí"),
-                    )),
+                            }
+                          },
+                          child: const Text("Đăng kí"),
+                        )),
                   ],
                 ),
                 const SizedBox(
@@ -287,16 +283,12 @@ class _registerPageState extends State<registerPage> {
                     height: 56,
                     child: OutlinedButton(
                         onPressed: () {
-                          if(_validateInput()){
-                              Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                              ),
-                              );
-                          }
-
-                      
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
                         },
                         child: const Text("Đăng nhập")))
               ],
