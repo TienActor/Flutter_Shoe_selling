@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tien/Screen/Login/login_form.dart';
-import 'package:tien/responsive.dart';
+import 'package:tien/Config/responsive.dart';
 import 'package:tien/Screen/Login/login_screen_top_image.dart';
 import '../../Screen/components/background.dart';
 

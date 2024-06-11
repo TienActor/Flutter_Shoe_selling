@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Lab_3/dialog_manager.dart';
 
 class settingPage extends StatefulWidget {
   const settingPage({super.key});

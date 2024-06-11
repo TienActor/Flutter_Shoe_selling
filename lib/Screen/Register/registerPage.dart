@@ -12,23 +12,24 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
-  /// thiet lap mau
-  static Color _selectedColor = Colors.black;
-  static Color _unselectedColor = Colors.grey;
-
-  Color _emailTFColor = _unselectedColor;
-  Color _passwordColor = _unselectedColor;
-
-  FocusNode _emailTFColorFocus = FocusNode();
-  FocusNode _passwordColorFocus = FocusNode();
-
-  bool _check_value_1 = false;
-  bool _check_value_2 = false;
-  bool _check_value_3 = false;
-  int _gender = 0;
+  /// thiết lập dropdown option
+  String dropMenuGender = "Nam";
+  String dropMenuSchYear = "2020";
+  String dropMenuSchKey = "K25";
+  // thiết lập code lấy dữ liệu ngày ,v.v
+   final TextEditingController _dateController = TextEditingController();
+     int _gender = 0;
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  /// thiet lap mau
+  static Color _selectedColor = Colors.black;
+  static Color _unselectedColor = Colors.grey;
+  Color _emailTFColor = _unselectedColor;
+  Color _passwordColor = _unselectedColor;
+  FocusNode _emailTFColorFocus = FocusNode();
+  FocusNode _passwordColorFocus = FocusNode();
+
 
   @override
   void initState() {
@@ -40,7 +41,6 @@ class _registerPageState extends State<registerPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailTFColorFocus.removeListener(_onEmailTFFocusChange);
     _emailTFColorFocus.dispose();
@@ -65,14 +65,46 @@ class _registerPageState extends State<registerPage> {
     });
   }
 
+// Khai báo hàm build DropdownButton
+  DropdownButton<String> buildDropdownButton(String currentValue,
+      List<DropdownMenuItem<String>> items, Function(String?) onChanged) {
+    return DropdownButton<String>(
+      value: currentValue,
+      icon: const Icon(Icons.arrow_drop_down),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: onChanged,
+      items: items,
+    );
+  }
+
+  // hàm cập nhật date picker
+  Future<void> _selectDate() async {
+    DateTime? _picker= await showDatePicker(
+        context: context,
+        initialDate: DateTime(2005),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+         if (_picker != null) {
+    // Format ngày tháng năm
+    String formattedDate = "${_picker.day}/${_picker.month}/${_picker.year}";
+    setState(() {
+      _dateController.text = formattedDate;  // Cập nhật text của controller
+    });
+  }
+  }
+
   bool _validateInput() {
     if (!_emailController.text.isValidEmail()) {
-      DialogManager.showErrorDialog(context, 'Invalid email address!');
+      DialogManager.showErrorDialog(context, 'Email không hợp lệ!');
       return false;
     }
 
     if (_passwordController.text.length < 6) {
-      DialogManager.showErrorDialog(context, 'Invalid password');
+      DialogManager.showErrorDialog(context, 'Mật khẩu không hợp lệ');
       return false;
     }
 
@@ -87,7 +119,7 @@ class _registerPageState extends State<registerPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Second Page"),
+          title: const Text("Trang đăng kí"),
         ),
         body: Center(
           child: Padding(
@@ -107,7 +139,7 @@ class _registerPageState extends State<registerPage> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                      labelText: "Full name", icon: Icon(Icons.person)),
+                      labelText: "Họ và tên", icon: Icon(Icons.person)),
                   controller: _nameController,
                 ),
                 const SizedBox(
@@ -115,7 +147,7 @@ class _registerPageState extends State<registerPage> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                      labelText: "Email or phone",
+                      labelText: "ID tài khoản",
                       icon: Icon(
                         Icons.mail_outline,
                         color: Colors.black,
@@ -129,7 +161,7 @@ class _registerPageState extends State<registerPage> {
                 TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: "Password", icon: Icon(Icons.password)),
+                      labelText: "Mật khẩu", icon: Icon(Icons.password)),
                   focusNode: _passwordColorFocus,
                   controller: _passwordController,
                 ),
@@ -139,14 +171,14 @@ class _registerPageState extends State<registerPage> {
                 TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: "Confirm Pass",
+                      labelText: "Xác nhận mật khẩu",
                       icon: Icon(Icons.password_sharp)),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 const Text(
-                  "What is your gender?? ",
+                  "Giới tính ? ",
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,7 +186,7 @@ class _registerPageState extends State<registerPage> {
                     Expanded(
                         child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
-                      title: const Text("Male"),
+                      title: const Text("Nam"),
                       leading: Transform.translate(
                         offset: const Offset(16, 0),
                         child: Radio(
@@ -171,7 +203,7 @@ class _registerPageState extends State<registerPage> {
                     Expanded(
                         child: ListTile(
                       contentPadding: const EdgeInsets.all(0),
-                      title: const Text("Female"),
+                      title: const Text("Nữ"),
                       leading: Transform.translate(
                         offset: const Offset(16, 0),
                         child: Radio(
@@ -185,73 +217,73 @@ class _registerPageState extends State<registerPage> {
                         ),
                       ),
                     )),
-                    Expanded(
-                        child: ListTile(
-                      contentPadding: const EdgeInsets.all(0),
-                      title: const Text("Other"),
-                      leading: Transform.translate(
-                        offset: const Offset(16, 0),
-                        child: Radio(
-                            value: 3,
-                            groupValue: _gender,
-                            onChanged: (value) {
-                              setState(
-                                () {
-                                  _gender = value!;
-                                },
-                              );
-                            }),
-                      ),
-                    ))
                   ],
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const Text("What is your favorite ??"),
+                 TextField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(
+                      labelText: "Ngày sinh",
+                      filled: true,
+                      prefixIcon: Icon(Icons.calendar_today),
+                      enabledBorder:
+                          OutlineInputBorder(borderSide: BorderSide.none)),
+                  readOnly: true,
+                 onTap: (){
+                  _selectDate();
+                 },
+                ),
                 const SizedBox(
                   height: 16,
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: const EdgeInsets.all(0),
-                      title: const Text("Music"),
-                      value: _check_value_1,
-                      onChanged: (value) {
-                        setState(() {
-                          _check_value_1 = value!;
-                        });
-                      },
-                    )),
-                    Expanded(
-                        child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Movie"),
-                      contentPadding: const EdgeInsets.all(0),
-                      value: _check_value_2,
-                      onChanged: (value) {
-                        setState(() {
-                          _check_value_2 = value!;
-                        });
-                      },
-                    )),
-                    Expanded(
-                        child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: const EdgeInsets.all(0),
-                      title: const Text("Book"),
-                      value: _check_value_3,
-                      onChanged: (value) {
-                        setState(() {
-                          _check_value_3 = value!;
-                        });
-                      },
-                    ))
-                  ],
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text("Năm học: "),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: buildDropdownButton(dropMenuSchYear, [
+                          const DropdownMenuItem(value: "2020", child: Text("Năm 4")),
+                          const DropdownMenuItem(value: "2021", child: Text("Năm 3")),
+                        ], (newValue) {
+                          setState(() {
+                            dropMenuSchYear = newValue!;
+                          });
+                        }),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                          child: Row(
+                        children: [
+                          const Text("Khóa học"),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: buildDropdownButton(dropMenuSchKey, [
+                              const DropdownMenuItem(
+                                  value: "K25", child: Text("Khóa 2019")),
+                              const DropdownMenuItem(
+                                  value: "K26", child: Text("Khóa 2020")),
+                              const DropdownMenuItem(
+                                  value: "K27", child: Text("Khóa 2021")),
+                              const DropdownMenuItem(
+                                  value: "K28", child: Text("Khóa 2022")),
+                            ], (newValue) {
+                              setState(() {
+                                dropMenuSchKey = newValue!;
+                              });
+                            }),
+                          )
+                        ],
+                      ))
+                    ]),
+                const SizedBox(
+                  height: 16,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -271,7 +303,7 @@ class _registerPageState extends State<registerPage> {
                               );
                             }
                           },
-                          child: const Text("Đăng kí"),
+                          child: const Text("Đăng kí tài khoản"),
                         )),
                   ],
                 ),

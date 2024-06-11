@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tien/Config/const.dart';
-import 'package:tien/Lab_3/settingPage.dart';
+import 'package:tien/Lab_3/setting_page.dart';
 import 'package:tien/data/data.dart';
 import 'package:tien/data/model.dart';
 import 'package:tien/page/casourel.dart';

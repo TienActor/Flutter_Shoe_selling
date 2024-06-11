@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tien/Screen/welcome/login_signup_btn.dart';
 import 'package:tien/Screen/welcome/welcome_image.dart';
 import '../../Screen/components/background.dart';
-import '../../responsive.dart';
-
+import 'package:tien/Config/responsive.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
