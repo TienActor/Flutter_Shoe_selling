@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tien/Config/const.dart';
 import 'package:tien/Screen/Login/login_screen.dart';
-import 'package:tien/Screen/Register/registerPage.dart';
+import 'package:tien/Screen/Register/register_page.dart';
 
 
 class LoginAndSignupBtn extends StatelessWidget {
@@ -25,7 +25,7 @@ class LoginAndSignupBtn extends StatelessWidget {
             );
           },
           child: Text(
-            "Login".toUpperCase(),
+            "Đăng nhập".toUpperCase(),
           ),
         ),
         const SizedBox(height: 16),
@@ -35,7 +35,7 @@ class LoginAndSignupBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const registerPage();
+                  return const RegisterPage();
                 },
               ),
             );
@@ -45,7 +45,7 @@ class LoginAndSignupBtn extends StatelessWidget {
             elevation: 0,
           ),
           child: Text(
-            "Sign Up".toUpperCase(),
+            "Đăng kí tài khoản !!!".toUpperCase(),
             style: const TextStyle(color: Colors.black),
           ),
         ),

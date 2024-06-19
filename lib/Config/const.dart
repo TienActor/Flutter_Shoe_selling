@@ -5,5 +5,5 @@ const kPrimaryLightColor = Color(0xFFF1E6FF);
 
 const double defaultPadding = 16.0;
 
-const url_image= "assets/images/";
-const url_icon="assets/icon/";
+const urlImage= "assets/images/";
+const urlIcon="assets/icon/";

@@ -16,7 +16,7 @@ class _CasouPageState extends State<CasouPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     lstProduct = createDataList(10);
   }
@@ -47,7 +47,7 @@ class _CasouPageState extends State<CasouPage> {
                 child: Stack(
                   children: <Widget>[
                     Image.asset(
-                      url_image + item.img!,
+                      urlImage + item.img!,
                       fit: BoxFit.fitHeight,
                       width: 1000.0,
                     ),
@@ -57,7 +57,7 @@ class _CasouPageState extends State<CasouPage> {
                         right: 0.0,
                         child: Container(
                           decoration: const BoxDecoration(
-                              gradient: const LinearGradient(colors: [
+                              gradient:  LinearGradient(colors: [
                             Color.fromARGB(199, 211, 69, 69),
                             Color.fromARGB(0, 0, 0, 0)
                           ],

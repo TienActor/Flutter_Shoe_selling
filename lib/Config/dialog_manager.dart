@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tien/Screen/Register/registerPage.dart';
+import 'package:tien/Screen/Register/register_page.dart';
 
 
 class DialogManager {
@@ -37,7 +37,7 @@ class DialogManager {
       backgroundColor: Colors.blue.withOpacity(.8),
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(label: 'Ok', onPressed: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const registerPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const RegisterPage()));
       }),
     ));
   }

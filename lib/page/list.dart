@@ -30,11 +30,11 @@ class _MyListState extends State<MyList> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const GridPage() ));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const GridPage(token: null,) ));
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
-          title: const Text("List view product"),
+          title: const Text("Danh sách sản phẩm"),
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
@@ -56,7 +56,7 @@ class _MyListState extends State<MyList> {
       decoration: BoxDecoration(color: Colors.grey.shade200),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Image.asset(
-          url_image + productModel.img!,
+          urlImage + productModel.img!,
           height: 80,
           width: 80,
           errorBuilder: (context, error, stackTrace) =>

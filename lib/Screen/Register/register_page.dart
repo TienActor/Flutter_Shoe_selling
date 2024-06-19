@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tien/Lab_3/dialog_manager.dart';
+import 'package:tien/Config/dialog_manager.dart';
 import 'package:tien/Screen/Login/login_screen.dart';
 import 'package:tien/data/string_extention.dart';
 import 'package:tien/page/grid.dart';
 
-class registerPage extends StatefulWidget {
-  const registerPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<registerPage> createState() => _registerPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _registerPageState extends State<registerPage> {
+class _RegisterPageState extends State<RegisterPage> {
   /// thiết lập dropdown option
   String dropMenuGender = "Nam";
   String dropMenuSchYear = "2020";
@@ -23,45 +23,44 @@ class _registerPageState extends State<registerPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   /// thiet lap mau
-  static Color _selectedColor = Colors.black;
-  static Color _unselectedColor = Colors.grey;
-  Color _emailTFColor = _unselectedColor;
-  Color _passwordColor = _unselectedColor;
-  FocusNode _emailTFColorFocus = FocusNode();
-  FocusNode _passwordColorFocus = FocusNode();
+  static Color selectedColor = Colors.black;
+  static Color unselectedColor = Colors.grey;
+  Color emailTFColor = unselectedColor;
+  Color passwordColor = unselectedColor;
+  FocusNode emailTFColorFocus = FocusNode();
+  FocusNode passwordColorFocus = FocusNode();
 
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _emailTFColorFocus.addListener(_onEmailTFFocusChange);
-    _passwordColorFocus.addListener(_onPasswordTFFocusChange);
+    emailTFColorFocus.addListener(_onEmailTFFocusChange);
+    passwordColorFocus.addListener(_onPasswordTFFocusChange);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _emailTFColorFocus.removeListener(_onEmailTFFocusChange);
-    _emailTFColorFocus.dispose();
+    emailTFColorFocus.removeListener(_onEmailTFFocusChange);
+    emailTFColorFocus.dispose();
 
-    _passwordColorFocus.removeListener(_onPasswordTFFocusChange);
-    _passwordColorFocus.dispose();
+    passwordColorFocus.removeListener(_onPasswordTFFocusChange);
+    passwordColorFocus.dispose();
   }
 
   void _onEmailTFFocusChange() {
     setState(() {
-      _emailTFColorFocus.hasFocus
-          ? _emailTFColor = _selectedColor
-          : _emailTFColor = _unselectedColor;
+      emailTFColorFocus.hasFocus
+          ? emailTFColor = selectedColor
+          : emailTFColor = unselectedColor;
     });
   }
 
   void _onPasswordTFFocusChange() {
     setState(() {
-      _passwordColorFocus.hasFocus
-          ? _passwordColor = _selectedColor
-          : _passwordColor = _unselectedColor;
+      passwordColorFocus.hasFocus
+          ? passwordColor = selectedColor
+          : passwordColor = unselectedColor;
     });
   }
 
@@ -82,15 +81,15 @@ class _registerPageState extends State<registerPage> {
 
   // hàm cập nhật date picker
   Future<void> _selectDate() async {
-    DateTime? _picker= await showDatePicker(
+    DateTime? picker= await showDatePicker(
         context: context,
         initialDate: DateTime(2005),
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
 
-         if (_picker != null) {
+         if (picker != null) {
     // Format ngày tháng năm
-    String formattedDate = "${_picker.day}/${_picker.month}/${_picker.year}";
+    String formattedDate = "${picker.day}/${picker.month}/${picker.year}";
     setState(() {
       _dateController.text = formattedDate;  // Cập nhật text của controller
     });
@@ -152,7 +151,7 @@ class _registerPageState extends State<registerPage> {
                         Icons.mail_outline,
                         color: Colors.black,
                       )),
-                  focusNode: _emailTFColorFocus,
+                  focusNode: emailTFColorFocus,
                   controller: _emailController,
                 ),
                 const SizedBox(
@@ -162,7 +161,7 @@ class _registerPageState extends State<registerPage> {
                   obscureText: true,
                   decoration: const InputDecoration(
                       labelText: "Mật khẩu", icon: Icon(Icons.password)),
-                  focusNode: _passwordColorFocus,
+                  focusNode: passwordColorFocus,
                   controller: _passwordController,
                 ),
                 const SizedBox(

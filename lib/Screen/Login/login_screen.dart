@@ -10,27 +10,37 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Background(
-      child: SingleChildScrollView(
-        child: Responsive(
-          mobile: MobileLoginScreen(),
-          desktop: Row(
-            children: [
-              Expanded(
-                child: LoginScreenTopImage(),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 450,
-                       child: LoginFrom(), // Sử dụng LoginForm thay vì LoginScreen
-                    ),
-                  ],
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title:const Text("Trang đăng nhập"),
+           leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),),
+
+      body: const  Background(
+        child: SingleChildScrollView(
+          child: Responsive(
+            mobile: MobileLoginScreen(),
+            desktop: Row(
+              children: [
+                Expanded(
+                  child: LoginScreenTopImage(),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 450,
+                         child: LoginFrom(), 
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
