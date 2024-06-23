@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tien/Config/const.dart';
@@ -18,8 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-
+    return Center(
       child: body(),
     );
   }
@@ -54,19 +54,34 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
-          padding: const EdgeInsets.all(16),
-          alignment: Alignment.center,
-          child: GridView.builder(
-              itemCount: lstProduct.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8),
-              itemBuilder: (context, index) {
-                return itemGridView(lstProduct[index]);
-              }),
-        ),
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                   height: 160,
+                  child: slide(lstProduct),
+                 
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: GridView.builder(
+                      itemCount: lstProduct.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8),
+                      itemBuilder: (context, index) {
+                        return itemGridView(lstProduct[index]);
+                      }),
+                ),
+              ],
+            )),
       ),
     );
   }
@@ -90,7 +105,7 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
           ),
           Text(
-            NumberFormat('Price:###,###,###').format(productModel.price),
+            NumberFormat('Giá:###,###,###').format(productModel.price),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.red.shade200),
           ),
@@ -101,6 +116,52 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+    );
+  }
+
+  Widget slide(List<ProductModel> listProduct) {
+    return CarouselSlider(
+      options: CarouselOptions(
+          autoPlay: true, aspectRatio: 2.0, enlargeCenterPage: true),
+      items: listProduct
+          .map((item) => Container(
+                margin: const EdgeInsets.all(5.0),
+                child: Stack(
+                  children: <Widget>[
+                    Image.asset(
+                      urlImage + item.img!,
+                      fit: BoxFit.fill,
+                      width: 700.0,
+                    ),
+                    Positioned(
+                        bottom: 0.0,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Container(
+                          height: 60.0, // Cố định chiều cao cho phần gradient
+                          decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                Color.fromARGB(255, 14, 15, 86), // Màu xanh đậm
+                                Color(0x00004D40) // Màu xanh đậm trong suốt
+                              ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                        )),
+                    Positioned(
+                        bottom: 10.0, // Đặt vị trí text
+                        left: 20.0,
+                        child: Text(item.name!,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)))
+                  ],
+                ),
+              ))
+          .toList(),
     );
   }
 }

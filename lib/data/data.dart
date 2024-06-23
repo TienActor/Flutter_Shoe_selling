@@ -7,10 +7,10 @@ createDataList(int amount) {
   for (int i = 1; i <= amount; i++) {
     lstProduct.add(ProductModel(
         id: 1,
-        name: "Dien thoai new version $i",
+        name: "Điện thoại phiên bản $i",
         price: i * 1000000,
         img: "img_$i.jpg",
-        des: "Iphone"));
+        des: "Hệ điều hành :Iphone"));
   }
   return lstProduct;
 }

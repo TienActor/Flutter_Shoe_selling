@@ -297,7 +297,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const GridPage(),
+                                  builder: (context) => const DashBoard(token: null,),
                                 ),
                               );
                             }

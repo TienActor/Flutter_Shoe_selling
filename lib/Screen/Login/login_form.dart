@@ -128,7 +128,7 @@ class _LoginFromState extends State<LoginFrom> {
           final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  GridPage(token: token)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  DashBoard(token: token)));
         }
        
       } else {
