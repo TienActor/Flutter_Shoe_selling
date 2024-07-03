@@ -7,3 +7,4 @@ const double defaultPadding = 16.0;
 
 const urlImage= "assets/images/";
 const urlIcon="assets/icon/";
+const urlFonts="assets/fonts/";
