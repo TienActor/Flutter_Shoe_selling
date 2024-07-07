@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tien/Screen/welcome/intro_page_2.dart';
 import 'package:tien/Screen/welcome/welcomePage.dart';
 import 'package:tien/Screen/welcome/welcome_image.dart';
 
@@ -31,7 +32,7 @@ class _IntroPageState extends State<IntroPage> {
                         child: Container(
                             width: 412,
                             height: 892,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(30),
                                 topRight: Radius.circular(30),
@@ -40,7 +41,7 @@ class _IntroPageState extends State<IntroPage> {
                               ),
                               color: Color.fromRGBO(255, 255, 255, 1),
                             ),
-                            child: Stack(children: <Widget>[]))),
+                            child: const Stack(children: <Widget>[]))),
                     Positioned(
                         width: 380,
                         top: 593.201904296875,
@@ -49,33 +50,56 @@ class _IntroPageState extends State<IntroPage> {
                           'Đừng bỏ lỡ cơ hội biết được bộ sưu tập giày thời thượng của chúng tôi.',
                           textAlign: TextAlign.left,
                           style: GoogleFonts.aBeeZee(
-                              color: Color.fromRGBO(112, 123, 129, 1),
+                              color: const Color.fromRGBO(112, 123, 129, 1),
                               fontSize: 20,
                               letterSpacing: 0,
                               fontWeight: FontWeight.normal,
                               height: 1.6),
                         )),
-                    Positioned(
-                        top: 201,
-                        left: 35,
-                        child: Container(
+                    Stack(
+                      children: <Widget>[
+                        // This is the ellipse container, which needs to be at the back
+                        Positioned(
+                          top: 70,
+                          left: 0,
+                          child: Container(
+                            width: 412,
+                            height: 389,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/outline.png'),
+                                fit: BoxFit.fitWidth,
+                              ),
+                          ),
+                        ),),
+                        // This is the container with the image
+                        Positioned(
+                          top: 201,
+                          left: 35,
+                          child: Container(
                             width: 329.6000061035156,
                             height: 119.7389144897461,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/Imageremovebgpreview2.png'),
-                                  fit: BoxFit.fitWidth),
-                            ))),
+                                image: AssetImage(
+                                    'assets/images/Imageremovebgpreview2.png'),
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Positioned(
                         width: 380,
-                        top: 453.689697265625,
+                        top: 453,
                         left: 20,
                         child: Text(
                           'Chào mừng bạn đã đến với chúng tôi!',
                           textAlign: TextAlign.left,
                           style: GoogleFonts.pacifico(
-                              color: Color.fromRGBO(26, 36, 47, 1),
+                              color: Colors.black,
                               fontSize: 40,
                               letterSpacing: 0,
                               fontWeight: FontWeight.normal,
@@ -94,7 +118,7 @@ class _IntroPageState extends State<IntroPage> {
                                 width: 170,
                                 height: 80,
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(50),
                                       topRight: Radius.circular(50),
@@ -103,31 +127,32 @@ class _IntroPageState extends State<IntroPage> {
                                     ),
                                     color: Color.fromRGBO(91, 158, 225, 1),
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 32, vertical: 16),
                                   child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      backgroundColor:
-                                          Color.fromRGBO(91, 158, 225, 1),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
+                                      style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 10),
+                                        backgroundColor: const Color.fromRGBO(
+                                            91, 158, 225, 1),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
                                       ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WelcomeScreen()),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Bắt đầu',
-                                      style: GoogleFonts.zillaSlab(fontSize: 18,color: Colors.white),
-                                    )
-                                  ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                   IntroPage2()),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Bắt đầu',
+                                        style: GoogleFonts.zillaSlab(
+                                            fontSize: 18, color: Colors.white),
+                                      )),
                                 ),
                               ),
                               Positioned(
@@ -143,7 +168,7 @@ class _IntroPageState extends State<IntroPage> {
                                             child: Container(
                                                 width: 38.45333480834961,
                                                 height: 5.492610931396484,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
                                                     topLeft:
@@ -164,7 +189,7 @@ class _IntroPageState extends State<IntroPage> {
                                             child: Container(
                                                 width: 8.78933334350586,
                                                 height: 5.492610931396484,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
                                                     topLeft:
@@ -185,7 +210,7 @@ class _IntroPageState extends State<IntroPage> {
                                             child: Container(
                                                 width: 8.78933334350586,
                                                 height: 5.492610931396484,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
                                                     topLeft:
@@ -226,7 +251,7 @@ class _IntroPageState extends State<IntroPage> {
                         child: Container(
                             width: 17.57866668701172,
                             height: 15.88088607788086,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(164, 205, 246, 1),
                               borderRadius: BorderRadius.all(Radius.elliptical(
                                   17.57866668701172, 15.88088607788086)),
