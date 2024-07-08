@@ -26,6 +26,8 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   google_fonts: ^6.2.1
+  show_hide_password: ^0.0.2
+  input_form_field: ^0.0.5
 
 dev_dependencies:
   flutter_test:

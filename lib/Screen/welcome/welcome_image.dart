@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tien/Config/const.dart';
 
-
-
 class WelcomeImage extends StatelessWidget {
   const WelcomeImage({
     Key? key,

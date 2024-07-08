@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Screen/welcome/intro_page_2.dart';
-import 'package:tien/Screen/welcome/welcomePage.dart';
-import 'package:tien/Screen/welcome/welcome_image.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -67,12 +64,12 @@ class _IntroPageState extends State<IntroPage> {
                             height: 389,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/outline.png'),
+                                image: AssetImage('assets/images/outline.png'),
                                 fit: BoxFit.fitWidth,
                               ),
+                            ),
                           ),
-                        ),),
+                        ),
                         // This is the container with the image
                         Positioned(
                           top: 201,
@@ -145,11 +142,11 @@ class _IntroPageState extends State<IntroPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   IntroPage2()),
+                                                  IntroPage2()),
                                         );
                                       },
                                       child: Text(
-                                        'Bắt đầu',
+                                        'Tiếp',
                                         style: GoogleFonts.zillaSlab(
                                             fontSize: 18, color: Colors.white),
                                       )),

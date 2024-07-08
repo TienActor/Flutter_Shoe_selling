@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:tien/Screen/welcome/login_signup_btn.dart';
+import 'login_page.dart';
 import 'package:tien/Screen/welcome/welcome_image.dart';
 import '../../Screen/components/background.dart';
 import 'package:tien/Config/responsive.dart';
@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 450,
-                        child: LoginAndSignupBtn(),
+                        child: LoginPage(),
                       ),
                     ],
                   ),
@@ -57,7 +57,7 @@ class MobileWelcomeScreen extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: LoginAndSignupBtn(),
+              child: LoginPage(),
             ),
             Spacer(),
           ],

@@ -144,6 +144,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  input_form_field:
+    dependency: "direct main"
+    description:
+      name: input_form_field
+      sha256: d92483132881c3b132a2b9c105745eef2d1ad70bac6a22d8cbb8ef21c46414c2
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   intl:
     dependency: "direct main"
     description:
@@ -352,6 +360,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  show_hide_password:
+    dependency: "direct main"
+    description:
+      name: show_hide_password
+      sha256: e8cea67abd5dc781a290e8a0165257b71b22a26d3bb68c4c20416c9877d84f0b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
