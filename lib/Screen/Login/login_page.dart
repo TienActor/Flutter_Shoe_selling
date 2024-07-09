@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:show_hide_password/show_hide_password.dart';
-import 'signup_page.dart';
+import '../Register/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ), */
-              const SizedBox(height: 100),
+              const SizedBox(height: 110),
               Text(
                 'Xin Chào!',
                 textAlign: TextAlign.center,
