@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Screen/welcome/login_page.dart';
 
 class IntroPage2 extends StatelessWidget {
   @override
@@ -170,7 +171,7 @@ class IntroPage2 extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            IntroPage2()),
+                                                            LoginPage()),
                                                   );
                                                 },
                                                 child: Text(
