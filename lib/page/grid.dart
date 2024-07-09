@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tien/Screen/Cart/CartPage.dart';
 import 'package:tien/Screen/Favorite/favorite.dart';
 import 'package:tien/Screen/Home/homePage.dart';
+import 'package:tien/Screen/Home/test.dart';
 import 'package:tien/Screen/Setting/setting_page.dart';
 
 import 'package:tien/data/model.dart';
@@ -28,7 +29,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     listBody = [
-      const HomePage(),
+      ShoeStoreHome(),
       const CartPage(),
       const FavoritePage(),
       const SettingPage(),
