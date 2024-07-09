@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Screen/welcome/intro_page_2.dart';
-import 'package:tien/Screen/welcome/welcomePage.dart';
-import 'package:tien/Screen/welcome/welcome_image.dart';
 
 class IntroPage extends StatefulWidget {
   @override

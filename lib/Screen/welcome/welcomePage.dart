@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:tien/Screen/welcome/login_signup_btn.dart';
+import 'package:tien/Screen/Login/login_signup_btn.dart';
 import 'package:tien/Screen/welcome/welcome_image.dart';
 import '../../Screen/components/background.dart';
 import 'package:tien/Config/responsive.dart';

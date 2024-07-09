@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Screen/welcome/intro_page_3.dart';
 
 class IntroPage2 extends StatelessWidget {
   @override
@@ -170,7 +171,7 @@ class IntroPage2 extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            IntroPage2()),
+                                                            Intro_page_3Widget()),
                                                   );
                                                 },
                                                 child: Text(
@@ -185,7 +186,7 @@ class IntroPage2 extends StatelessWidget {
                                             top: 25,
                                             left: 0,
                                             child: Container(
-                                                width: 67.00018310546875,
+                                                width: 67,
                                                 height: 5,
                                                 child: Stack(children: <Widget>[
                                                   Positioned(
@@ -216,11 +217,7 @@ class IntroPage2 extends StatelessWidget {
                                                             borderRadius:
                                                                 customBorderRadius,
                                                             color:
-                                                                Color.fromRGBO(
-                                                                    229,
-                                                                    238,
-                                                                    247,
-                                                                    1),
+                                                                Colors.white
                                                           ))),
                                                   Positioned(
                                                       top: 0,
@@ -233,26 +230,53 @@ class IntroPage2 extends StatelessWidget {
                                                             borderRadius:
                                                                 customBorderRadius,
                                                             color:
-                                                                Color.fromRGBO(
-                                                                    229,
-                                                                    238,
-                                                                    247,
-                                                                    1),
+                                                                Colors.white
                                                           ))),
                                                 ]))),
                                       ]))),
                             ]))),
-                    Positioned(
-                        top: 109,
-                        left: 72,
-                        child: Container(
-                            width: 293,
-                            height: 293,
+                    Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top:
+                              80, 
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height:
+                                400, 
                             decoration: const BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage('assets/images/2333.png'),
-                                  fit: BoxFit.fitWidth),
-                            ))),
+                                image:
+                                    AssetImage('assets/images/outline_2.png'),
+                                fit: BoxFit
+                                    .cover, 
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top:
+                              180, 
+                          left: 0,
+                          right: 0, 
+                          child: Container(
+                            width: 340,
+                            child: Column(
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/images/2333.png', 
+                                  height:
+                                      220, 
+                                  fit: BoxFit
+                                      .fill, 
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Positioned(
                         top: 41,
                         left: 5,
