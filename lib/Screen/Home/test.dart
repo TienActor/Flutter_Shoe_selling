@@ -9,7 +9,7 @@ class ShoeStoreHome extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.black),
+          icon: const Icon(Icons.menu, color: Colors.black),
           onPressed: () {},
         ),
         title: Image.asset(
@@ -20,11 +20,11 @@ class ShoeStoreHome extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.search, color: Colors.black),
+            icon: const Icon(Icons.search, color: Colors.black),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: Colors.black),
+            icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black),
             onPressed: () {},
           ),
         ],
@@ -34,53 +34,78 @@ class ShoeStoreHome extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Sản phẩm theo hãng',
+              const Text('Sản phẩm theo hãng',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 16),
-              Container(
-                width: 400,
-                height: 80,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Container(
-                    width: 90,
-                    height: 80,
-                     decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(40)),
-            color: Color.fromRGBO(236, 233, 233, 1),
-          ),
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                  child: Center(
-                    child: Container(
-                      width: 40,
-                      height: 27,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/Image52.png'),
-                          fit: BoxFit.fitWidth
-                        ),
-                      ),
+              const SizedBox(width: 16),
+              Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                              // Bỏ thuộc tính color hoặc đặt nó dưới image để hình ảnh không bị che phủ
+                              image: DecorationImage(
+                    image: NetworkImage('https://i.pinimg.com/736x/d4/20/46/d4204662d48e847dbf4dff048863546c.jpg'),
+                    fit: BoxFit.fill)
                     ),
                   ),
+                   const SizedBox(width: 48),
+                  Container(
+                    width: 60,
+                    height: 40,
+                    
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                              // Bỏ thuộc tính color hoặc đặt nó dưới image để hình ảnh không bị che phủ
+                              image: DecorationImage(
+                    image: NetworkImage('https://w1.pngwing.com/pngs/1009/652/png-transparent-puma-logo-tshirt-sneakers-clothing-accessories-coat-black-black-and-white-silhouette.png'),
+                    fit: BoxFit.fill)
+                    ),
                   ),
-                ),
+                    const SizedBox(width: 48),
+                  Container(
+                    width: 60,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                              // Bỏ thuộc tính color hoặc đặt nó dưới image để hình ảnh không bị che phủ
+                              image: DecorationImage(
+                    image: NetworkImage('https://i.pinimg.com/originals/8c/b0/8a/8cb08a963150553f12dc40795e5cb4a3.jpg'),
+                    fit: BoxFit.fill)
+                    ),
+                  ),
+                   const SizedBox(width: 32),
+                  Container(
+                    width: 60,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                              // Bỏ thuộc tính color hoặc đặt nó dưới image để hình ảnh không bị che phủ
+                              image: DecorationImage(
+                    image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNK1AiMRLKgSuS0kxX4UIrblJR3-ewdmI64A&s'),
+                    fit: BoxFit.fill)
+                    ),
+                  ),
+                ],
               ),
-              Text('Giày phổ biến',
+              const Text('Giày phổ biến',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
-              Row(
+              const SizedBox(height: 8),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Nike Jordan'),
                   Text('Tất cả', style: TextStyle(color: Colors.blue)),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
@@ -112,25 +137,25 @@ class ShoeCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.asset('assets/images/shoe.png',
+                Image.asset('assets/images/Hnhsnphm.png',
                     height: 100), // Replace with actual image
-                Positioned(
+                const Positioned(
                   top: 8,
                   right: 8,
                   child: Icon(Icons.favorite_border, color: Colors.grey),
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            Text('BÁN CHẠY',
+            const SizedBox(height: 8),
+            const Text('BÁN CHẠY',
                 style: TextStyle(fontSize: 12, color: Colors.blue)),
-            SizedBox(height: 4),
-            Text('Nike Air Max',
+            const SizedBox(height: 4),
+            const Text('Nike Air Max',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-            SizedBox(height: 4),
-            Text('3,000,000 VND',
+            const SizedBox(height: 4),
+            const Text('3,000,000 VND',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-            Spacer(),
+            const Spacer(),
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
@@ -138,8 +163,8 @@ class ShoeCard extends StatelessWidget {
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
                   child: Icon(Icons.add, color: Colors.white),
                 ),
               ),
