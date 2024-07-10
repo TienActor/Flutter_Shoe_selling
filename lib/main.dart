@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tien/Mainpage.dart';
 import 'package:tien/Screen/welcome/intro_page.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MainApp extends StatelessWidget {
      return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'địt mẹ thằng tiến ngu',
-      home: IntroPage(),
+      home: Mainpage(),
     );
   }
 }
