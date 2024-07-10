@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tien/Mainpage.dart';
 import 'package:tien/Screen/welcome/intro_page.dart';
 
+<<<<<<< Updated upstream
+=======
+import 'page/grid.dart';
+
+>>>>>>> Stashed changes
 void main() {
   runApp(const MainApp());
 }
