@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tien/Config/api_urls.dart';
 
 import '../../data/product.dart';
- // Import your ProductModel file
+
 
 class ShoeStoreHome extends StatelessWidget {
   final String token;
@@ -55,7 +55,7 @@ class ShoeStoreHome extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
+                    return Text("Lỗi: ${snapshot.error}");
                   } else if (snapshot.hasData) {
                     return GridView.builder(
                       shrinkWrap: true,
@@ -73,7 +73,7 @@ class ShoeStoreHome extends StatelessWidget {
                       },
                     );
                   } else {
-                    return Text("No products found");
+                    return Text("Không tìm thấy sản phẩm");
                   }
                 },
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tien/page/grid.dart';
+
 import '../data/data.dart';
 import '../data/model.dart';
 import '../Config/const.dart';

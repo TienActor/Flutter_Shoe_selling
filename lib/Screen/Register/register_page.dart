@@ -96,19 +96,19 @@ class _RegisterPageState extends State<RegisterPage> {
   }
   }
 
-  bool _validateInput() {
-    if (!_emailController.text.isValidEmail()) {
-      DialogManager.showErrorDialog(context, 'Email không hợp lệ!');
-      return false;
-    }
+  // bool _validateInput() {
+  //   if (!_emailController.text.isValidEmail()) {
+  //     DialogManager.showErrorDialog(context, 'Email không hợp lệ!');
+  //     return false;
+  //   }
 
-    if (_passwordController.text.length < 6) {
-      DialogManager.showErrorDialog(context, 'Mật khẩu không hợp lệ');
-      return false;
-    }
+  //   if (_passwordController.text.length < 6) {
+  //     DialogManager.showErrorDialog(context, 'Mật khẩu không hợp lệ');
+  //     return false;
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -293,14 +293,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: 199,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_validateInput()) {
+                            // if (_validateInput()) {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const DashBoard(token: '',),
                                 ),
                               );
-                            }
+                            // }
                           },
                           child: const Text("Đăng kí tài khoản"),
                         )),
