@@ -7,6 +7,11 @@ import '../data/user.dart';
 
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 class ApiUrls{
 final Dio _dio = Dio();
 
