@@ -30,11 +30,9 @@ class _MyListState extends State<MyList> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-<<<<<<< Updated upstream
-              // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const DashBoard(token: null,) ));
-=======
-              Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const DashBoard(token: '',) ));
->>>>>>> Stashed changes
+
+              // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const DashBoard(token: '',) ));
+
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
