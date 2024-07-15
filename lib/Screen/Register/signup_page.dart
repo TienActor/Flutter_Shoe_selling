@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:show_hide_password/show_hide_password.dart';
 import '../Login/login_page.dart';
+import '../components/already_have_an_account_acheck.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -156,14 +157,14 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () {
+                    AlreadyHaveAnAccountCheck(
+                      press: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
-                      child: const Text('Đã có tài khoản? Đăng nhập ngay!'),
                     ),
                   ],
                 ),
