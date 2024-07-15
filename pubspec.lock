@@ -81,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  cool_animations:
-    dependency: "direct main"
-    description:
-      name: cool_animations
-      sha256: "102441138cac5b771c51f17eef276579fc32dc51f9175456384cf1436f1b289f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   crypto:
     dependency: transitive
     description:

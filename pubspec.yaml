@@ -28,11 +28,6 @@ dependencies:
   google_fonts: ^6.2.1
   cached_network_image: ^3.2.0
   dio: ^5.5.0+1
-<<<<<<< Updated upstream
-
-=======
-  cool_animations: ^0.0.3
->>>>>>> Stashed changes
 dev_dependencies:
   flutter_test:
     sdk: flutter
