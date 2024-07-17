@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class HomePage2 extends StatefulWidget {
   @override
@@ -14,7 +13,7 @@ class _HomePage2State extends State<HomePage2> {
     return Container(
         width: 412,
         height: 891,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 255, 255, 1),
         ),
         child: Stack(children: <Widget>[
@@ -22,9 +21,9 @@ class _HomePage2State extends State<HomePage2> {
               top: 272,
               left: 18,
               child: Container(
-                decoration: BoxDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                child: Row(
+                decoration: const BoxDecoration(),
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[],
                 ),
@@ -33,7 +32,7 @@ class _HomePage2State extends State<HomePage2> {
               top: 119,
               left: 30,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
@@ -42,8 +41,8 @@ class _HomePage2State extends State<HomePage2> {
                   ),
                   color: Color.fromRGBO(255, 255, 255, 1),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[],
                 ),
@@ -52,9 +51,9 @@ class _HomePage2State extends State<HomePage2> {
               top: 315,
               left: 33,
               child: Container(
-                decoration: BoxDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                child: Column(
+                decoration: const BoxDecoration(),
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                child: const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[],
                 ),
@@ -63,7 +62,7 @@ class _HomePage2State extends State<HomePage2> {
             top: 113.14498901367188,
             left: 33.66184616088867,
             child: IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {},
             ),
           ),
@@ -80,7 +79,7 @@ class _HomePage2State extends State<HomePage2> {
                         child: Container(
                             width: 14.927536010742188,
                             height: 14.393258094787598,
-                            child: Stack(children: <Widget>[
+                            child: const Stack(children: <Widget>[
                               Positioned(
                                 top: 0,
                                 left: 0,
@@ -106,7 +105,7 @@ class _HomePage2State extends State<HomePage2> {
                                   top: 0,
                                   left: 0,
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(0),
                                         topRight: Radius.circular(0),
@@ -114,14 +113,14 @@ class _HomePage2State extends State<HomePage2> {
                                         bottomRight: Radius.circular(30),
                                       ),
                                     ),
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 0, vertical: 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Container(
-                                          decoration: BoxDecoration(),
-                                          padding: EdgeInsets.symmetric(
+                                          decoration: const BoxDecoration(),
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 0, vertical: 0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -129,8 +128,8 @@ class _HomePage2State extends State<HomePage2> {
                                               Container(
                                                   width: 24,
                                                   height: 24,
-                                                  decoration: BoxDecoration(),
-                                                  child: Stack(
+                                                  decoration: const BoxDecoration(),
+                                                  child: const Stack(
                                                       children: <Widget>[])),
                                             ],
                                           ),
@@ -140,12 +139,12 @@ class _HomePage2State extends State<HomePage2> {
                                   )),
                             ]))),
                   ]))),
-          Positioned(top: 473, left: 17, child: SizedBox()),
+          const Positioned(top: 473, left: 17, child: SizedBox()),
           Positioned(
               top: 151,
               left: 41,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -154,8 +153,8 @@ class _HomePage2State extends State<HomePage2> {
                   ),
                   color: Color.fromRGBO(255, 255, 255, 1),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[],
                 ),
@@ -167,7 +166,7 @@ class _HomePage2State extends State<HomePage2> {
                   width: 412,
                   height: 893,
                   child: Stack(children: <Widget>[
-                    Positioned(
+                    const Positioned(
                         top: 108,
                         left: 69,
                         child: Text(
@@ -187,7 +186,7 @@ class _HomePage2State extends State<HomePage2> {
                         child: Container(
                             width: 100,
                             height: 100,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(217, 217, 217, 0),
                             ))),
                     Positioned(
@@ -196,7 +195,7 @@ class _HomePage2State extends State<HomePage2> {
                         child: Container(
                             width: 102,
                             height: 102,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage(
                                       'assets/images/Black_white_professional_concept_shoes_store_logo__1_removebgpreview1.png'),
@@ -215,7 +214,7 @@ class _HomePage2State extends State<HomePage2> {
                                   child: Container(
                                       width: 56,
                                       height: 51.77358627319336,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(0),
                                           topRight: Radius.circular(0),
@@ -237,7 +236,7 @@ class _HomePage2State extends State<HomePage2> {
                                   child: Container(
                                       width: 24,
                                       height: 22.188678741455078,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(0),
                                           topRight: Radius.circular(0),
@@ -245,7 +244,7 @@ class _HomePage2State extends State<HomePage2> {
                                           bottomRight: Radius.circular(30),
                                         ),
                                       ),
-                                      child: Stack(children: <Widget>[]))),
+                                      child: const Stack(children: <Widget>[]))),
                             ]))),
                     Positioned(
                       top: 795,
@@ -285,7 +284,7 @@ class _HomePage2State extends State<HomePage2> {
                         child: Container(
                             width: 23.884057998657227,
                             height: 24.674158096313477,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(255, 255, 255, 1),
                             ),
                             child: Stack(children: <Widget>[
@@ -300,30 +299,30 @@ class _HomePage2State extends State<HomePage2> {
                         top: 836.075439453125,
                         left: 274,
                         child: Container(
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                              const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
                                   width: 24,
                                   height: 24,
-                                  decoration: BoxDecoration(),
+                                  decoration: const BoxDecoration(),
                                   child: Stack(children: <Widget>[
                                     Positioned(
                                         top: 5.924530029296875,
                                         left: 4,
                                         child: IconButton(
-                                          icon: Icon(Icons.add),
+                                          icon: const Icon(Icons.add),
                                           onPressed: () {},
                                         )),
                                   ])),
-                              SizedBox(width: 40),
+                              const SizedBox(width: 40),
                               Container(
                                   width: 24,
                                   height: 24,
-                                  decoration: BoxDecoration(),
+                                  decoration: const BoxDecoration(),
                                   child: Stack(children: <Widget>[
                                     Positioned(
                                       top: 17.174530029296875,
@@ -351,14 +350,14 @@ class _HomePage2State extends State<HomePage2> {
                       child: Container(
                         width: 28,
                         height: 33,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('assets/images/Image52.png'),
                               fit: BoxFit.fitWidth),
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       top: 323,
                       left: 17,
                       child: Text(
@@ -374,7 +373,7 @@ class _HomePage2State extends State<HomePage2> {
                             height: 1),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                         top: 441,
                         left: 315,
                         child: Text(
@@ -389,7 +388,7 @@ class _HomePage2State extends State<HomePage2> {
                               fontWeight: FontWeight.normal,
                               height: 1.2307692307692308),
                         )),
-                    Positioned(
+                    const Positioned(
                         top: 435,
                         left: 22,
                         child: Text(
@@ -409,7 +408,7 @@ class _HomePage2State extends State<HomePage2> {
                         top: 362,
                         left: 30,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40),
@@ -419,14 +418,14 @@ class _HomePage2State extends State<HomePage2> {
                             color: Color.fromRGBO(236, 233, 233, 1),
                           ),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                              const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
                                   width: 41,
                                   height: 27,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'assets/images/Image53.png'),
@@ -439,7 +438,7 @@ class _HomePage2State extends State<HomePage2> {
                         top: 362,
                         left: 120,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40),
@@ -449,14 +448,14 @@ class _HomePage2State extends State<HomePage2> {
                             color: Color.fromRGBO(236, 233, 233, 1),
                           ),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                              const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
                                   width: 41,
                                   height: 27,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'assets/images/Image54.png'),
@@ -469,7 +468,7 @@ class _HomePage2State extends State<HomePage2> {
                         top: 363,
                         left: 300,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40),
@@ -479,14 +478,14 @@ class _HomePage2State extends State<HomePage2> {
                             color: Color.fromRGBO(236, 233, 233, 1),
                           ),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                              const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
                                   width: 41,
                                   height: 27,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'assets/images/Image57.png'),
@@ -499,7 +498,7 @@ class _HomePage2State extends State<HomePage2> {
                        top: 363,
                        left: 210,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40),
@@ -509,14 +508,14 @@ class _HomePage2State extends State<HomePage2> {
                             color: Color.fromRGBO(236, 233, 233, 1),
                           ),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                              const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
                                    width: 41,
                                   height: 27,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'assets/images/Image56.png'),
@@ -533,7 +532,7 @@ class _HomePage2State extends State<HomePage2> {
                         child: Container(
                             width: 23,
                             height: 28,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image:
                                       AssetImage('assets/images/Image58.png'),

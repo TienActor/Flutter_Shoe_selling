@@ -1,12 +1,4 @@
-class ProductModel {
-  int? id;
-  String? name;
-  int? price;
-  String? img;
-  String? des;
-  // dau ? cho phep null
-  ProductModel({this.id, this.name, this.price, this.img, this.des});
-}
+
 
 class LoginModel {
   String? _accountID;
@@ -81,15 +73,26 @@ class RegisterModel {
 // model category, getlist
 class CategoryModel{
 
-  
-}
+    int? id;
+  String? name;
+  String? imageURL;
+  String? description;
 
-class User {
-  String? fullname;
-  String? email;
-  String? gender;
-  String? favorite;
+  CategoryModel({this.id, this.name, this.imageURL, this.description});
 
-  // default contructor
-  User({this.fullname, this.email, this.gender, this.favorite});
+  CategoryModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    imageURL = json['imageURL'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['imageURL'] = this.imageURL;
+    data['description'] = this.description;
+    return data;
+  }
 }

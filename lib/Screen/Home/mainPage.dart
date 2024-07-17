@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:tien/Screen/Cart/CartPage.dart';
 import 'package:tien/Screen/Favorite/favorite.dart';
-import 'package:tien/Screen/Home/homePage.dart';
+import 'package:tien/Screen/Home/test.dart';
 import 'package:tien/Screen/Setting/setting_page.dart';
 
-import 'package:tien/data/model.dart';
+
+import '../../data/product.dart';
 
 
 class DashBoard extends StatefulWidget {
-  final token;
-  const DashBoard({@required this.token, super.key});
+ final String token;  // Make sure to pass the token correctly
+  const DashBoard({ super.key, required this.token, required accountId});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
@@ -28,9 +29,9 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     listBody = [
-      const HomePage(),
+       ShoeStoreHome(token: widget.token, accountID: 'Tie2023',),
       const CartPage(),
-      const FavoritePage(),
+      const FavoritePage(token: widget.token,,accountID:''),
       const SettingPage(),
     ];
   }
@@ -69,6 +70,4 @@ class _DashBoardState extends State<DashBoard> {
       ),
     );
   }
-
-  
 }

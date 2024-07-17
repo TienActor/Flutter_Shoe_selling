@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Config/const.dart';
-import 'package:tien/Screen/Register/register_page.dart';
+import 'package:tien/Screen/Home/test.dart';
+import 'package:tien/Screen/Setting/setting_page.dart';
 import 'package:tien/data/model.dart';
-import 'package:tien/page/grid.dart';
-import '../../Screen/components/already_have_an_account_acheck.dart';
+import 'package:tien/Screen/Home/mainPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +63,7 @@ class _LoginFromState extends State<LoginFrom> {
               },
               textInputAction: TextInputAction.done,
               controller: _passwController,
-              obscureText: false,
+              obscureText: true,
               cursorColor: kPrimaryColor,
               decoration: const InputDecoration(
                 hintText: "Mật khẩu",
@@ -84,18 +84,7 @@ class _LoginFromState extends State<LoginFrom> {
             ),
           ),
           const SizedBox(height: defaultPadding),
-          AlreadyHaveAnAccountCheck(
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const RegisterPage();
-                  },
-                ),
-              );
-            },
-          ),
+         
         ],
       ),
     );
@@ -128,7 +117,7 @@ class _LoginFromState extends State<LoginFrom> {
           final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  DashBoard(token: token)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  DashBoard(token: token,accountId: _model.accountID,)));
         }
        
       } else {

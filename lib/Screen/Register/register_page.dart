@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tien/Config/dialog_manager.dart';
 import 'package:tien/Screen/Login/login_screen.dart';
 import 'package:tien/data/string_extention.dart';
-import 'package:tien/page/grid.dart';
+import 'package:tien/Screen/Home/mainPage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -106,7 +106,6 @@ class _RegisterPageState extends State<RegisterPage> {
       DialogManager.showErrorDialog(context, 'Mật khẩu không hợp lệ');
       return false;
     }
-
     return true;
   }
 
@@ -297,7 +296,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const DashBoard(token: null,),
+                                  builder: (context) => const DashBoard(token: '',accountId: 'Tie2023',),
                                 ),
                               );
                             }

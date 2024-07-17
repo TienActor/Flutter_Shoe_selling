@@ -26,7 +26,10 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   google_fonts: ^6.2.1
-
+  ionicons: ^0.2.2
+  cupertino_icons: ^1.0.2
+  dio: ^5.5.0+1
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,5 +40,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/adidaslogo.png
+    - assets/images/Logo.png
     - assets/icon/
     - assets/fonts/

@@ -1,4 +1,13 @@
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tien/Screen/Setting/Edit_account_page.dart';
+import 'package:tien/Screen/Setting/edit_componet.dart';
+
+import '../../data/user.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -8,88 +17,148 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  bool isDarkMode = false;
+  User user = User.userEmpty();
+  getDataUser() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String strUser = pref.getString('user')!;
+
+    user = User.fromJson(jsonDecode(strUser));
+    setState(() {
+      
+    });  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          leading: const Icon(Icons.backspace_outlined),
-          title: const Text("Trang cài đặt"),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-              "Thông tin người dùng",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/avata.png",
-                    width: 70,
-                    height: 70,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nhật Tiến",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Account Id",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      )
-                    ],
-                  ),
-                  const Spacer(),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: const Icon(Icons.forward_outlined),
-                  )
-                ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     onPressed: () {},
+      //     icon: const Icon(Ionicons.chevron_back_outline),
+      //   ),
+      //   leadingWidth: 80,
+      // ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Cài đặt",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const Text(
-              "Cài đặt",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-            ),
-            const SizedBox(height: 20,),
-            Container(
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.red,
+              const SizedBox(height: 40),
+              const Text(
+                "Tài khoản",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Image.network("https://teddy.vn/wp-content/uploads/2023/05/gau-bong-lena-mu-lotso-3.jpg", width: 70, height: 70),
+                    const SizedBox(width: 20),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nguyễn Nhật Tiến",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Tie2023",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        )
+                      ],
                     ),
-                    child: const Icon(Icons.g_mobiledata_outlined),
-                  )
-                ],
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditAccountScreen(),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
+              const SizedBox(height: 40),
+              const Text(
+                "Cài đặt",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              // const SizedBox(height: 20),
+              // SettingItem(
+              //   title: "Ngôn ngữ",
+              //   icon: Ionicons.earth,
+              //   bgColor: Colors.orange.shade100,
+              //   iconColor: Colors.orange,
+              //   value: "English",
+              //   onTap: () {},
+              // ),
+              // const SizedBox(height: 20),
+              // SettingItem(
+              //   title: "Thông báo",
+              //   icon: Ionicons.notifications,
+              //   bgColor: Colors.blue.shade100,
+              //   iconColor: Colors.blue,
+              //   onTap: () {},
+              // ),
+              const SizedBox(height: 20),
+              SettingSwitch(
+                title: "Dark Mode",
+                icon: Ionicons.earth,
+                bgColor: Colors.purple.shade100,
+                iconColor: Colors.purple,
+                value: isDarkMode,
+                onTap: (value) {
+                  setState(() {
+                    isDarkMode = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              SettingItem(
+                title: "Help",
+                icon: Ionicons.nuclear,
+                bgColor: Colors.red.shade100,
+                iconColor: Colors.red,
+                onTap: () {},
+              ),
+              SizedBox(height:150),
+               Divider(color: Colors.black,),
+              
+            //   user.accountId==''? const SizedBox():ListTile(leading: Icon(Icons.exit_to_app),
+            //   title: Text('Logout'),onTap: () {
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+            //     //logOut(context);
+            //   },)
+            ],
+          ),
         ),
-      );
+      ),
+    );
+  }
 }
