@@ -10,6 +10,7 @@ import '../../page/grid.dart';
 import '../Register/signup_page.dart';
 import 'package:http/http.dart' as http;
 import '../components/already_have_an_account_acheck.dart';
+import '../components/custom_textfield.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _accIdController = TextEditingController();
   final TextEditingController _passwController = TextEditingController();
   final LoginModel _model = LoginModel();
-  bool _isPasswordHidden = true;
 
   @override
   void dispose() {
@@ -68,76 +68,45 @@ class _LoginPageState extends State<LoginPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      onSaved: (value) => _model.accountID = value!,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập AccountID';
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.next,
-                      cursorColor: kPrimaryColor,
-                      controller: _accIdController,
-                      decoration: InputDecoration(
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: defaultPadding),
+                      child: CustomTextField(
                         labelText: "AccountID",
-                        /* hintText: "Nhập AccountID của bạn", */
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        prefixIcon: const Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Colors.blue, width: 2),
-                        ),
+                        controller: _accIdController,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        prefixIcon: Icons.person,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập AccountID';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          // Thêm onChanged để cập nhật giá trị
+                          _model.accountID = value;
+                        },
                       ),
                     ),
                     Padding(
                       padding:
                           const EdgeInsets.symmetric(vertical: defaultPadding),
-                      child: TextFormField(
-                        onSaved: (value) => _model.password = value!,
+                      child: CustomTextField(
+                        labelText: "Mật khẩu",
+                        controller: _passwController,
+                        isPassword: true,
+                        textInputAction: TextInputAction.done,
+                        prefixIcon: Icons.lock,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Vui lòng nhập mật khẩu';
                           }
                           return null;
                         },
-                        textInputAction: TextInputAction.done,
-                        controller: _passwController,
-                        obscureText: _isPasswordHidden,
-                        cursorColor: kPrimaryColor,
-                        decoration: InputDecoration(
-                          labelText: "Mật khẩu",
-                          /* hintText: "Nhập mật khẩu của bạn", */
-                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                          prefixIcon: const Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(_isPasswordHidden
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordHidden = !_isPasswordHidden;
-                              });
-                            },
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                const BorderSide(color: Colors.blue, width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide:
-                                const BorderSide(color: Colors.blue, width: 2),
-                          ),
-                        ),
+                        onChanged: (value) {
+                          _model.password = value;
+                        },
                       ),
                     ),
                     const SizedBox(height: defaultPadding),
