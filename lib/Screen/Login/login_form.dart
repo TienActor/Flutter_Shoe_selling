@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
-
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tien/Config/api_urls.dart';
-import 'package:tien/Screen/Register/register_page.dart';
-import 'package:tien/page/grid.dart';
-import 'package:tien/data/model.dart';
+import '../../Admin/homepageAd.dart';
+import '../../Config/api_urls.dart';
 import '../../Config/const.dart';
-import '../../Screen/components/already_have_an_account_acheck.dart';
+import '../../data/model.dart';
+import '../../page/grid.dart';
+import '../Register/register_page.dart';
+import '../components/already_have_an_account_check.dart';
 
 class LoginFrom extends StatefulWidget {
   const LoginFrom({super.key});
@@ -21,7 +20,7 @@ class LoginFrom extends StatefulWidget {
 
 class _LoginFromState extends State<LoginFrom> {
   final _accIdController = TextEditingController();
-  final _passwController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final LoginModel _model = LoginModel();
 
@@ -62,7 +61,7 @@ class _LoginFromState extends State<LoginFrom> {
                 return null;
               },
               textInputAction: TextInputAction.done,
-              controller: _passwController,
+              controller: _passwordController,
               obscureText: true,
               cursorColor: kPrimaryColor,
               decoration: const InputDecoration(
@@ -102,32 +101,37 @@ class _LoginFromState extends State<LoginFrom> {
   }
 
   Future<void> _login() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-      // Create multipart request
-      var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.login));
-      
-      // Add fields
-      request.fields['AccountID'] = _model.accountID!;
-      request.fields['Password'] = _model.password!;
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.login));
+    request.fields['AccountID'] = _model.accountID!;
+    request.fields['Password'] = _model.password!;
 
-      try {
-        // Send the request
-        var response = await request.send();
-        // Get the response from the stream
-        final res = await http.Response.fromStream(response);
-        if (res.statusCode == 200) {
+    try {
+      var response = await request.send();
+      final res = await http.Response.fromStream(response);
 
-          log('Login successful');
-          
-          var data = jsonDecode(res.body);
-          if (data['success'] == true) {
-            var token = data['data']['token'];
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString('token', token);
-            
-            // Chuyển đến DashBoard, truyền token qua constructor
+      if (res.statusCode == 200) {
+        log('Login successful');
+
+        var data = jsonDecode(res.body);
+        if (data['success'] == true) {
+          var token = data['data']['token'];
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+
+          // Check if the login credentials are for the admin
+          if (_model.accountID == "Tie2023" && _model.password == "Tient3st") {
+            // Redirect to AdminHome if credentials match
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdminHome(), 
+              ),
+            );
+          } else {
+            // Redirect to regular user dashboard
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -135,19 +139,21 @@ class _LoginFromState extends State<LoginFrom> {
               ),
             );
           }
-        } else {
-          log('Failed to log in with status code: ${res.statusCode}');
-          log('Response body: ${res.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login failed: ${res.body}')),
-          );
         }
-      } catch (e) {
-        log('Error sending request: $e');
+      } else {
+        log('Failed to log in with status code: ${res.statusCode}');
+        log('Response body: ${res.body}');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login error: $e')),
+          SnackBar(content: Text('Login failed: ${res.body}')),
         );
       }
+    } catch (e) {
+      log('Error sending request: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login error: $e')),
+      );
     }
   }
+}
+
 }
