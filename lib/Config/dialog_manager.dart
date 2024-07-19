@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tien/Screen/Register/register_page.dart';
-
+import 'package:tien/Screen/Register/signup_page.dart';
 
 class DialogManager {
   static Future<void> showErrorDialog(
@@ -36,9 +35,12 @@ class DialogManager {
       content: Text(msg),
       backgroundColor: Colors.blue.withOpacity(.8),
       behavior: SnackBarBehavior.floating,
-      action: SnackBarAction(label: 'Ok', onPressed: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const RegisterPage()));
-      }),
+      action: SnackBarAction(
+          label: 'Ok',
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const SignupPage()));
+          }),
     ));
   }
 }
