@@ -1,12 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../data/product.dart';
 import '../data/register.dart';
 import '../data/user.dart';
-
-
-
 class ApiUrls{
 final Dio _dio = Dio();
 
