@@ -163,8 +163,8 @@ class _SettingPageState extends State<SettingPage> {
                 iconColor: Colors.red,
                 onTap: () {},
               ),
-              SizedBox(height:150),
-               Divider(color: Colors.black,),
+              const SizedBox(height:150),
+               const Divider(color: Colors.black,),
               
             //   user.accountId==''? const SizedBox():ListTile(leading: Icon(Icons.exit_to_app),
             //   title: Text('Logout'),onTap: () {

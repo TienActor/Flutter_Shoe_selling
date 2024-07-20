@@ -60,7 +60,7 @@ if (favoriteIds.isEmpty) {
 
    Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
     String queryParameters = favoriteIds.map((id) => 'id=$id').join('&');
-    String url = "${ApiUrls.getListProduct}?${queryParameters}";
+    String url = "${ApiUrls.getListProduct}?$queryParameters";
 
     try {
       final response = await http.get(
@@ -76,7 +76,7 @@ if (favoriteIds.isEmpty) {
       }
     } catch (e) {
       print('Error fetching favorite products: $e');
-      throw e;
+      rethrow;
     }
   }
   @override

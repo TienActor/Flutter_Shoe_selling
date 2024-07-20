@@ -3,12 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
 
 class Intro_page_3Widget extends StatelessWidget {
+  const Intro_page_3Widget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
         width: 412,
         height: 892,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
@@ -21,7 +23,7 @@ class Intro_page_3Widget extends StatelessWidget {
           Positioned(
               top: 150,
               left: 36,
-              child: Container(
+              child: SizedBox(
                   width: 313,
                   height: 311,
                   child: Stack(children: <Widget>[
@@ -31,7 +33,7 @@ class Intro_page_3Widget extends StatelessWidget {
                         child: Container(
                             width: 13,
                             height: 13,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(91, 158, 225, 1),
                               borderRadius:
                                   BorderRadius.all(Radius.elliptical(13, 13)),
@@ -42,7 +44,7 @@ class Intro_page_3Widget extends StatelessWidget {
                         child: Container(
                             width: 13,
                             height: 13,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(91, 158, 225, 1),
                               borderRadius:
                                   BorderRadius.all(Radius.elliptical(13, 13)),
@@ -53,7 +55,7 @@ class Intro_page_3Widget extends StatelessWidget {
                         child: Container(
                             width: 16,
                             height: 16,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(164, 205, 246, 1),
                               borderRadius:
                                   BorderRadius.all(Radius.elliptical(16, 16)),
@@ -62,14 +64,14 @@ class Intro_page_3Widget extends StatelessWidget {
           Positioned(
               top: 791,
               left: 28,
-              child: Container(
+              child: SizedBox(
                   width: 343,
                   height: 54,
                   child: Stack(children: <Widget>[
                     Positioned(
                         top: 0,
                         left: 0,
-                        child: Container(
+                        child: SizedBox(
                             width: 343,
                             height: 54,
                             child: Stack(children: <Widget>[
@@ -77,11 +79,11 @@ class Intro_page_3Widget extends StatelessWidget {
                                   top: 0,
                                   left: 230,
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: customBorderRadius,
                                       color: Color.fromRGBO(91, 158, 225, 1),
                                     ),
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 32, vertical: 16),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -102,7 +104,7 @@ class Intro_page_3Widget extends StatelessWidget {
                               Positioned(
                                   top: 24.99982261657715,
                                   left: 0,
-                                  child: Container(
+                                  child: SizedBox(
                                       width: 67,
                                       height: 5,
                                       child: Stack(children: <Widget>[
@@ -112,7 +114,7 @@ class Intro_page_3Widget extends StatelessWidget {
                                             child: Container(
                                                 width: 35,
                                                 height: 5,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       customBorderRadius,
                                                   color: Color.fromRGBO(
@@ -123,7 +125,7 @@ class Intro_page_3Widget extends StatelessWidget {
                                             child: Container(
                                                 width: 8,
                                                 height: 5,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       customBorderRadius,
                                                   color: Color.fromRGBO(
@@ -134,7 +136,7 @@ class Intro_page_3Widget extends StatelessWidget {
                                             child: Container(
                                                 width: 8,
                                                 height: 5,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   borderRadius:
                                                       customBorderRadius,
                                                   color: Colors.white
@@ -145,7 +147,7 @@ class Intro_page_3Widget extends StatelessWidget {
           Positioned(
               top: 476,
               left: 28,
-              child: Container(
+              child: SizedBox(
                   width: 350,
                   height: 142,
                   child: Stack(children: <Widget>[
@@ -156,7 +158,7 @@ class Intro_page_3Widget extends StatelessWidget {
                           'Bắt đầu cuộc hành trình nào!',
                           textAlign: TextAlign.left,
                           style: GoogleFonts.pacifico(
-                              color: Color.fromRGBO(26, 36, 47, 1),
+                              color: const Color.fromRGBO(26, 36, 47, 1),
                               fontSize: 40,
                               letterSpacing: 0,
                               fontWeight: FontWeight.normal,
@@ -169,7 +171,7 @@ class Intro_page_3Widget extends StatelessWidget {
               child: Container(
                   width: 329,
                   height: 343,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/logo.png'),
                         fit: BoxFit.fitWidth),

@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Screen/welcome/intro_page_2.dart';
 
 class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
+
   @override
   _IntroPageState createState() => _IntroPageState();
 }
@@ -12,14 +14,14 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     // Figma Flutter Generator Group343Widget - GROUP
 
-    return Container(
+    return SizedBox(
         width: 412,
         height: 892,
         child: Stack(children: <Widget>[
           Positioned(
               top: 0,
               left: 0,
-              child: Container(
+              child: SizedBox(
                   width: 412,
                   height: 892,
                   child: Stack(children: <Widget>[
@@ -105,7 +107,7 @@ class _IntroPageState extends State<IntroPage> {
                     Positioned(
                         top: 750,
                         left: 38,
-                        child: Container(
+                        child: SizedBox(
                             width: 350,
                             height: 80,
                             child: Stack(children: <Widget>[
@@ -142,7 +144,7 @@ class _IntroPageState extends State<IntroPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   IntroPage2()),
+                                                   const IntroPage2()),
                                         );
                                       },
                                       child: Text(
@@ -155,7 +157,7 @@ class _IntroPageState extends State<IntroPage> {
                               Positioned(
                                   top: 27.463043212890625,
                                   left: 0,
-                                  child: Container(
+                                  child: SizedBox(
                                       width: 73.61066436767578,
                                       height: 5.492610931396484,
                                       child: Stack(children: <Widget>[
@@ -228,7 +230,7 @@ class _IntroPageState extends State<IntroPage> {
           Positioned(
               top: 145.00494384765625,
               left: 20.44189453125,
-              child: Container(
+              child: SizedBox(
                   width: 346.0799865722656,
                   height: 303.0526123046875,
                   child: Stack(children: <Widget>[

@@ -4,9 +4,11 @@ import 'package:tien/Config/const.dart';
 import 'package:tien/Screen/welcome/intro_page_3.dart';
 
 class IntroPage2 extends StatelessWidget {
+  const IntroPage2({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 412,
         height: 892,
         child: Stack(children: <Widget>[
@@ -35,7 +37,7 @@ class IntroPage2 extends StatelessWidget {
                     Positioned(
                         top: 146,
                         left: 20,
-                        child: Container(
+                        child: SizedBox(
                             width: 43,
                             height: 311,
                             child: Stack(children: <Widget>[
@@ -65,21 +67,21 @@ class IntroPage2 extends StatelessWidget {
                     Positioned(
                         top: 471,
                         left: 41,
-                        child: Container(
+                        child: SizedBox(
                             width: 343,
                             height: 360,
                             child: Stack(children: <Widget>[
                               Positioned(
                                   top: 0,
                                   left: 10,
-                                  child: Container(
+                                  child: SizedBox(
                                       width: 302,
                                       height: 184,
                                       child: Stack(children: <Widget>[
                                         Positioned(
                                             top: 0,
                                             left: 0,
-                                            child: Container(
+                                            child: SizedBox(
                                                 width: 302,
                                                 height: 184,
                                                 child: Stack(children: <Widget>[
@@ -128,7 +130,7 @@ class IntroPage2 extends StatelessWidget {
                               Positioned(
                                   top: 280,
                                   left: 0,
-                                  child: Container(
+                                  child: SizedBox(
                                       width: 400,
                                       height: 85,
                                       child: Stack(children: <Widget>[
@@ -171,7 +173,7 @@ class IntroPage2 extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Intro_page_3Widget()),
+                                                            const Intro_page_3Widget()),
                                                   );
                                                 },
                                                 child: Text(
@@ -185,7 +187,7 @@ class IntroPage2 extends StatelessWidget {
                                         Positioned(
                                             top: 25,
                                             left: 0,
-                                            child: Container(
+                                            child: SizedBox(
                                                 width: 67,
                                                 height: 5,
                                                 child: Stack(children: <Widget>[
@@ -260,7 +262,7 @@ class IntroPage2 extends StatelessWidget {
                               180, 
                           left: 0,
                           right: 0, 
-                          child: Container(
+                          child: SizedBox(
                             width: 340,
                             child: Column(
                               children: <Widget>[

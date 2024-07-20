@@ -1,4 +1,3 @@
-import 'model.dart';
 
 // create data with amount
 

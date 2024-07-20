@@ -6,13 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Favorite/nav_item.dart';
 
-import '../../Config/favorite_helper.dart';
 import '../../data/product.dart';
 
 class ShoeStoreHome extends StatefulWidget {
   final String token;
   final String accountID;
-  ShoeStoreHome({required this.token, required this.accountID});
+  const ShoeStoreHome({super.key, required this.token, required this.accountID});
   @override
   _ShoeStoreHomeState createState() => _ShoeStoreHomeState();
 }
@@ -84,7 +83,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                         });
                       },
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         width: 70,
                         height: 70,
@@ -155,7 +154,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
 
 class ShoeCard extends StatefulWidget {
   final ProductModel product;
-  ShoeCard({required this.product});
+  const ShoeCard({super.key, required this.product});
   @override
   _ShoeCardState createState() => _ShoeCardState();
 }
@@ -192,7 +191,7 @@ class _ShoeCardState extends State<ShoeCard> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(isFavorite ? "Added to favorites" : "Removed from favorites"),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -213,12 +212,12 @@ class _ShoeCardState extends State<ShoeCard> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: TextStyle(color: Colors.red)),
+                  Text(widget.product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: const TextStyle(color: Colors.red)),
                   Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: Colors.red),
                 ],
               ),

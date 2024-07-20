@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HomePage2 extends StatefulWidget {
+  const HomePage2({super.key});
+
   @override
   _HomePage2State createState() => _HomePage2State();
 }
@@ -66,20 +68,20 @@ class _HomePage2State extends State<HomePage2> {
               onPressed: () {},
             ),
           ),
-          Positioned(
+          const Positioned(
               top: 70.13482666015625,
               left: 27.35748863220215,
-              child: Container(
+              child: SizedBox(
                   width: 14.927536010742188,
                   height: 14.393258094787598,
                   child: Stack(children: <Widget>[
                     Positioned(
                         top: 0,
                         left: 0,
-                        child: Container(
+                        child: SizedBox(
                             width: 14.927536010742188,
                             height: 14.393258094787598,
-                            child: const Stack(children: <Widget>[
+                            child: Stack(children: <Widget>[
                               Positioned(
                                 top: 0,
                                 left: 0,
@@ -90,14 +92,14 @@ class _HomePage2State extends State<HomePage2> {
           Positioned(
               top: 835.075439453125,
               left: 47,
-              child: Container(
+              child: SizedBox(
                   width: 24,
                   height: 24,
                   child: Stack(children: <Widget>[
                     Positioned(
                         top: 0,
                         left: 0,
-                        child: Container(
+                        child: SizedBox(
                             width: 24,
                             height: 24,
                             child: Stack(children: <Widget>[
@@ -162,7 +164,7 @@ class _HomePage2State extends State<HomePage2> {
           Positioned(
               top: -1,
               left: 0,
-              child: Container(
+              child: SizedBox(
                   width: 412,
                   height: 893,
                   child: Stack(children: <Widget>[
@@ -204,7 +206,7 @@ class _HomePage2State extends State<HomePage2> {
                     Positioned(
                         top: 788,
                         left: 176,
-                        child: Container(
+                        child: SizedBox(
                             width: 56,
                             height: 51.77358627319336,
                             child: Stack(children: <Widget>[
@@ -257,7 +259,7 @@ class _HomePage2State extends State<HomePage2> {
                     Positioned(
                         top: 842,
                         left: 49,
-                        child: Container(
+                        child: SizedBox(
                             width: 19.91213035583496,
                             height: 20.902873992919922,
                             child: Stack(children: <Widget>[
