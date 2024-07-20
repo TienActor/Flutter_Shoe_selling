@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Screen/welcome/intro_page.dart';
 import '../../Config/api_urls.dart';
 import '../../data/model.dart';
-import '../../page/grid.dart';
 import '../Register/signup_page.dart';
 import 'package:http/http.dart' as http;
 import '../components/already_have_an_account_acheck.dart';
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DashBoard(token: token)));
+                      builder: (context) => IntroPage())); //TODO: Sửa lại
             }
           } else {
             if (mounted) {
