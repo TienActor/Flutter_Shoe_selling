@@ -1,6 +1,5 @@
-class CategoryModel{
-
-    int? id;
+class CategoryModel {
+  int? id;
   String? name;
   String? imageURL;
   String? description;

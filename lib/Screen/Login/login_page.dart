@@ -1,14 +1,12 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/const.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
 import '../../Admin/homepageAd.dart';
 import '../../Config/api_urls.dart';
 import '../../data/model.dart';
 import '../Register/signup_page.dart';
-import 'package:dio/dio.dart';
 import '../components/already_have_an_account_acheck.dart';
 import '../components/custom_textfield.dart';
 
@@ -24,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _accIdController = TextEditingController();
   final TextEditingController _passwController = TextEditingController();
   final LoginModel _model = LoginModel();
-  final Dio _dio = Dio();
+  final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
@@ -138,75 +136,44 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
- Future<void> _login() async {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-    final formData = FormData.fromMap({
-      'AccountID': _model.accountID!,
-      'Password': _model.password!,
-    });
+      log('Login request body: ${_model.accountID}, ${_model.password}');
 
-    log('Login request body: $formData');
+      final result =
+          await _apiRepository.login(_model.accountID!, _model.password!);
 
-    try {
-      final response = await _dio.post(ApiUrls.login, data: formData);
-      log('Response status: ${response.statusCode}');
-      log('Response data: ${response.data}');
-
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (data['success'] == true) {
-          final token = data['data']['token'];
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('token', token);
-
-          // Kiểm tra thông tin đăng nhập cụ thể
-          if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
-            if (mounted) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => AdminHome()),
-              );
-            }
-          } else {
-            if (mounted) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DashBoard(
-                    token: token,
-                    accountId: _model.accountID,
-                  ),
-                ),
-              );
-            }
+      if (result['success']) {
+        final token = result['token'];
+        if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => AdminHome()),
+            );
           }
         } else {
           if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Login failed: ${data['message']}')),
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DashBoard(
+                  token: token,
+                  accountId: _model.accountID,
+                ),
+              ),
             );
           }
         }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-                    'Login failed with status code: ${response.statusCode}')),
+            SnackBar(content: Text('Login failed: ${result['message']}')),
           );
         }
       }
-    } catch (e) {
-      log('Error sending request: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login error: $e')),
-        );
-      }
     }
   }
-}
-
 }

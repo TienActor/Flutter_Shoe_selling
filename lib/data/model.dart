@@ -1,5 +1,3 @@
-
-
 class LoginModel {
   String? _accountID;
   String? _password;
@@ -53,27 +51,32 @@ class RegisterModel {
   set urlImage(String? value) => _urlImage = value?.trim();
 
   /// contructor
-  RegisterModel(
-      {String? accountID,
-      String? password,
-      String? confirmpass,
-      String? fullname,
-      String? numberID,
-      String? phonenumber,
-      String? gender,
-      String? birthday,
-      String? schoolYear,
-      String? schoolKey,
-      })
-      : _accountID = accountID,
+  RegisterModel({
+    String? accountID,
+    String? password,
+    String? confirmpass,
+    String? fullname,
+    String? numberID,
+    String? phonenumber,
+    String? gender,
+    String? birthday,
+    String? schoolYear,
+    String? schoolKey,
+  })  : _accountID = accountID,
         _password = password,
-        _confpass=confirmpass,_fullname=fullname,_numberID=numberID,_phoneNumber=phonenumber,_gender=gender,_birthday=birthday,_schoolyear=schoolYear,_schoolkey=schoolKey;
+        _confpass = confirmpass,
+        _fullname = fullname,
+        _numberID = numberID,
+        _phoneNumber = phonenumber,
+        _gender = gender,
+        _birthday = birthday,
+        _schoolyear = schoolYear,
+        _schoolkey = schoolKey;
 }
 
 // model category, getlist
-class CategoryModel{
-
-    int? id;
+class CategoryModel {
+  int? id;
   String? name;
   String? imageURL;
   String? description;
