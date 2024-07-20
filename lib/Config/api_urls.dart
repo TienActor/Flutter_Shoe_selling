@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,33 +5,32 @@ import '../data/product.dart';
 import '../data/register.dart';
 import '../data/user.dart';
 
-
-
-class ApiUrls{
-final Dio _dio = Dio();
-
+class ApiUrls {
+  final Dio _dio = Dio();
 
   Dio get sendRequest => _dio;
   static const String baseUrl = "https://huflit.id.vn:4321/api";
 
-    // Auth endpoints
-    static const String login = "$baseUrl/Auth/login";
-    static const String register = "$baseUrl/Student/signUp";
-    static const String updateInfo = "$baseUrl/Auth/updateProfile";
-    static const String changePassword = "$baseUrl/Auth/ChangePassword";
-    static const String forgotPassword = "$baseUrl/Auth/forgetPass";
+  // Auth endpoints
+  static const String login = "$baseUrl/Auth/login";
+  static const String register = "$baseUrl/Student/signUp";
+  static const String updateInfo = "$baseUrl/Auth/updateProfile";
+  static const String changePassword = "$baseUrl/Auth/ChangePassword";
+  static const String forgotPassword = "$baseUrl/Auth/forgetPass";
 
-    // Product endpoints
-    static const String getListProduct = "$baseUrl/Product/getList?accountID=Tie2023";
-    static const String getListByCatId = "$baseUrl/Product/getListByCatId";  // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
+  // Product endpoints
+  static const String getListProduct =
+      "$baseUrl/Product/getList?accountID=Tie2023";
+  static const String getListByCatId =
+      "$baseUrl/Product/getListByCatId"; // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
 
-    // Bill endpoints
-    static const String addBill = "$baseUrl/Order/addBill";
-    static const String getBillById = "$baseUrl/Bill/getByID?billID=";
-    static const String getBillHistory = "$baseUrl/Bill/getHistory";
-    static const String removeBill = "$baseUrl/Bill/remove?billID=";
- 
+  // Bill endpoints
+  static const String addBill = "$baseUrl/Order/addBill";
+  static const String getBillById = "$baseUrl/Bill/getByID?billID=";
+  static const String getBillHistory = "$baseUrl/Bill/getHistory";
+  static const String removeBill = "$baseUrl/Bill/remove?billID=";
 }
+
 class APIRepository {
   ApiUrls api = ApiUrls();
 
@@ -188,51 +186,51 @@ class APIRepository {
   //   }
   // }
 
-  Future<List<ProductModel>> fetchProducts(String accountID, String token) async {
-  Response res = await api.sendRequest.get(
-      "${ApiUrls.getListProduct}&accountID=$accountID",
-      options: Options(headers: header(token)));
-  List<dynamic> data = res.data;
-  return data.map((e) => ProductModel.fromJson(e)).toList();
-}
-
-Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
-  if (favoriteIds.isEmpty) {
-    return [];  // Return an empty list if no favorite IDs are present
+  Future<List<ProductModel>> fetchProducts(
+      String accountID, String token) async {
+    Response res = await api.sendRequest.get(
+        "${ApiUrls.getListProduct}&accountID=$accountID",
+        options: Options(headers: header(token)));
+    List<dynamic> data = res.data;
+    return data.map((e) => ProductModel.fromJson(e)).toList();
   }
 
-  // Building the query parameters correctly
-  String queryParameters = favoriteIds.map((id) => 'id=${Uri.encodeComponent(id)}').join('&');
-  // Ensure the URL is correctly formed with query parameters
+  Future<List<ProductModel>> fetchFavoriteProducts(
+      String accountID, List<String> favoriteIds, String token) async {
+    if (favoriteIds.isEmpty) {
+      return []; // Return an empty list if no favorite IDs are present
+    }
+
+    // Building the query parameters correctly
+    String queryParameters =
+        favoriteIds.map((id) => 'id=${Uri.encodeComponent(id)}').join('&');
+    // Ensure the URL is correctly formed with query parameters
     String url = "${ApiUrls.getListProduct}&$queryParameters";
 
-  try {
-    Response res = await api.sendRequest.get(
-      url,
-      options: Options(headers: header(token))
-    );
+    try {
+      Response res = await api.sendRequest
+          .get(url, options: Options(headers: header(token)));
 
-    if (res.statusCode == 200) {
-      List<dynamic> data = res.data;
-      return data.map((e) => ProductModel.fromJson(e)).toList();
-    } else {
-      throw Exception('Failed to load favorite products: ${res.statusCode}');
+      if (res.statusCode == 200) {
+        List<dynamic> data = res.data;
+        return data.map((e) => ProductModel.fromJson(e)).toList();
+      } else {
+        throw Exception('Failed to load favorite products: ${res.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching favorite products: $e');
+      rethrow;
     }
-  } catch (e) {
-    print('Error fetching favorite products: $e');
-    rethrow;
   }
-}
 
-
-
- Future<List<ProductModel>> fetchProductsCat(String accountID, String token,String idCat) async {
-  Response res = await api.sendRequest.get(
-      "${ApiUrls.getListByCatId}?categoryID=$idCat&accountID=$accountID",
-      options: Options(headers: header(token)));
-  List<dynamic> data = res.data;  
-  return data.map((e) => ProductModel.fromJson(e)).toList();
-}
+  Future<List<ProductModel>> fetchProductsCat(
+      String accountID, String token, String idCat) async {
+    Response res = await api.sendRequest.get(
+        "${ApiUrls.getListByCatId}?categoryID=$idCat&accountID=$accountID",
+        options: Options(headers: header(token)));
+    List<dynamic> data = res.data;
+    return data.map((e) => ProductModel.fromJson(e)).toList();
+  }
 
   // Future<List<ProductModel>> getProductAdmin(String accountID, String token) async {
   //   try {
@@ -366,4 +364,4 @@ Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> 
   //     print(ex);
   //     rethrow;
   //   }
-  }
+}
