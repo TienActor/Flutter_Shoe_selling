@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/const.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
+import '../../Admin/homepageAd.dart';
 import '../../Config/api_urls.dart';
 import '../../data/model.dart';
 import '../Register/signup_page.dart';
@@ -137,66 +138,75 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _login() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+ Future<void> _login() async {
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-      final formData = FormData.fromMap({
-        'AccountID': _model.accountID!,
-        'Password': _model.password!,
-      });
+    final formData = FormData.fromMap({
+      'AccountID': _model.accountID!,
+      'Password': _model.password!,
+    });
 
-      // In ra yêu cầu trước khi gửi đi
-      log('Login request body: $formData');
+    log('Login request body: $formData');
 
-      try {
-        final response = await _dio.post(ApiUrls.login, data: formData);
+    try {
+      final response = await _dio.post(ApiUrls.login, data: formData);
+      log('Response status: ${response.statusCode}');
+      log('Response data: ${response.data}');
 
-        // In ra thông tin phản hồi
-        log('Response status: ${response.statusCode}');
-        log('Response data: ${response.data}');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data['success'] == true) {
+          final token = data['data']['token'];
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
 
-        if (response.statusCode == 200) {
-          final data = response.data;
-          if (data['success'] == true) {
-            final token = data['data']['token'];
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString('token', token);
+          // Kiểm tra thông tin đăng nhập cụ thể
+          if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => AdminHome()),
+              );
+            }
+          } else {
             if (mounted) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DashBoard(
                     token: token,
-                    accountId: null,
+                    accountId: _model.accountID,
                   ),
                 ),
-              );
-            }
-          } else {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Login failed: ${data['message']}')),
               );
             }
           }
         } else {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(
-                      'Login failed with status code: ${response.statusCode}')),
+              SnackBar(content: Text('Login failed: ${data['message']}')),
             );
           }
         }
-      } catch (e) {
-        log('Error sending request: $e');
+      } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login error: $e')),
+            SnackBar(
+                content: Text(
+                    'Login failed with status code: ${response.statusCode}')),
           );
         }
       }
+    } catch (e) {
+      log('Error sending request: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login error: $e')),
+        );
+      }
     }
   }
+}
+
 }

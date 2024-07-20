@@ -5,8 +5,11 @@ import '../data/product.dart';
 import '../data/register.dart';
 import '../data/user.dart';
 
-class ApiUrls {
-  final Dio _dio = Dio();
+
+
+class ApiUrls{
+final Dio _dio = Dio();
+
 
   Dio get sendRequest => _dio;
   static const String baseUrl = "https://huflit.id.vn:4321/api";
@@ -18,22 +21,21 @@ class ApiUrls {
   static const String changePassword = "$baseUrl/Auth/ChangePassword";
   static const String forgotPassword = "$baseUrl/Auth/forgetPass";
 
-  // Product endpoints
-  static const String getListProduct =
-      "$baseUrl/Product/getList?accountID=Tie2023";
-  static const String getListByCatId =
-      "$baseUrl/Product/getListByCatId"; // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
-
-  // Bill endpoints
-  static const String addBill = "$baseUrl/Order/addBill";
-  static const String getBillById = "$baseUrl/Bill/getByID?billID=";
-  static const String getBillHistory = "$baseUrl/Bill/getHistory";
-  static const String removeBill = "$baseUrl/Bill/remove?billID=";
+    // Product endpoints
+    static const String getListProduct = "$baseUrl/Product/getList?accountID=Tie2023";
+    static const String getListByCatId = "$baseUrl/Product/getListByCatId";  // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
+   static const String updateProduct = "$baseUrl/updateProduct"; 
+    // Bill endpoints
+    static const String addBill = "$baseUrl/Order/addBill";
+    static const String getBillById = "$baseUrl/Bill/getByID?billID=";
+    static const String getBillHistory = "$baseUrl/Bill/getHistory";
+    static const String removeBill = "$baseUrl/Bill/remove?billID=";
+ 
 }
 
 class APIRepository {
   ApiUrls api = ApiUrls();
-
+ final Dio _dio = Dio();
   Map<String, dynamic> header(String token) {
     return {
       "Access-Control-Allow-Origin": "*",
@@ -269,31 +271,32 @@ class APIRepository {
   //   }
   // }
 
-  // Future<bool> updateProduct(
-  //     ProductModel data, String accountID, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'id': data.id,
-  //       'name': data.name,
-  //       'description': data.description,
-  //       'imageURL': data.imageUrl,
-  //       'Price': data.price,
-  //       'categoryID': data.categoryId,
-  //       'accountID': accountID
-  //     });
-  //     Response res = await api.sendRequest.put('/updateProduct',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok update product");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+ Future<bool> updateProduct(ProductModel data, String accountID, String token) async {
+  try {
+    final body = FormData.fromMap({
+      'id': data.id,
+      'name': data.name,
+      'description': data.description,
+      'imageURL': data.imageURL,
+      'price': data.price,
+      'categoryID': data.categoryID,
+      'accountID': accountID
+    });
+    Response res = await _dio.put(ApiUrls.updateProduct,
+        options: Options(headers: header(token)), data: body);
+    if (res.statusCode == 200) {
+      print("ok update product");
+      return true;
+    } else {
+      print("Failed to update product: ${res.statusCode}");
+      return false;
+    }
+  } catch (ex) {
+    print("Error updating product: $ex");
+    rethrow;
+  }
+}
+
 
   // Future<bool> removeProduct(
   //     int productID, String accountID, String token) async {
