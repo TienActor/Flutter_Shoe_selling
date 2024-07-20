@@ -17,8 +17,8 @@ class ShoeStoreHome extends StatefulWidget {
 }
 
 class _ShoeStoreHomeState extends State<ShoeStoreHome> {
-  int selectedBrandIndex = -1; 
-  List<ProductModel> favoriteProducts = []; 
+  int selectedBrandIndex = -1;
+  List<ProductModel> favoriteProducts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
         centerTitle: true,
         actions: [
           IconButton(
-              icon: const Icon(Icons.shopping_cart_outlined, color: Colors.deepPurple),
+              icon: const Icon(Icons.shopping_cart_outlined,
+                  color: Colors.deepPurple),
               onPressed: () {})
         ],
       ),
@@ -69,7 +70,10 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
               ),
               const SizedBox(height: 24),
               Text('Sản phẩm theo hãng',
-                  style: GoogleFonts.nunito(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                  style: GoogleFonts.nunito(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple)),
               const SizedBox(height: 16),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -90,7 +94,11 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                         margin: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(35),
-                          border: Border.all(color: selectedBrandIndex == index ? Colors.deepPurple : Colors.transparent, width: 2),
+                          border: Border.all(
+                              color: selectedBrandIndex == index
+                                  ? Colors.deepPurple
+                                  : Colors.transparent,
+                              width: 2),
                           image: DecorationImage(
                             image: NetworkImage(brandImages[index]),
                             fit: BoxFit.contain,
@@ -103,7 +111,10 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
               ),
               const SizedBox(height: 24),
               Text('Giày phổ biến',
-                  style: GoogleFonts.nunito(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                  style: GoogleFonts.nunito(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple)),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,23 +122,30 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                   Text('Nike Jordan', style: GoogleFonts.nunito(fontSize: 16)),
                   InkWell(
                     onTap: () {}, // Add navigation to all products page
-                    child: Text('Tất cả', style: GoogleFonts.nunito(color: Colors.blue, fontSize: 16, decoration: TextDecoration.underline)),
+                    child: Text('Tất cả',
+                        style: GoogleFonts.nunito(
+                            color: Colors.blue,
+                            fontSize: 16,
+                            decoration: TextDecoration.underline)),
                   )
                 ],
               ),
               const SizedBox(height: 8),
               FutureBuilder<List<ProductModel>>(
-                  future: APIRepository().fetchProducts(widget.accountID, widget.token),
+                  future: APIRepository()
+                      .fetchProducts(widget.accountID, widget.token),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}", style: GoogleFonts.nunito());
+                      return Text("Error: ${snapshot.error}",
+                          style: GoogleFonts.nunito());
                     } else if (snapshot.hasData) {
                       return GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
@@ -140,7 +158,8 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                         },
                       );
                     } else {
-                      return const Text("No products found", style: TextStyle(color: Colors.red));
+                      return const Text("No products found",
+                          style: TextStyle(color: Colors.red));
                     }
                   })
             ],
@@ -150,7 +169,6 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
     );
   }
 }
-
 
 class ShoeCard extends StatefulWidget {
   final ProductModel product;
@@ -190,7 +208,8 @@ class _ShoeCardState extends State<ShoeCard> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(isFavorite ? "Added to favorites" : "Removed from favorites"),
+        content:
+            Text(isFavorite ? "Added to favorites" : "Removed from favorites"),
         duration: const Duration(seconds: 2),
       ),
     );
@@ -198,26 +217,46 @@ class _ShoeCardState extends State<ShoeCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _toggleFavorite,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        elevation: 4,
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 4,
+      child: InkWell(
+        onTap: () {}, // Placeholder for onTap action
         child: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(widget.product.imageURL, fit: BoxFit.contain),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    child: Image.network(widget.product.imageURL, fit: BoxFit.cover),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 95,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isFavorite = !isFavorite;
+                        });
+                      },
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: const TextStyle(color: Colors.red)),
+                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: TextStyle(color: Colors.red)),
                   Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: Colors.red),
                 ],
               ),
