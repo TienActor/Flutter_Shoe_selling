@@ -31,7 +31,7 @@ class _DashBoardState extends State<DashBoard> {
     listBody = [
        ShoeStoreHome(token: widget.token, accountID: 'Tie2023',),
       const CartPage(),
-      const FavoritePage(token: widget.token,,accountID:''),
+      FavoritePage(accountID:'Tie2023',token: widget.token),
       const SettingPage(),
     ];
   }

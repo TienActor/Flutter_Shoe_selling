@@ -10,44 +10,76 @@ import '../Home/test.dart';
 
 class FavoritePage extends StatefulWidget {
   final String token;
-  const FavoritePage({Key? key,required this.token}) : super(key: key);
+  final String accountID;
+  const FavoritePage({Key? key,required this.token, required this.accountID}) : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
-
 class _FavoritePageState extends State<FavoritePage> {
- Future<List<ProductModel>>? favoriteProducts;
+  Future<List<ProductModel>>? favoriteProducts;
 
   @override
   void initState() {
     super.initState();
-    loadFavoriteProductIds();
-    //favoriteProducts = loadFavoriteProductIds();
+    favoriteProducts = loadFavoriteProductIds(); // Assign the future correctly
   }
 
- Future<void> loadFavoriteProductIds() async {
+  Future<List<ProductModel>> loadFavoriteProductIds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteIds = prefs.getKeys()
-        .where((key) => prefs.getBool(key) == true)
-        .toList();
-
-   // Gọi API để lấy thông tin các sản phẩm yêu thích dựa trên danh sách ID
+  List<String> favoriteIds = prefs.getKeys().where((key) {
+    //return prefs.getBool(key) ?? false;
+    var val = prefs.get(key);
+    return val is bool &&  val == true;
+    // if (val is bool) {
+      
+    //   return val;
+    // } else {
+    //   print("Không xác định được giá trị  $key: Expected bool, found ${val.runtimeType}");
+    //   return false;
+    // }
+  }).toList();
+if (favoriteIds.isEmpty) {
+    return []; // Return an empty list if no favorites are marked
+  }
   try {
-    // Bạn cần đảm bảo đã có accountID và token được truyền vào khi khởi tạo lớp này
-    List<ProductModel> favoriteProducts = await APIRepository().fetchFavoriteProducts('Tie2023', favoriteIds, widget.token);
-
-    // Cập nhật state với danh sách sản phẩm yêu thích mới
-    setState(() {
-       favoriteProducts = favoriteProducts;
-    });
-  } catch (e) {
-    // Xử lý lỗi nếu có
-    print("Không có sản phẩm nào được hiển thị: $e");
+      List<ProductModel> fetchedProducts = await fetchFavoriteProducts(widget.accountID, favoriteIds, widget.token);
+      return fetchedProducts;
+    } catch (e) {
+      print("Error fetching products: $e");
+      return [];
+    }
+    // try {
+    //   List<ProductModel> fetchedProducts = await APIRepository().fetchFavoriteProducts('Tie2023', favoriteIds, widget.token);
+    //   return fetchedProducts; // Ensure to return the list of ProductModel
+    // } catch (e) {
+    //   print("Error fetching products: $e");
+    //   return []; // Return an empty list if an error occurs
+    // }
   }
-  }
 
- @override
+   Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
+    String queryParameters = favoriteIds.map((id) => 'id=$id').join('&');
+    String url = "${ApiUrls.getListProduct}?${queryParameters}";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        return data.map((productJson) => ProductModel.fromJson(productJson)).toList();
+      } else {
+        throw Exception('Failed to load favorite products: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching favorite products: $e');
+      throw e;
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Favorite Products")),

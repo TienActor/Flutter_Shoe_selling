@@ -197,21 +197,34 @@ class APIRepository {
   return data.map((e) => ProductModel.fromJson(e)).toList();
 }
 
-Future<List<ProductModel>> fetchFavoriteProducts(String accountID,List<String> favoriteIds, String token) async {
-  var queryParameters = favoriteIds.map((id) => 'id=$id').join('&');
+Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
+  if (favoriteIds.isEmpty) {
+    return [];  // Return an empty list if no favorite IDs are present
+  }
 
+  // Building the query parameters correctly
+  String queryParameters = favoriteIds.map((id) => 'id=${Uri.encodeComponent(id)}').join('&');
+  // Ensure the URL is correctly formed with query parameters
+    String url = "${ApiUrls.getListProduct}&$queryParameters";
 
+  try {
     Response res = await api.sendRequest.get(
-      "${ApiUrls.getListProduct}&accountID=$accountID?$queryParameters",
-      options: Options(headers: header(token)));
+      url,
+      options: Options(headers: header(token))
+    );
 
-  if (res.statusCode == 200) {
-    List<dynamic> data = res.data;
-    return data.map((e) => ProductModel.fromJson(e)).toList();
-  } else {
-    throw Exception('Failed to load favorite products');
+    if (res.statusCode == 200) {
+      List<dynamic> data = res.data;
+      return data.map((e) => ProductModel.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load favorite products: ${res.statusCode}');
+    }
+  } catch (e) {
+    print('Error fetching favorite products: $e');
+    rethrow;
   }
 }
+
 
 
  Future<List<ProductModel>> fetchProductsCat(String accountID, String token,String idCat) async {
