@@ -10,9 +10,10 @@ class AdminHome extends StatefulWidget {
   @override
   State<AdminHome> createState() => _AdminHomeState();
 }
+
 class _AdminHomeState extends State<AdminHome> {
   int productCount = 0;
-  final Dio _dio = Dio();  
+  final Dio _dio = Dio();
 
   @override
   void initState() {
@@ -25,22 +26,20 @@ class _AdminHomeState extends State<AdminHome> {
     if (token != null) {
       try {
         Response response = await _dio.get(
-          ApiUrls.getListProduct,  // URL của bạn có thể khác
-          options: Options(
-            headers: {
+            ApiUrls.getListProduct, // URL của bạn có thể khác
+            options: Options(headers: {
               'Authorization': 'Bearer $token',
               'Content-Type': 'application/json'
-            }
-          )
-        );
+            }));
 
         if (response.statusCode == 200) {
           var data = response.data;
           setState(() {
-            productCount = data.length;  
+            productCount = data.length;
           });
         } else {
-          print('Failed to fetch products with status code: ${response.statusCode}');
+          print(
+              'Failed to fetch products with status code: ${response.statusCode}');
         }
       } catch (e) {
         print('Error fetching products: $e');
@@ -68,22 +67,25 @@ class _AdminHomeState extends State<AdminHome> {
               children: [
                 DashboardTile(title: 'Users', value: '35'),
                 DashboardTile(title: 'Categories', value: '4'),
-                DashboardTile(
-                  title: 'Products',
+                DashboardTileWithImage(
+                  title: 'Sản phẩm',
                   value: productCount.toString(),
+                  imagePath:
+                      'assets/images/product.png', // Đảm bảo bạn đã thêm hình ảnh này vào thư mục assets của bạn
                   onTap: () async {
                     final token = await _getToken();
                     if (token != null) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductListScreen(token: token, accountID: 'Tie2023'),
+                          builder: (context) => ProductListScreen(
+                              token: token, accountID: 'Tie2023'),
                         ),
                       );
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Authentication token is not available. Please login again.'))
-                      );
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Authentication token is not available. Please login again.')));
                     }
                   },
                 ),
@@ -94,6 +96,53 @@ class _AdminHomeState extends State<AdminHome> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DashboardTileWithImage extends StatelessWidget {
+  final String title;
+  final String value;
+  final VoidCallback onTap;
+  final String imagePath;
+
+  const DashboardTileWithImage({
+    Key? key,
+    required this.title,
+    required this.value,
+    required this.onTap,
+    required this.imagePath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(imagePath, width: 200, height: 100),
+            SizedBox(height: 8),
+            Text(title,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Text(value, style: TextStyle(fontSize: 20, color: Colors.grey)),
+          ],
+        ),
       ),
     );
   }
@@ -124,7 +173,10 @@ class DashboardTile extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red),
               ),
               Text(
                 title,
