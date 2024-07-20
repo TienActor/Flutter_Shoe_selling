@@ -1,15 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../Config/api_urls.dart';
 import '../data/product.dart';
 import 'EditProduct.dart';
-import 'ProductdetailAd.dart'; // Đảm bảo rằng bạn đã thêm thư viện Dio vào pubspec.yaml
+import 'ProductdetailAd.dart';
 
 class ProductListScreen extends StatefulWidget {
   final String token;
   final String accountID;
 
-  const ProductListScreen(
-      {Key? key, required this.token, required this.accountID})
+  const ProductListScreen({Key? key, required this.token, required this.accountID})
       : super(key: key);
 
   @override
@@ -31,6 +32,98 @@ class _ProductListScreenState extends State<ProductListScreen> {
     });
   }
 
+  Widget _buildProductItem(BuildContext context, ProductModel product) {
+    return Card(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        title: Text(product.name, style: GoogleFonts.abel(fontSize: 18,fontWeight: FontWeight.bold)),
+        subtitle: Text(product.categoryName),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: CachedNetworkImage(
+            imageUrl: product.imageURL,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ),
+        trailing: _buildTrailingButtons(product),
+        onTap: () => _navigateToProductDetails(context, product),
+      ),
+    );
+  }
+
+  Widget _buildTrailingButtons(ProductModel product) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: Icon(Icons.edit, color: Colors.blue),
+          onPressed: () => _editProduct(product),
+          tooltip: 'Edit',
+        ),
+        IconButton(
+          icon: Icon(Icons.delete, color: Colors.red),
+          onPressed: () => _confirmDelete(product),
+          tooltip: 'Delete',
+        ),
+      ],
+    );
+  }
+
+  void _editProduct(ProductModel product) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProductScreen(product: product, token: widget.token, accountID: widget.accountID),
+      ),
+    );
+    if (result == true) {
+      _reloadProductList();
+    }
+  }
+
+  void _confirmDelete(ProductModel product) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Xác nhận xóa"),
+          content: Text("Bạn có chắc muốn xóa ${product.name}?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                print('Delete button pressed for ${product.name}');
+                // Here add your deletion logic
+              },
+              child: Text("Xoá"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _navigateToProductDetails(BuildContext context, ProductModel product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailScreen(product: product),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,79 +140,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           } else if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                ProductModel product = snapshot.data![index];
-                return ListTile(
-                  title: Text(product.name),
-                  subtitle: Text(product.categoryName),
-                  leading: Image.network(product.imageURL),
-                  trailing: SizedBox(
-                    width: 100, // Enough space for two icons
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditProductScreen(
-                                    product: product,
-                                    token: widget.token,
-                                    accountID: widget.accountID),
-                              ),
-                            );
-                            if (result == true) {
-                              _reloadProductList(); // Phương thức tái tải danh sách sản phẩm
-                            }
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () {
-                            // TODO: Add delete functionality or confirm dialog
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Xác nhận xóa"),
-                                  content: Text(
-                                      "Bạn có chắc muốn xóa ${product.name}?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: Text("Hủy"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        // Perform delete operation
-                                        Navigator.of(context).pop();
-                                        print(
-                                            'Delete button pressed for ${product.name}');
-                                      },
-                                      child: Text("Xoá"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailScreen(product: product),
-                      ),
-                    );
-                  },
-                );
-              },
+              itemBuilder: (context, index) => _buildProductItem(context, snapshot.data![index]),
             );
           } else {
             return Center(child: Text("No products found"));
