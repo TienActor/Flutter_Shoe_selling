@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Config/api_urls.dart';
+import '../data/category.dart';
+import 'BrandsListAd.dart';
+import 'DiscountListAd.dart';
 import 'ProductListAd.dart';
 
 class AdminHome extends StatefulWidget {
@@ -13,12 +16,42 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   int productCount = 0;
+  int brandsCount = 0;
   final Dio _dio = Dio();
 
   @override
   void initState() {
     super.initState();
     fetchProductCount();
+    fetchBrandsCount();
+  }
+
+  Future<void> fetchBrandsCount() async {
+    final token = await _getToken();
+    if (token != null) {
+      try {
+        // Thay đổi URL này tới endpoint cụ thể cho danh mục hoặc thương hiệu
+        Response response = await _dio.get(
+            ApiUrls.getListByCatId, // URL của bạn có thể khác
+            options: Options(headers: {
+              'Authorization': 'Bearer $token',
+              'Content-Type': 'application/json'
+            }));
+
+        if (response.statusCode == 200) {
+          var data = response.data;
+          // Giả sử data là một list các danh mục, hãy đảm bảo cách bạn truy cập đến length là đúng
+          setState(() {
+            brandsCount = data.length;
+          });
+        } else {
+          print(
+              'Failed to fetch brands with status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error fetching brands: $e');
+      }
+    }
   }
 
   Future<void> fetchProductCount() async {
@@ -73,31 +106,100 @@ class _AdminHomeState extends State<AdminHome> {
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true, // Use it inside Scroll view
-                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                physics:
+                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 children: [
-                  DashboardTile(title: 'Users', value: '35'),
-                  DashboardTile(title: 'Categories', value: '4'),
                   DashboardTileWithImage(
-                    title: 'Sản phẩm',
-                    value: productCount.toString(),
-                    imagePath: 'assets/images/product.png', // Ensure the image is in assets
+                    title: 'Người dùng',
+                    value: '',
+                    imagePath:
+                        'assets/images/user.png', // Ensure the image is in assets
                     onTap: () async {
                       final token = await _getToken();
                       if (token != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductListScreen(token: token, accountID: 'Tie2023'),
+                            builder: (context) => ProductListScreen(
+                                token: token, accountID: 'Tie2023'),
                           ),
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Authentication token is not available. Please login again.')));
+                            content: Text(
+                                'Authentication token is not available. Please login again.')));
                       }
                     },
                   ),
-                  DashboardTile(title: 'Earning', value: '2325'),
-                  DashboardTile(title: 'Pending Order', value: '11'),
+                  DashboardTileWithImage(
+                    title: 'Thương hiệu',
+                    value: brandsCount.toString(),
+                    imagePath:
+                        'assets/images/brands.png', // Đảm bảo hình ảnh có sẵn trong assets
+                    onTap: () async {
+                      final token = await _getToken();
+                      if (token != null) {
+                        // Sử dụng Navigator.push và chờ đợi người dùng trở lại
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BrandsPage(token: token, accountID: 'Tie2023'),
+                          ),
+                        );
+                        // Sau khi trở lại, làm mới số lượng thương hiệu
+                        await fetchBrandsCount();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Authentication token is not available. Please login again.')));
+                      }
+                    },
+                  ),
+                  DashboardTileWithImage(
+                    title: 'Sản phẩm',
+                    value: productCount.toString(),
+                    imagePath:
+                        'assets/images/product.png', // Ensure the image is in assets
+                    onTap: () async {
+                      final token = await _getToken();
+                      if (token != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductListScreen(
+                                token: token, accountID: 'Tie2023'),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Authentication token is not available. Please login again.')));
+                      }
+                    },
+                  ),
+                  DashboardTileWithImage(
+                    title: 'Mã giảm giá',
+                    value: '0',
+                    imagePath:
+                        'assets/images/discount.png', // Ensure the image is in assets
+                    onTap: () async {
+                      final token = await _getToken();
+                      if (token != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DiscountPage(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Authentication token is not available. Please login again.')));
+                      }
+                    },
+                  ),
+                  DashboardTile(title: 'Đơn hàng', value: '11'),
                   DashboardTile(title: 'Completed Order', value: '12'),
                 ],
               ),
@@ -146,7 +248,8 @@ class DashboardTileWithImage extends StatelessWidget {
           children: [
             Image.asset(imagePath, width: 200, height: 100),
             SizedBox(height: 8),
-            Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Text(title,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             Text(value, style: TextStyle(fontSize: 20, color: Colors.grey)),
           ],
         ),
@@ -178,8 +281,13 @@ class DashboardTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red)),
-              Text(title, style: const TextStyle(fontSize: 18, color: Colors.red)),
+              Text(value,
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red)),
+              Text(title,
+                  style: const TextStyle(fontSize: 18, color: Colors.red)),
             ],
           ),
         ),

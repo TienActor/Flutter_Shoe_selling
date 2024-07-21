@@ -1,0 +1,12 @@
+{
+    "discounts": [
+      {
+        "title": "Giảm tới đá 15k",
+        "minOrder": "Đơn tối thiểu đ50k",
+        "discount": "80% - Tối Đa 15K",
+        "validity": "2023-12-01T00:00:00Z", 
+        "quantity": 100
+      }
+    ]
+  }
+  
