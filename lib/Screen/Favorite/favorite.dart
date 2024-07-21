@@ -1,15 +1,115 @@
+<<<<<<< Updated upstream
+=======
+import 'dart:convert';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 class FavoritePage extends StatefulWidget {
+<<<<<<< Updated upstream
   const FavoritePage({super.key});
+=======
+  final String token;
+  final String accountID;
+  const FavoritePage({Key? key, required this.token, required this.accountID}) : super(key: key);
+>>>>>>> Stashed changes
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+<<<<<<< Updated upstream
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
+=======
+  Future<List<ProductModel>>? favoriteProducts;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteProducts = loadFavoriteProductIds(); // Assign the future correctly
+  }
+
+  Future<List<ProductModel>> loadFavoriteProductIds() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteIds = prefs.getKeys().where((key) {
+      var val = prefs.get(key);
+      return val is bool && val == true;
+    }).toList();
+
+    if (favoriteIds.isEmpty) {
+      return []; // Return an empty list if no favorites are marked
+    }
+
+    try {
+      List<ProductModel> fetchedProducts = await fetchFavoriteProducts(widget.accountID, favoriteIds, widget.token);
+      return fetchedProducts;
+    } catch (e) {
+      print("Error fetching products: $e");
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
+    String queryParameters = favoriteIds.map((id) => 'id=$id').join('&');
+    String url = "${ApiUrls.getListProduct}?$queryParameters";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        return data.map((productJson) => ProductModel.fromJson(productJson)).toList();
+      } else {
+        throw Exception('Failed to load favorite products: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching favorite products: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Favorite Products")),
+      body: FutureBuilder<List<ProductModel>>(
+        future: favoriteProducts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            return GridView.builder(
+              itemCount: snapshot.data!.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.75,
+              ),
+              itemBuilder: (context, index) {
+                var product = snapshot.data![index];
+                var relatedProducts = snapshot.data!
+                    .where((p) => p.categoryID == product.categoryID)
+                    .toList();
+                return ShoeCard(
+                  product: product,
+                  relatedProducts: relatedProducts,
+                );
+              },
+            );
+          } else {
+            return const Text("No favorite products found");
+          }
+        },
+      ),
+    );
+>>>>>>> Stashed changes
   }
 }

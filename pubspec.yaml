@@ -26,7 +26,15 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   google_fonts: ^6.2.1
+<<<<<<< Updated upstream
 
+=======
+  ionicons: ^0.2.2
+  cupertino_icons: ^1.0.2
+  dio: ^5.5.0+1
+  provider: ^6.1.2
+    
+>>>>>>> Stashed changes
 dev_dependencies:
   flutter_test:
     sdk: flutter
