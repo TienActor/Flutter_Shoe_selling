@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../data/category.dart';
 import '../data/product.dart';
 import '../data/register.dart';
 import '../data/user.dart';
@@ -22,8 +22,10 @@ class ApiUrls {
   static const String getListProduct =
       "$baseUrl/Product/getList?accountID=Tie2023";
   static const String getListByCatId =
-      "$baseUrl/Product/getListByCatId"; // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
+      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023"; 
   static const String updateProduct = "$baseUrl/updateProduct";
+  static const String addProduct = "$baseUrl/addProduct";
+  static const String deleteProduct = "$baseUrl/removeProduct";
   // Bill endpoints
   static const String addBill = "$baseUrl/Order/addBill";
   static const String getBillById = "$baseUrl/Bill/getByID?billID=";
@@ -113,20 +115,23 @@ class APIRepository {
     }
   }
 
-  // Future<List<CategoryModel>> getCategory(
-  //     String accountID, String token) async {
-  //   try {
-  //     Response res = await api.sendRequest.get(
-  //         '/Category/getList?accountID=$accountID',
-  //         options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => CategoryModel.fromJson(e))
-  //         .cast<CategoryModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     rethrow;
-  //   }
-  // }
+ Future<List<CategoryModel>> getCategory(
+      String accountID, String token) async {
+    try {
+       Response res = await Dio().get(
+      '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID', 
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+    );
+      return res.data
+          .map((e) => CategoryModel.fromJson(e))
+          .cast<CategoryModel>()
+          .toList();
+    } catch (ex) {
+      rethrow;
+    }
+  }
 
   // Future<bool> addCategory(
   //     CategoryModel data, String accountID, String token) async {
@@ -254,28 +259,28 @@ class APIRepository {
   //     rethrow;
   //   }
   // }
-  // Future<bool> addProduct(ProductModel data, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'name': data.name,
-  //       'description': data.description,
-  //       'imageURL': data.imageUrl,
-  //       'Price': data.price,
-  //       'CategoryID': data.categoryId
-  //     });
-  //     Response res = await api.sendRequest.post('/addProduct',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok add product");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> addProduct(ProductModel data, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'Price': data.price,
+        'CategoryID': data.categoryID
+      });
+      Response res = await api.sendRequest.post(ApiUrls.addProduct,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok add product");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   Future<bool> updateProduct(
       ProductModel data, String accountID, String token) async {
@@ -304,24 +309,24 @@ class APIRepository {
     }
   }
 
-  // Future<bool> removeProduct(
-  //     int productID, String accountID, String token) async {
-  //   try {
-  //     final body =
-  //         FormData.fromMap({'productID': productID, 'accountID': accountID});
-  //     Response res = await api.sendRequest.delete('/removeProduct',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok remove product");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> removeProduct(
+      int productID, String accountID, String token) async {
+    try {
+      final body =
+          FormData.fromMap({'productID': productID, 'accountID': accountID});
+      Response res = await api.sendRequest.delete(ApiUrls.deleteProduct,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok remove product");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   // Future<bool> addBill(List<Cart> products, String token) async {
   //   var list = [];

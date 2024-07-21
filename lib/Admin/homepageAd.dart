@@ -52,6 +52,11 @@ class _AdminHomeState extends State<AdminHome> {
     return prefs.getString('token');
   }
 
+  Future<void> _refreshDashboard() async {
+    await fetchProductCount();
+    // Add any other fetch methods for other dashboard items here if necessary
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,43 +64,46 @@ class _AdminHomeState extends State<AdminHome> {
         backgroundColor: Colors.red,
         title: const Text('Dashboard'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: [
-                DashboardTile(title: 'Users', value: '35'),
-                DashboardTile(title: 'Categories', value: '4'),
-                DashboardTileWithImage(
-                  title: 'Sản phẩm',
-                  value: productCount.toString(),
-                  imagePath:
-                      'assets/images/product.png', // Đảm bảo bạn đã thêm hình ảnh này vào thư mục assets của bạn
-                  onTap: () async {
-                    final token = await _getToken();
-                    if (token != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductListScreen(
-                              token: token, accountID: 'Tie2023'),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              'Authentication token is not available. Please login again.')));
-                    }
-                  },
-                ),
-                DashboardTile(title: 'Earning', value: '2325'),
-                DashboardTile(title: 'Pending Order', value: '11'),
-                DashboardTile(title: 'Completed Order', value: '12'),
-              ],
-            ),
+      body: RefreshIndicator(
+        onRefresh: _refreshDashboard,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(), // Ensure scrollability
+          child: Column(
+            children: [
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true, // Use it inside Scroll view
+                physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                children: [
+                  DashboardTile(title: 'Users', value: '35'),
+                  DashboardTile(title: 'Categories', value: '4'),
+                  DashboardTileWithImage(
+                    title: 'Sản phẩm',
+                    value: productCount.toString(),
+                    imagePath: 'assets/images/product.png', // Ensure the image is in assets
+                    onTap: () async {
+                      final token = await _getToken();
+                      if (token != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductListScreen(token: token, accountID: 'Tie2023'),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Authentication token is not available. Please login again.')));
+                      }
+                    },
+                  ),
+                  DashboardTile(title: 'Earning', value: '2325'),
+                  DashboardTile(title: 'Pending Order', value: '11'),
+                  DashboardTile(title: 'Completed Order', value: '12'),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -138,8 +146,7 @@ class DashboardTileWithImage extends StatelessWidget {
           children: [
             Image.asset(imagePath, width: 200, height: 100),
             SizedBox(height: 8),
-            Text(title,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             Text(value, style: TextStyle(fontSize: 20, color: Colors.grey)),
           ],
         ),
@@ -171,17 +178,8 @@ class DashboardTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                value,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 18, color: Colors.red),
-              ),
+              Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red)),
+              Text(title, style: const TextStyle(fontSize: 18, color: Colors.red)),
             ],
           ),
         ),
