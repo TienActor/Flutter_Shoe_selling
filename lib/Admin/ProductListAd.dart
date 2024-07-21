@@ -8,7 +8,6 @@ import 'ProductDetailAd.dart';
 class ProductListScreen extends StatefulWidget {
   final String token;
   final String accountID;
-
   const ProductListScreen({Key? key, required this.token, required this.accountID}) : super(key: key);
 
   @override

@@ -107,13 +107,12 @@ class ProductDetailScreen extends StatelessWidget {
       bool success =
           await APIRepository().removeProduct(product.id, accountID, token);
       if (success) {
-        Navigator.pop(context,
-            true); // Pop the current screen and send back 'true' to indicate success
+        Navigator.pop(context,true); // Pop the current screen and send back 'true' to indicate success
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Product successfully deleted')));
+            SnackBar(content: Text('Xóa sản phẩm thành công')));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to delete the product')));
+            SnackBar(content: Text('Không thể xóa sản phẩm')));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

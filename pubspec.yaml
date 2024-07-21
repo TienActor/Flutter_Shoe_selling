@@ -43,7 +43,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/adidaslogo.png
-    - assets/images/Logo.png
+    # - assets/images/Logo.png
     - assets/icon/
     - assets/fonts/
     

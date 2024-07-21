@@ -26,6 +26,9 @@ class ApiUrls {
   static const String updateProduct = "$baseUrl/updateProduct";
   static const String addProduct = "$baseUrl/addProduct";
   static const String deleteProduct = "$baseUrl/removeProduct";
+  static const String updateCategory = "$baseUrl/updateCategory";
+   static const String addCategory = "$baseUrl/addCategory";
+   static const String deleteCategory = "$baseUrl/removeCategory";
   // Bill endpoints
   static const String addBill = "$baseUrl/Order/addBill";
   static const String getBillById = "$baseUrl/Bill/getByID?billID=";
@@ -133,71 +136,71 @@ class APIRepository {
     }
   }
 
-  // Future<bool> addCategory(
-  //     CategoryModel data, String accountID, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'name': data.name,
-  //       'description': data.desc,
-  //       'imageURL': data.imageUrl,
-  //       'accountID': accountID
-  //     });
-  //     Response res = await api.sendRequest.post('/addCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok add category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> addCategory(
+      CategoryModel data, String accountID, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'accountID': accountID
+      });
+      Response res = await api.sendRequest.post(ApiUrls.addCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok add category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
-  // Future<bool> updateCategory(int categoryID, CategoryModel data,
-  //     String accountID, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'id': categoryID,
-  //       'name': data.name,
-  //       'description': data.desc,
-  //       'imageURL': data.imageUrl,
-  //       'accountID': accountID
-  //     });
-  //     Response res = await api.sendRequest.put('/updateCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok update category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> updateCategory(int categoryID, CategoryModel data,
+      String accountID, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'id': categoryID,
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'accountID': accountID
+      });
+      Response res = await api.sendRequest.put(ApiUrls.updateCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok update category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
-  // Future<bool> removeCategory(
-  //     int categoryID, String accountID, String token) async {
-  //   try {
-  //     final body =
-  //         FormData.fromMap({'categoryID': categoryID, 'accountID': accountID});
-  //     Response res = await api.sendRequest.delete('/removeCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok remove category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> removeCategory(
+      int categoryID, String accountID, String token) async {
+    try {
+      final body =
+          FormData.fromMap({'categoryID': categoryID, 'accountID': accountID});
+      Response res = await api.sendRequest.delete(ApiUrls.deleteCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok remove category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   Future<List<ProductModel>> fetchProducts(
       String accountID, String token) async {

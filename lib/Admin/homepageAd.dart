@@ -27,32 +27,21 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   Future<void> fetchBrandsCount() async {
-    final token = await _getToken();
-    if (token != null) {
-      try {
-        // Thay đổi URL này tới endpoint cụ thể cho danh mục hoặc thương hiệu
-        Response response = await _dio.get(
-            ApiUrls.getListByCatId, // URL của bạn có thể khác
-            options: Options(headers: {
-              'Authorization': 'Bearer $token',
-              'Content-Type': 'application/json'
-            }));
-
-        if (response.statusCode == 200) {
-          var data = response.data;
-          // Giả sử data là một list các danh mục, hãy đảm bảo cách bạn truy cập đến length là đúng
-          setState(() {
-            brandsCount = data.length;
-          });
-        } else {
-          print(
-              'Failed to fetch brands with status code: ${response.statusCode}');
-        }
-      } catch (e) {
-        print('Error fetching brands: $e');
-      }
+  final token = await _getToken();
+  if (token != null) {
+    try {
+      APIRepository apiRepository = APIRepository();
+      List<CategoryModel> categories = await apiRepository.getCategory('Tie2023', token);  // Giả sử 'Tie2023' là accountID của bạn
+      
+      setState(() {
+        brandsCount = categories.length;  // Cập nhật số lượng thương hiệu dựa trên số lượng mục nhận được
+      });
+    } catch (e) {
+      print('Error fetching brands: $e');
     }
   }
+}
+
 
   Future<void> fetchProductCount() async {
     final token = await _getToken();
