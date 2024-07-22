@@ -141,15 +141,15 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
               widget: Text(user?.schoolKey ?? ''),
               ),
               const SizedBox(height: 40),
-              const EditItem(
-                widget: TextField(),
-                title: "Age",
-              ),
-              const SizedBox(height: 40),
-              const EditItem(
-                widget: TextField(),
-                title: "Email",
-              ),
+              // const EditItem(
+              //   widget: TextField(),
+              //   title: "Age",
+              // ),
+              // const SizedBox(height: 40),
+              // const EditItem(
+              //   widget: TextField(),
+              //   title: "Email",
+              // ),
             ],
           ),
         ),

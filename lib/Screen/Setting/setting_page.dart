@@ -34,8 +34,7 @@ class _SettingPageState extends State<SettingPage> {
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print(
-            'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
+        print('User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
@@ -79,27 +78,20 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     onPressed: () {},
-      //     icon: const Icon(Ionicons.chevron_back_outline),
-      //   ),
-      //   leadingWidth: 80,
-      // ),
+      appBar: AppBar(
+        title: const Text('Cài đặt'),
+        leading: IconButton(
+          icon: const Icon(Ionicons.chevron_back_outline),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Cài đặt",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               const Text(
                 "Tài khoản",
                 style: TextStyle(
@@ -113,24 +105,26 @@ class _SettingPageState extends State<SettingPage> {
                 child: Row(
                   children: [
                     if (userProfileImage != null)
-                      Image.network(userProfileImage!, width: 70, height: 70)
+                      ClipOval(
+                        child: Image.network(userProfileImage!, width: 70, height: 70, fit: BoxFit.cover),
+                      )
                     else
-                      Icon(Icons.account_circle, size: 70),
+                      const Icon(Icons.account_circle, size: 70),
                     const SizedBox(width: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           userName ?? 'Tên người dùng',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           userName ?? '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
                           ),
@@ -160,23 +154,6 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              // const SizedBox(height: 20),
-              // SettingItem(
-              //   title: "Ngôn ngữ",
-              //   icon: Ionicons.earth,
-              //   bgColor: Colors.orange.shade100,
-              //   iconColor: Colors.orange,
-              //   value: "English",
-              //   onTap: () {},
-              // ),
-              // const SizedBox(height: 20),
-              // SettingItem(
-              //   title: "Thông báo",
-              //   icon: Ionicons.notifications,
-              //   bgColor: Colors.blue.shade100,
-              //   iconColor: Colors.blue,
-              //   onTap: () {},
-              // ),
               const SizedBox(height: 20),
               SettingSwitch(
                 title: "Dark Mode",
@@ -193,45 +170,43 @@ class _SettingPageState extends State<SettingPage> {
               const SizedBox(height: 20),
               SettingItem(
                 title: "Cài đặt thông báo",
-                icon: Ionicons.nuclear,
-                bgColor: Colors.red.shade100,
-                iconColor: Colors.red,
+                icon: Ionicons.notifications,
+                bgColor: Colors.blue.shade100,
+                iconColor: Colors.blue,
                 onTap: () {},
               ),
               const SizedBox(height: 20),
               SettingItem(
                 title: "Địa chỉ giao hàng",
-                icon: Ionicons.nuclear,
-                bgColor: Colors.red.shade100,
-                iconColor: Colors.red,
+                icon: Ionicons.location_outline,
+                bgColor: Colors.green.shade100,
+                iconColor: Colors.green,
                 onTap: () {},
               ),
               const SizedBox(height: 20),
               SettingItem(
-                title: "Phương thức thanh toán ",
-                icon: Ionicons.nuclear,
-                bgColor: Colors.red.shade100,
-                iconColor: Colors.red,
+                title: "Phương thức thanh toán",
+                icon: Ionicons.card_outline,
+                bgColor: Colors.orange.shade100,
+                iconColor: Colors.orange,
                 onTap: () {},
               ),
               const SizedBox(height: 150),
               const Divider(
                 color: Colors.black,
               ),
-              ElevatedButton(onPressed: _showLogoutConfirmationDialog, child:  Text('Đăng xuất '),
+              ElevatedButton(
+                onPressed: _showLogoutConfirmationDialog,
+                child: const Text('Đăng xuất'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, // Text color
                   backgroundColor: Colors.blue, // Button color
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                  ),))
-
-              //   user.accountId==''? const SizedBox():ListTile(leading: Icon(Icons.exit_to_app),
-              //   title: Text('Logout'),onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
-              //     //logOut(context);
-              //   },)
+                  ),
+                ),
+              ),
             ],
           ),
         ),
