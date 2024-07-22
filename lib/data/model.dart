@@ -13,7 +13,7 @@ class LoginModel {
         _password = password;
 }
 
-class RegisterModel {
+class SignupModel {
   String? _accountID;
   String? _password;
   String? _confpass;
@@ -59,7 +59,7 @@ class RegisterModel {
   String? get urlImage => _urlImage;
   set urlImage(String? value) => _urlImage = value?.trim();
 
-  RegisterModel({
+  SignupModel({
     String? accountID,
     String? password,
     String? confirmpass,

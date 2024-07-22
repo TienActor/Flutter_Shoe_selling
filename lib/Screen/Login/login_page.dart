@@ -6,7 +6,7 @@ import 'package:tien/Screen/Home/mainPage.dart';
 import '../../Admin/homepageAd.dart';
 import '../../Config/api_urls.dart';
 import '../../data/model.dart';
-import '../Register/signup_page.dart';
+import '../SignUp/signup_page.dart';
 import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
 import '../components/custom_dialog.dart';
@@ -20,14 +20,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _accIdController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _passwController = TextEditingController();
   final LoginModel _model = LoginModel();
   final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
     _accIdController.dispose();
-    _passController.dispose();
+    _passwController.dispose();
     super.dispose();
   }
 
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                           const EdgeInsets.symmetric(vertical: defaultPadding),
                       child: CustomTextField(
                         labelText: "Mật khẩu",
-                        controller: _passController,
+                        controller: _passwController,
                         isPassword: true,
                         prefixIcon: Icons.lock,
                         validator: (value) {
@@ -140,8 +140,9 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       log('${_model.accountID}, ${_model.password}');
-      final result =
-          await _apiRepository.login(_model.accountID!, _model.password!);
+      final loginModel = LoginModel(
+          accountID: _accIdController.text, password: _passwController.text);
+      final result = await _apiRepository.login(loginModel);
       if (result['success']) {
         final token = result['token'];
         if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
@@ -173,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
             context: context,
             message: result['message'],
             durationTimes: 2,
-            borderRadius: 360.0,
+            borderRadius: 90.0,
             textStyle:
                 GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
             backgroundColor: Colors.white,

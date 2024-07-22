@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../data/model.dart'; // Chỉ sử dụng model.dart để import RegisterModel
-import '../../data/register.dart';
+import '../../data/model.dart';
 import '../Login/login_page.dart';
 import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
@@ -28,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _schoolKeyController = TextEditingController();
   final TextEditingController _imageURLController = TextEditingController();
 
-  final RegisterModel _model = RegisterModel();
+  final SignupModel _model = SignupModel();
   final APIRepository _apiRepository = APIRepository();
 
   @override
@@ -300,20 +299,8 @@ class _SignupPageState extends State<SignupPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Call API to register
-      final result = await _apiRepository.register(Signup(
-        accountID: _model.accountID,
-        numberID: _model.numberID,
-        password: _model.password,
-        confirmPassword: _model.confirmpass,
-        fullName: _model.fullname,
-        phoneNumber: _model.phonenumber,
-        gender: _model.gender,
-        birthDay: _model.birthday,
-        schoolYear: _model.schoolYear,
-        schoolKey: _model.schoolKey,
-        imageUrl: _model.urlImage,
-      ));
-      if (result == "ok") {
+      final result = await _apiRepository.signup(_model);
+      if (result["success"]) {
         // Navigate to login page on successful registration
         if (mounted) {
           Navigator.pushReplacement(
@@ -325,7 +312,7 @@ class _SignupPageState extends State<SignupPage> {
         // Show error message
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result)),
+            SnackBar(content: Text(result["message"])),
           );
         }
       }

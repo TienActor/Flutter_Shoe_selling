@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/category.dart';
+import '../data/model.dart';
 import '../data/product.dart';
-import '../data/register.dart';
 import '../data/user.dart';
 
 class ApiUrls {
@@ -45,40 +45,45 @@ class APIRepository {
     };
   }
 
-  Future<String> register(Signup user) async {
+  Future<Map<String, dynamic>> signup(SignupModel signupModel) async {
     try {
       final body = FormData.fromMap({
-        "numberID": user.numberID,
-        "accountID": user.accountID,
-        "fullName": user.fullName,
-        "phoneNumber": user.phoneNumber,
-        "imageURL": user.imageUrl,
-        "birthDay": user.birthDay,
-        "gender": user.gender,
-        "schoolYear": user.schoolYear,
-        "schoolKey": user.schoolKey,
-        "password": user.password,
-        "confirmPassword": user.confirmPassword
+        "numberID": signupModel.numberID,
+        "accountID": signupModel.accountID,
+        "fullName": signupModel.fullname,
+        "phoneNumber": signupModel.phonenumber,
+        "imageURL": signupModel.urlImage,
+        "birthDay": signupModel.birthday,
+        "gender": signupModel.gender,
+        "schoolYear": signupModel.schoolYear,
+        "schoolKey": signupModel.schoolKey,
+        "password": signupModel.password,
+        "confirmPassword": signupModel.confirmpass,
       });
-      Response res = await api.sendRequest.post('/Student/signUp',
-          options: Options(headers: header('no token')), data: body);
+      Response res = await api.sendRequest.post(
+        ApiUrls.register,
+        options: Options(headers: header('no token')),
+        data: body,
+      );
       if (res.statusCode == 200) {
         print("ok");
-        return "ok";
+        return {"success": true, "message": "Đăng ký thành công"};
       } else {
         print("fail");
-        return "signup fail";
+        return {"success": false, "message": "Đăng ký thất bại"};
       }
     } catch (ex) {
       print(ex);
-      rethrow;
+      return {"success": false, "message": "Lỗi: $ex"};
     }
   }
 
-  Future<Map<String, dynamic>> login(String accountID, String password) async {
+  Future<Map<String, dynamic>> login(LoginModel loginModel) async {
     try {
-      final body =
-          FormData.fromMap({'AccountID': accountID, 'Password': password});
+      final body = FormData.fromMap({
+        'AccountID': loginModel.accountID,
+        'Password': loginModel.password,
+      });
       Response res = await api.sendRequest.post(
         ApiUrls.login,
         options: Options(
@@ -95,7 +100,7 @@ class APIRepository {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final tokenData = data['data']['token'];
           prefs.setString('token', tokenData);
-          prefs.setString('accountID', accountID);
+          prefs.setString('accountID', loginModel.accountID!);
           return {
             'success': data['success'],
             'message': 'Đăng nhập thành công',
@@ -107,7 +112,7 @@ class APIRepository {
         final data = res.data;
         return {'success': data['success'], 'message': data['error']};
       } else if (res.statusCode == 500) {
-        return {'success': false, 'message': 'tài khoản không tồn tại'};
+        return {'success': false, 'message': 'Tài khoản không tồn tại'};
       } else {
         return {'success': false, 'message': '${res.statusCode}'};
       }
