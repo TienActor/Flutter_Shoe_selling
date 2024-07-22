@@ -22,7 +22,7 @@ class ApiUrls {
   static const String getListProduct =
       "$baseUrl/Product/getList?accountID=Tie2023";
   static const String getListByCatId =
-      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023"; 
+      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023";
   static const String updateProduct = "$baseUrl/updateProduct";
   static const String addProduct = "$baseUrl/addProduct";
   static const String deleteProduct = "$baseUrl/removeProduct";
@@ -79,9 +79,16 @@ class APIRepository {
     try {
       final body =
           FormData.fromMap({'AccountID': accountID, 'Password': password});
-      Response res = await api.sendRequest.post(ApiUrls.login,
-          options: Options(headers: header('no token')), data: body);
-
+      Response res = await api.sendRequest.post(
+        ApiUrls.login,
+        options: Options(
+          headers: header('no token'),
+          validateStatus: (status) {
+            return status == 200 || status == 401 || status == 500;
+          },
+        ),
+        data: body,
+      );
       if (res.statusCode == 200) {
         final data = res.data;
         if (data['success'] == true) {
@@ -89,19 +96,24 @@ class APIRepository {
           final tokenData = data['data']['token'];
           prefs.setString('token', tokenData);
           prefs.setString('accountID', accountID);
-          return {'success': true, 'token': tokenData};
-        } else {
-          return {'success': false, 'message': data['message']};
+          return {
+            'success': data['success'],
+            'message': 'Đăng nhập thành công',
+            'token': tokenData
+          };
         }
+        return {'success': data['success']};
+      } else if (res.statusCode == 401) {
+        final data = res.data;
+        return {'success': data['success'], 'message': data['error']};
+      } else if (res.statusCode == 500) {
+        return {'success': false, 'message': 'tài khoản không tồn tại'};
       } else {
-        return {
-          'success': false,
-          'message': 'Login failed with status code: ${res.statusCode}'
-        };
+        return {'success': false, 'message': '${res.statusCode}'};
       }
     } catch (ex) {
       print(ex);
-      return {'success': false, 'message': 'Error sending request: $ex'};
+      return {'success': false, 'message': 'Lỗi: $ex'};
     }
   }
 
@@ -115,15 +127,15 @@ class APIRepository {
     }
   }
 
- Future<List<CategoryModel>> getCategory(
+  Future<List<CategoryModel>> getCategory(
       String accountID, String token) async {
     try {
-       Response res = await Dio().get(
-      '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID', 
-      options: Options(headers: {
-        'Authorization': 'Bearer $token',
-      }),
-    );
+      Response res = await Dio().get(
+        '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID',
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }),
+      );
       return res.data
           .map((e) => CategoryModel.fromJson(e))
           .cast<CategoryModel>()

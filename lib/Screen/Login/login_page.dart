@@ -7,12 +7,12 @@ import '../../Admin/homepageAd.dart';
 import '../../Config/api_urls.dart';
 import '../../data/model.dart';
 import '../Register/signup_page.dart';
-import '../components/already_have_an_account_acheck.dart';
+import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
+import '../components/custom_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 1.6,
                 ),
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 24),
               Form(
                 key: _formKey,
                 child: Column(
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                         foregroundColor: Colors.white,
                       ),
                       child: const Text("ĐĂNG NHẬP",
-                          style: TextStyle(letterSpacing: 1.2)),
+                          style: TextStyle(letterSpacing: 4)),
                     ),
                     const SizedBox(height: defaultPadding),
                     AlreadyHaveAnAccountCheck(
@@ -139,19 +139,16 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
-      log('Login request body: ${_model.accountID}, ${_model.password}');
-
+      log('${_model.accountID}, ${_model.password}');
       final result =
           await _apiRepository.login(_model.accountID!, _model.password!);
-
       if (result['success']) {
         final token = result['token'];
         if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
           if (mounted) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => AdminHome()),
+              MaterialPageRoute(builder: (context) => const AdminHome()),
             );
           }
         } else {
@@ -169,9 +166,18 @@ class _LoginPageState extends State<LoginPage> {
         }
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login failed: ${result['message']}')),
-          );
+          /* ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('${result['message']}')),
+          ); */
+          CustomDialog(
+            context: context,
+            message: result['message'],
+            durationTimes: 2,
+            borderRadius: 360.0,
+            textStyle:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            backgroundColor: Colors.white,
+          ).show();
         }
       }
     }
