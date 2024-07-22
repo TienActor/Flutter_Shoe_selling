@@ -10,7 +10,7 @@ import '../../data/user.dart';
 
 class Navbar extends StatefulWidget {
   final String token;
-  const Navbar({super.key,required this.token});
+  const Navbar({super.key, required this.token});
 
   @override
   _NavbarState createState() => _NavbarState();
@@ -75,13 +75,12 @@ class _NavbarState extends State<Navbar> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: const Color(0xFF1A2530),  // Set background color to black
-    child: ListView(
+        color: const Color(0xFF1A2530), // Set background color to black
+        child: ListView(
           children: [
             UserAccountsDrawerHeader(
               accountName: Text(userName ?? '', style: const TextStyle(color: Colors.white)), // Màu chữ trắng
@@ -90,9 +89,8 @@ class _NavbarState extends State<Navbar> {
                   ? CircleAvatar(
                       backgroundImage: NetworkImage(userProfileImage!),
                     )
-                  : CircleAvatar(
-                      backgroundColor: Colors.black,
-                      child: Icon(Icons.person, color: Colors.white),
+                  : const CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/user.png'),
                     ),
               decoration: const BoxDecoration(color: Color(0xFF1A2530)), // Đảm bảo nền của header là màu đen
             ),
@@ -120,7 +118,7 @@ class _NavbarState extends State<Navbar> {
               leading: const Icon(Icons.assignment, color: Colors.white), // White icon color
               title: const Text('Đơn đặt hàng', style: TextStyle(color: Colors.white)), // White text color
               onTap: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context)=>  OrderHistoryPage(token: widget.token,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistoryPage(token: widget.token)));
               },
             ),
             const SizedBox(height: 100),

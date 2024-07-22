@@ -16,7 +16,9 @@ import '../../data/product.dart';
 class ShoeStoreHome extends StatefulWidget {
   final String token;
   final String accountID;
+
   ShoeStoreHome({required this.token, required this.accountID});
+
   @override
   _ShoeStoreHomeState createState() => _ShoeStoreHomeState();
 }
@@ -25,7 +27,8 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   int selectedBrandIndex = -1;
   List<ProductModel> favoriteProducts = [];
   String selectedBrand = "";
-    @override
+
+  @override
   void initState() {
     super.initState();
   }
@@ -34,21 +37,27 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   void dispose() {
     super.dispose();
   }
+
+  Future<void> _refreshProducts() async {
+    setState(() {
+      // Here, you should fetch or refresh your data
+      // For example, re-fetch the product list
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      drawer: Navbar(token: widget.token,),
+      drawer: Navbar(token: widget.token),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Image.asset('assets/images/Logo.png', height: 80, width: 80),
+        title: Image.asset('assets/images/logo.png', height: 80, width: 80),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
-
-          }, icon: Icon(Icons.search, color: Colors.black,)),
-           Consumer<CartProvider>(
+          IconButton(onPressed: () {}, icon: Icon(Icons.search, color: Colors.black)),
+          Consumer<CartProvider>(
             builder: (context, cart, child) {
               return Stack(
                 children: [
@@ -93,133 +102,135 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 2.0,
-                    height: 180),
-                items: bannerList
-                    .map((item) => Center(
-                        child: Image.network(item,
-                            fit: BoxFit.cover, width: 1000)))
-                    .toList(),
-              ),
-              const SizedBox(height: 24),
-              Text('Sản phẩm theo hãng',
-                  style: GoogleFonts.nunito(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              const SizedBox(height: 16),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(brandImages.length, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedBrandIndex = index;
-                          selectedBrand = brandImages[index]['name']!;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        width: 70,
-                        height: 70,
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(35),
-                          border: Border.all(
-                              color: selectedBrandIndex == index
-                                  ? Colors.deepPurple
-                                  : Colors.transparent,
-                              width: 2),
-                          image: DecorationImage(
-                            image: NetworkImage(brandImages[index]['image']!),
-                            fit: BoxFit.contain,
+      body: RefreshIndicator(
+        onRefresh: _refreshProducts,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      aspectRatio: 2.0,
+                      height: 180),
+                  items: bannerList
+                      .map((item) => Center(
+                          child: Image.network(item, fit: BoxFit.cover, width: 1000)))
+                      .toList(),
+                ),
+                const SizedBox(height: 24),
+                Text('Sản phẩm theo hãng',
+                    style: GoogleFonts.nunito(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+                const SizedBox(height: 16),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(brandImages.length, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedBrandIndex = index;
+                            selectedBrand = brandImages[index]['name']!;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          width: 70,
+                          height: 70,
+                          margin: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                color: selectedBrandIndex == index
+                                    ? Colors.deepPurple
+                                    : Colors.transparent,
+                                width: 2),
+                            image: DecorationImage(
+                              image: NetworkImage(brandImages[index]['image']!),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Text('Giày phổ biến',
-                  style: GoogleFonts.nunito(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Nike Jordan', style: GoogleFonts.nunito(fontSize: 16)),
-                  InkWell(
-                    onTap: () {}, // Add navigation to all products page
-                    child: Text('Tất cả',
-                        style: GoogleFonts.nunito(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            decoration: TextDecoration.underline)),
-                  )
-                ],
-              ),
-              const SizedBox(height: 8),
-              FutureBuilder<List<ProductModel>>(
-                  future: APIRepository()
-                      .fetchProducts(widget.accountID, widget.token),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Text("Lỗi: ${snapshot.error}",
-                          style: GoogleFonts.nunito());
-                    } else if (snapshot.hasData) {
-                      List<ProductModel> filteredProducts = selectedBrand.isEmpty
-                          ? snapshot.data!
-                          : snapshot.data!
-                              .where((product) => product.categoryName == selectedBrand)
-                              .toList();
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.75,
-                        ),
-                        itemCount: filteredProducts.length,
-                        itemBuilder: (context, index) {
-                          var product = filteredProducts[index];
-                          var relatedProducts = snapshot.data!
-                              .where((p) => p.categoryID == product.categoryID)
-                              .toList();
-                          return ShoeCard(
-                            product: product,
-                            relatedProducts: relatedProducts,
-                            token: widget.token,
-                          );
-                        },
                       );
-                    } else {
-                      return const Text("Không có sản phẩm nào",
-                          style: TextStyle(color: Colors.red));
-                    }
-                  })
-            ],
+                    }),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text('Giày phổ biến',
+                    style: GoogleFonts.nunito(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Nike Jordan', style: GoogleFonts.nunito(fontSize: 16)),
+                    InkWell(
+                      onTap: () {}, // Add navigation to all products page
+                      child: Text('Tất cả',
+                          style: GoogleFonts.nunito(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 8),
+                FutureBuilder<List<ProductModel>>(
+                    future: APIRepository()
+                        .fetchProducts(widget.accountID, widget.token),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text("Lỗi: ${snapshot.error}",
+                            style: GoogleFonts.nunito());
+                      } else if (snapshot.hasData) {
+                        List<ProductModel> filteredProducts = selectedBrand.isEmpty
+                            ? snapshot.data!
+                            : snapshot.data!
+                                .where((product) => product.categoryName == selectedBrand)
+                                .toList();
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 0.75,
+                          ),
+                          itemCount: filteredProducts.length,
+                          itemBuilder: (context, index) {
+                            var product = filteredProducts[index];
+                            var relatedProducts = snapshot.data!
+                                .where((p) => p.categoryID == product.categoryID)
+                                .toList();
+                            return ShoeCard(
+                              product: product,
+                              relatedProducts: relatedProducts,
+                              token: widget.token,
+                            );
+                          },
+                        );
+                      } else {
+                        return const Text("Không có sản phẩm nào",
+                            style: TextStyle(color: Colors.red));
+                      }
+                    })
+              ],
+            ),
           ),
         ),
       ),

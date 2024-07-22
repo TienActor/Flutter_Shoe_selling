@@ -157,6 +157,7 @@ class _AdminHomeState extends State<AdminHome> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text('Dashboard'),
+          automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(Icons.exit_to_app), // Icon đăng xuất

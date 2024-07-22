@@ -44,7 +44,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/adidaslogo.png
-    - assets/images/Logo.png
+    - assets/images/logo.png
     - assets/icon/
     - assets/fonts/
     - assets/json/user_data.json
