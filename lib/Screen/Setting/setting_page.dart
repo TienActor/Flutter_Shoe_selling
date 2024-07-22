@@ -1,16 +1,15 @@
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tien/Config/api_urls.dart';
+import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/Edit_account_page.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
-
 import '../../data/user.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  final String token;
+  const SettingPage({super.key, required this.token});
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -18,15 +17,64 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool isDarkMode = false;
-  User user = User.userEmpty();
-  getDataUser() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String strUser = pref.getString('user')!;
+  String? userName;
+  String? userProfileImage;
+  late SharedPreferences prefs;
 
-    user = User.fromJson(jsonDecode(strUser));
-    setState(() {
-      
-    });  }
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    if (token != null) {
+      APIRepository apiRepository = APIRepository();
+      try {
+        User user = await apiRepository.currentUser(token);
+        print(
+            'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
+        setState(() {
+          userName = user.fullName;
+          userProfileImage = user.imageURL;
+        });
+      } catch (e) {
+        print('Không thể tải dữ liệu người dùng: $e');
+      }
+    }
+  }
+
+  void _showLogoutConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Xác nhận đăng xuất'),
+          content: const Text('Bạn có muốn đăng xuất không?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Không'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+            ),
+            TextButton(
+              child: const Text('Có'),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.clear(); // Xóa thông tin đăng nhập đã lưu
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +112,16 @@ class _SettingPageState extends State<SettingPage> {
                 width: double.infinity,
                 child: Row(
                   children: [
-                    Image.network("https://teddy.vn/wp-content/uploads/2023/05/gau-bong-lena-mu-lotso-3.jpg", width: 70, height: 70),
+                    if (userProfileImage != null)
+                      Image.network(userProfileImage!, width: 70, height: 70)
+                    else
+                      Icon(Icons.account_circle, size: 70),
                     const SizedBox(width: 20),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Nguyễn Nhật Tiến",
+                          userName ?? 'Tên người dùng',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -78,7 +129,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "Tie2023",
+                          userName ?? '',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
@@ -163,14 +214,24 @@ class _SettingPageState extends State<SettingPage> {
                 iconColor: Colors.red,
                 onTap: () {},
               ),
-              const SizedBox(height:150),
-               const Divider(color: Colors.black,),
-              
-            //   user.accountId==''? const SizedBox():ListTile(leading: Icon(Icons.exit_to_app),
-            //   title: Text('Logout'),onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
-            //     //logOut(context);
-            //   },)
+              const SizedBox(height: 150),
+              const Divider(
+                color: Colors.black,
+              ),
+              ElevatedButton(onPressed: _showLogoutConfirmationDialog, child:  Text('Đăng xuất '),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, // Text color
+                  backgroundColor: Colors.blue, // Button color
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),))
+
+              //   user.accountId==''? const SizedBox():ListTile(leading: Icon(Icons.exit_to_app),
+              //   title: Text('Logout'),onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+              //     //logOut(context);
+              //   },)
             ],
           ),
         ),

@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
+import 'package:tien/Screen/Cart/cartProvider.dart';
+import 'package:tien/Screen/Cart/cartPage.dart';
 import 'package:tien/Screen/Favorite/nav_item.dart';
+import 'package:tien/Screen/Home/detail.dart';
 
+import '../../Config/const.dart';
 import '../../data/product.dart';
 
 class ShoeStoreHome extends StatefulWidget {
   final String token;
   final String accountID;
-  const ShoeStoreHome({super.key, required this.token, required this.accountID});
+  ShoeStoreHome({required this.token, required this.accountID});
   @override
   _ShoeStoreHomeState createState() => _ShoeStoreHomeState();
 }
@@ -19,38 +24,77 @@ class ShoeStoreHome extends StatefulWidget {
 class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   int selectedBrandIndex = -1;
   List<ProductModel> favoriteProducts = [];
+  String selectedBrand = "";
+    @override
+  void initState() {
+    super.initState();
+  }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    final List<String> bannerList = [
-      'https://giaycuhanghieu.vn/thumbs/1366x720x1/upload/photo/slider-bnanner-44080.png',
-      'https://vsneakershop.weebly.com/uploads/6/3/3/8/63388329/vsneaker-banner-gi-y_orig.png',
-      'https://giaysneaker.store/media/wysiwyg/slidershow/home-12/banner_NEW_BALANCE.jpg',
-    ];
-
-    final List<String> brandImages = [
-      'https://i.imghippo.com/files/FNqeF1720768332.png',
-      'https://i.imghippo.com/files/iXXMx1720768355.png',
-      'https://i.imghippo.com/files/j3e1M1720768443.png',
-      'https://i.imghippo.com/files/4xKwU1720768473.png'
-    ];
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      drawer: const Navbar(),
+      drawer: Navbar(token: widget.token,),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Image.asset('assets/images/Logo.png', height: 80, width: 80),
         centerTitle: true,
         actions: [
-          IconButton(
-              icon: const Icon(Icons.shopping_cart_outlined,
-                  color: Colors.deepPurple),
-              onPressed: () {})
+          IconButton(onPressed: (){
+
+          }, icon: Icon(Icons.search, color: Colors.black,)),
+           Consumer<CartProvider>(
+            builder: (context, cart, child) {
+              return Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined, color: Colors.deepPurple),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartDetail(token: widget.token),
+                        ),
+                      );
+                    },
+                  ),
+                  if (cart.itemCount > 0)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cart.itemCount}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(
+        
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -73,7 +117,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                   style: GoogleFonts.nunito(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple)),
+                      color: Colors.black)),
               const SizedBox(height: 16),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -84,10 +128,11 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                       onTap: () {
                         setState(() {
                           selectedBrandIndex = index;
+                          selectedBrand = brandImages[index]['name']!;
                         });
                       },
                       child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
+                        duration: Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         width: 70,
                         height: 70,
@@ -100,7 +145,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                                   : Colors.transparent,
                               width: 2),
                           image: DecorationImage(
-                            image: NetworkImage(brandImages[index]),
+                            image: NetworkImage(brandImages[index]['image']!),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -114,7 +159,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                   style: GoogleFonts.nunito(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple)),
+                      color: Colors.black)),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,9 +183,14 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}",
+                      return Text("Lỗi: ${snapshot.error}",
                           style: GoogleFonts.nunito());
                     } else if (snapshot.hasData) {
+                      List<ProductModel> filteredProducts = selectedBrand.isEmpty
+                          ? snapshot.data!
+                          : snapshot.data!
+                              .where((product) => product.categoryName == selectedBrand)
+                              .toList();
                       return GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -151,14 +201,21 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                           mainAxisSpacing: 16,
                           childAspectRatio: 0.75,
                         ),
-                        itemCount: snapshot.data!.length,
+                        itemCount: filteredProducts.length,
                         itemBuilder: (context, index) {
-                          var product = snapshot.data![index];
-                          return ShoeCard(product: product);
+                          var product = filteredProducts[index];
+                          var relatedProducts = snapshot.data!
+                              .where((p) => p.categoryID == product.categoryID)
+                              .toList();
+                          return ShoeCard(
+                            product: product,
+                            relatedProducts: relatedProducts,
+                            token: widget.token,
+                          );
                         },
                       );
                     } else {
-                      return const Text("No products found",
+                      return const Text("Không có sản phẩm nào",
                           style: TextStyle(color: Colors.red));
                     }
                   })
@@ -172,13 +229,17 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
 
 class ShoeCard extends StatefulWidget {
   final ProductModel product;
-  const ShoeCard({super.key, required this.product});
+  final String token;
+  final List<ProductModel> relatedProducts;
+  ShoeCard({required this.product,required this.token, required this.relatedProducts});
   @override
   _ShoeCardState createState() => _ShoeCardState();
 }
 
 class _ShoeCardState extends State<ShoeCard> {
+
   bool isFavorite = false;
+
   @override
   void initState() {
     super.initState();
@@ -209,19 +270,35 @@ class _ShoeCardState extends State<ShoeCard> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content:
-            Text(isFavorite ? "Added to favorites" : "Removed from favorites"),
-        duration: const Duration(seconds: 2),
+            Text(isFavorite ? "Đã yêu thích" : "Đã xóa yêu thích"),
+        duration: Duration(seconds: 2),
       ),
     );
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 4,
       child: InkWell(
-        onTap: () {}, // Placeholder for onTap action
+        onTap: () {
+ Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailPage(
+                productId: widget.product.id,
+                productName: widget.product.name,
+                productImage: widget.product.imageURL,
+                productPrice: widget.product.price,
+                productDescription: widget.product.description,
+                relatedProducts: widget.relatedProducts,
+                token: widget.token,
+              ),
+            ),
+          );
+
+        },
         child: Column(
           children: [
             Expanded(
@@ -233,13 +310,15 @@ class _ShoeCardState extends State<ShoeCard> {
                   ),
                   Positioned(
                     top: 8,
-                    right: 95,
+                    right: 108,
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
-                      },
+                      onTap:_toggleFavorite
+                      //  () {
+                      //   setState(() {
+                      //     isFavorite = !isFavorite;
+                      //   });
+                      // }
+                      ,
                       child: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
                         color: isFavorite ? Colors.red : Colors.grey,
@@ -251,13 +330,39 @@ class _ShoeCardState extends State<ShoeCard> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold),maxLines: 1,),
                   Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: TextStyle(color: Colors.red)),
-                  Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: Colors.red),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 8, bottom: 8),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.blue,
+                            child: IconButton(
+                              icon: Icon(Icons.add, color: Colors.white),
+                              onPressed: () {
+                                Provider.of<CartProvider>(context, listen: false).addProduct(widget.product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Đã thêm vào giỏ hàng thành công"),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

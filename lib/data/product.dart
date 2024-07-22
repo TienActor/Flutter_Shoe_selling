@@ -6,6 +6,7 @@ class ProductModel {
   final double price;
   final int categoryID;
   final String categoryName;
+  int quantity;
 
   ProductModel({
     required this.id,
@@ -15,6 +16,7 @@ class ProductModel {
     required this.price,
     required this.categoryID,
     required this.categoryName,
+    required this.quantity
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class ProductModel {
       price: json['price'].toDouble(),
       categoryID: json['categoryID'],
       categoryName: json['categoryName'],
+        quantity: json['quantity'] ?? 1,
     );
   }
 }

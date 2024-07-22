@@ -20,19 +20,38 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   List<ProductModel> lstProduct = [];
   int _selectedIndex = 0;
-  List<Widget> listBody = [];
+  List<Widget> listBody = [
+  ];
   PageController pageController = PageController();
 
-
+  ProductModel placeholderProduct = ProductModel(
+  id: 0, 
+  name: "Default Product", 
+  description: "Description", 
+  imageURL: "http://example.com/default.jpg", 
+  price: 0.0, 
+  categoryID: 1, 
+  categoryName: "Default Category",
+  quantity: 1
+);
 
   @override
   void initState() {
     super.initState();
     listBody = [
        ShoeStoreHome(token: widget.token, accountID: 'Tie2023',),
-      const CartPage(),
+ 
       FavoritePage(accountID:'Tie2023',token: widget.token),
-      const SettingPage(),
+       SettingPage(token: widget.token,),
+    ];
+  }
+
+  List<Widget> getPages() {
+    return [
+      ShoeStoreHome(token: widget.token, accountID: 'Tie2023'),
+      //CartPage(product: '', token: widget.token),
+      FavoritePage(accountID: 'Tie2023', token: widget.token),
+     SettingPage(token: widget.token,),
     ];
   }
 
@@ -45,19 +64,20 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
+     List<Widget> pages = getPages();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: PageView(
           controller: pageController,
           onPageChanged: onItemTapped,
-          children: listBody,
+          children: pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.filter_vintage_outlined), label: "Favorite"),
+                icon: Icon(Icons.price_change), label: "Favorite"),
             BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Love"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings), label: "Setting")

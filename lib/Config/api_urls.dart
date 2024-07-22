@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:tien/data/billDetail.dart';
+import '../data/bill.dart';
+import '../data/cart.dart';
+import '../data/category.dart';
 import '../data/product.dart';
 import '../data/register.dart';
 import '../data/user.dart';
@@ -22,8 +27,14 @@ class ApiUrls {
   static const String getListProduct =
       "$baseUrl/Product/getList?accountID=Tie2023";
   static const String getListByCatId =
-      "$baseUrl/Product/getListByCatId"; // $baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023
+      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023"; 
   static const String updateProduct = "$baseUrl/updateProduct";
+  static const String addProduct = "$baseUrl/addProduct";
+  static const String deleteProduct = "$baseUrl/removeProduct";
+  static const String updateCategory = "$baseUrl/updateCategory";
+   static const String addCategory = "$baseUrl/addCategory";
+   static const String deleteCategory = "$baseUrl/removeCategory";
+   static const String listUser ="$baseUrl/WWAdmin/listUser";
   // Bill endpoints
   static const String addBill = "$baseUrl/Order/addBill";
   static const String getBillById = "$baseUrl/Bill/getByID?billID=";
@@ -113,86 +124,115 @@ class APIRepository {
     }
   }
 
-  // Future<List<CategoryModel>> getCategory(
-  //     String accountID, String token) async {
-  //   try {
-  //     Response res = await api.sendRequest.get(
-  //         '/Category/getList?accountID=$accountID',
-  //         options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => CategoryModel.fromJson(e))
-  //         .cast<CategoryModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     rethrow;
-  //   }
-  // }
+Future<List<User>> fetchUsers(String token) async {
+  try {
+    Response response = await Dio().get(
+      ApiUrls.listUser,
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      }),
+    );
 
-  // Future<bool> addCategory(
-  //     CategoryModel data, String accountID, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'name': data.name,
-  //       'description': data.desc,
-  //       'imageURL': data.imageUrl,
-  //       'accountID': accountID
-  //     });
-  //     Response res = await api.sendRequest.post('/addCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok add category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+    if (response.statusCode == 200) {
+      // Truy cập vào khóa 'data' chứa danh sách người dùng
+      var data = response.data['data'] as List;
+      List<User> users = data.map((item) => User.fromJson(item)).toList();
+      return users;
+    } else {
+      throw Exception("Failed to load users. Status code: ${response.statusCode}");
+    }
+  } catch (e) {
+    throw Exception('Failed to load users: $e');
+  }
+}
 
-  // Future<bool> updateCategory(int categoryID, CategoryModel data,
-  //     String accountID, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'id': categoryID,
-  //       'name': data.name,
-  //       'description': data.desc,
-  //       'imageURL': data.imageUrl,
-  //       'accountID': accountID
-  //     });
-  //     Response res = await api.sendRequest.put('/updateCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok update category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
 
-  // Future<bool> removeCategory(
-  //     int categoryID, String accountID, String token) async {
-  //   try {
-  //     final body =
-  //         FormData.fromMap({'categoryID': categoryID, 'accountID': accountID});
-  //     Response res = await api.sendRequest.delete('/removeCategory',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok remove category");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+
+
+ Future<List<CategoryModel>> getCategory(
+      String accountID, String token) async {
+    try {
+       Response res = await Dio().get(
+      '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID', 
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+    );
+      return res.data
+          .map((e) => CategoryModel.fromJson(e))
+          .cast<CategoryModel>()
+          .toList();
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<bool> addCategory(
+      CategoryModel data, String accountID, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'accountID': accountID
+      });
+      Response res = await api.sendRequest.post(ApiUrls.addCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok add category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<bool> updateCategory(int categoryID, CategoryModel data,
+      String accountID, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'id': categoryID,
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'accountID': accountID
+      });
+      Response res = await api.sendRequest.put(ApiUrls.updateCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok update category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<bool> removeCategory(
+      int categoryID, String accountID, String token) async {
+    try {
+      final body =
+          FormData.fromMap({'categoryID': categoryID, 'accountID': accountID});
+      Response res = await api.sendRequest.delete(ApiUrls.deleteCategory,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok remove category");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   Future<List<ProductModel>> fetchProducts(
       String accountID, String token) async {
@@ -254,28 +294,28 @@ class APIRepository {
   //     rethrow;
   //   }
   // }
-  // Future<bool> addProduct(ProductModel data, String token) async {
-  //   try {
-  //     final body = FormData.fromMap({
-  //       'name': data.name,
-  //       'description': data.description,
-  //       'imageURL': data.imageUrl,
-  //       'Price': data.price,
-  //       'CategoryID': data.categoryId
-  //     });
-  //     Response res = await api.sendRequest.post('/addProduct',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok add product");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> addProduct(ProductModel data, String token) async {
+    try {
+      final body = FormData.fromMap({
+        'name': data.name,
+        'description': data.description,
+        'imageURL': data.imageURL,
+        'Price': data.price,
+        'CategoryID': data.categoryID
+      });
+      Response res = await api.sendRequest.post(ApiUrls.addProduct,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok add product");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   Future<bool> updateProduct(
       ProductModel data, String accountID, String token) async {
@@ -304,24 +344,24 @@ class APIRepository {
     }
   }
 
-  // Future<bool> removeProduct(
-  //     int productID, String accountID, String token) async {
-  //   try {
-  //     final body =
-  //         FormData.fromMap({'productID': productID, 'accountID': accountID});
-  //     Response res = await api.sendRequest.delete('/removeProduct',
-  //         options: Options(headers: header(token)), data: body);
-  //     if (res.statusCode == 200) {
-  //       print("ok remove product");
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<bool> removeProduct(
+      int productID, String accountID, String token) async {
+    try {
+      final body =
+          FormData.fromMap({'productID': productID, 'accountID': accountID});
+      Response res = await api.sendRequest.delete(ApiUrls.deleteProduct,
+          options: Options(headers: header(token)), data: body);
+      if (res.statusCode == 200) {
+        print("ok remove product");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
   // Future<bool> addBill(List<Cart> products, String token) async {
   //   var list = [];
@@ -346,31 +386,84 @@ class APIRepository {
   //   }
   // }
 
-  // Future<List<BillModel>> getHistory(String token) async {
-  //   try {
-  //     Response res = await api.sendRequest
-  //         .get('/Bill/getHistory', options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => BillModel.fromJson(e))
-  //         .cast<BillModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<List<BillModel>> getHistory(String token) async {
+    try {
+      Response res = await api.sendRequest
+          .get('/Bill/getHistory', options: Options(headers: header(token)));
+      return res.data
+          .map((e) => BillModel.fromJson(e))
+          .cast<BillModel>()
+          .toList();
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
-  // Future<List<BillDetailModel>> getHistoryDetail(
-  //     String billID, String token) async {
-  //   try {
-  //     Response res = await api.sendRequest.post('/Bill/getByID?billID=$billID',
-  //         options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => BillDetailModel.fromJson(e))
-  //         .cast<BillDetailModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
+  Future<List<BillDetailModel>> getHistoryDetail(
+      String billID, String token) async {
+    try {
+      Response res = await api.sendRequest.post('/Bill/getByID?billID=$billID',
+          options: Options(headers: header(token)));
+      return res.data
+          .map((e) => BillDetailModel.fromJson(e))
+          .cast<BillDetailModel>()
+          .toList();
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+}
+
+
+
+  Future<bool> addBill(List<Cart> products, String token) async {
+    var list = products
+        .map((product) => {
+              'productID': product.productID,
+              'count': product.count,
+            })
+        .toList();
+    print("Data sent to API: $list"); // Print data to console
+
+    try {
+      Response res = await api.sendRequest.post(
+        ApiUrls.addBill, // Use the full URL here
+        options: Options(headers: header(token)),
+        data: jsonEncode(list), // Ensure data is encoded as JSON
+      );
+      if (res.statusCode == 200) {
+        print("add bill ok");
+        return true;
+      } else {
+        print("add bill failed");
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+Future<User> currentUser(String token) async {
+    try {
+      Response res = await _dio.get('${ApiUrls.baseUrl}/Auth/current', options: Options(headers: header(token)));
+      if (res.statusCode == 200) {
+        if (res.data != null) {
+          print('API Response: ${res.data}'); // Thông báo gỡ lỗi để kiểm tra phản hồi của API
+          return User.fromJson(res.data);
+        } else {
+          throw Exception('Dữ liệu trả về từ API là null');
+        }
+      } else {
+        throw Exception('Lỗi API: ${res.statusCode}');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu người dùng: $e');
+      rethrow;
+    }
+  }
+
+   
+
+
 }

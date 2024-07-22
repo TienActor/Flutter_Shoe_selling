@@ -38,7 +38,7 @@ class DialogManager {
       action: SnackBarAction(
           label: 'Ok',
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SignupPage()));
           }),
     ));

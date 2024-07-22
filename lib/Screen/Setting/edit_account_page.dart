@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
+import 'package:tien/data/user.dart';
 
 class EditAccountScreen extends StatefulWidget {
   const EditAccountScreen({super.key});
@@ -11,7 +13,30 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  String gender = "Nam";
+  User? user;
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    if (token != null) {
+      APIRepository apiRepository = APIRepository();
+      try {
+        User userData = await apiRepository.currentUser(token);
+        print(
+            'User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
+        setState(() {
+          user = userData;
+        });
+      } catch (e) {
+        print('Không thể tải dữ liệu người dùng: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +49,13 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           icon: const Icon(Ionicons.chevron_back_outline),
         ),
         leadingWidth: 80,
-        title:  const Text(
-                "Tài khoản",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        title: const Text(
+          "Tài khoản",
+          style: TextStyle(
+            fontSize: 36,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -55,17 +80,15 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               const SizedBox(height: 40),
               EditItem(
                 title: "Hình ảnh",
                 widget: Column(
                   children: [
                     Image.network(
-                      "https://teddy.vn/wp-content/uploads/2023/05/gau-bong-lena-mu-lotso-3.jpg",
+                      user?.imageURL ?? '',
                       height: 100,
                       width: 100,
-                
                     ),
                     TextButton(
                       onPressed: () {},
@@ -77,45 +100,45 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                   ],
                 ),
               ),
-              const EditItem(
+               EditItem(
                 title: "idNumber",
-                widget: Text("114"),
+              widget: Text(user?.idNumber ?? ''),
               ),
               const SizedBox(height: 40),
-                const EditItem(
+               EditItem(
                 title: "accountId",
-                widget: Text("Tie2023"),
+                widget: Text(user?.accountId ?? ''),
               ),
               const SizedBox(height: 40),
-                const EditItem(
+               EditItem(
                 title: "fullName",
-                widget: Text("Nguyễn Nhật Tiến"),
+                 widget: Text(user?.fullName ?? ''),
               ),
               const SizedBox(height: 40),
-                const EditItem(
+              EditItem(
                 title: "phoneNumber",
-                widget: Text("0741258963"),
+                widget: Text(user?.phoneNumber ?? ''),
               ),
               const SizedBox(height: 40),
-               const EditItem(
+               EditItem(
                 title: "birthDay",
-                widget: Text("11/11/2011"),
+              widget: Text(user?.birthDay ?? ''),
               ),
               const SizedBox(height: 40),
-
-                const EditItem(
+              EditItem(
                 title: "gender",
-                widget: Text("Nam"),
+               widget: Text(user?.gender ?? ''),
               ),
               const SizedBox(height: 40),
-                const EditItem(
+               EditItem(
                 title: "schoolYear",
-                widget: Text("2021"),
+                
+                 widget: Text(user?.schoolYear ?? ''),
               ),
               const SizedBox(height: 40),
-                const EditItem(
+            EditItem(
                 title: "schoolKey",
-                widget: Text("K27"),
+              widget: Text(user?.schoolKey ?? ''),
               ),
               const SizedBox(height: 40),
               const EditItem(

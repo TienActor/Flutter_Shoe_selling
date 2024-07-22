@@ -29,7 +29,9 @@ dependencies:
   ionicons: ^0.2.2
   cupertino_icons: ^1.0.2
   dio: ^5.5.0+1
+  provider: ^6.0.3
   cached_network_image: ^3.3.1
+  path_provider: ^2.0.9
     
 dev_dependencies:
   flutter_test:
@@ -45,4 +47,6 @@ flutter:
     - assets/images/Logo.png
     - assets/icon/
     - assets/fonts/
+    - assets/json/user_data.json
+    - assets/json/voucher.json
     

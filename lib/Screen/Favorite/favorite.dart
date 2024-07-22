@@ -6,7 +6,6 @@ import '../../Config/api_urls.dart';
 import '../../data/product.dart'; // Đảm bảo đường dẫn đến file ProductModel đúng
 import 'package:http/http.dart' as http;
 
-import '../Home/test.dart';
 
 class FavoritePage extends StatefulWidget {
   final String token;
@@ -28,16 +27,10 @@ class _FavoritePageState extends State<FavoritePage> {
   Future<List<ProductModel>> loadFavoriteProductIds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String> favoriteIds = prefs.getKeys().where((key) {
-    //return prefs.getBool(key) ?? false;
+ 
     var val = prefs.get(key);
     return val is bool &&  val == true;
-    // if (val is bool) {
-      
-    //   return val;
-    // } else {
-    //   print("Không xác định được giá trị  $key: Expected bool, found ${val.runtimeType}");
-    //   return false;
-    // }
+
   }).toList();
 if (favoriteIds.isEmpty) {
     return []; // Return an empty list if no favorites are marked
@@ -49,13 +42,7 @@ if (favoriteIds.isEmpty) {
       print("Error fetching products: $e");
       return [];
     }
-    // try {
-    //   List<ProductModel> fetchedProducts = await APIRepository().fetchFavoriteProducts('Tie2023', favoriteIds, widget.token);
-    //   return fetchedProducts; // Ensure to return the list of ProductModel
-    // } catch (e) {
-    //   print("Error fetching products: $e");
-    //   return []; // Return an empty list if an error occurs
-    // }
+ 
   }
 
    Future<List<ProductModel>> fetchFavoriteProducts(String accountID, List<String> favoriteIds, String token) async {
@@ -79,6 +66,7 @@ if (favoriteIds.isEmpty) {
       rethrow;
     }
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +88,7 @@ if (favoriteIds.isEmpty) {
                 childAspectRatio: 0.75,
               ),
               itemBuilder: (context, index) {
-                return ShoeCard(product: snapshot.data![index]);
+                //return ShoeCard(product: snapshot.data![index],token: widget.token,);
               },
             );
           } else {
