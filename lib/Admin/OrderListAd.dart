@@ -6,7 +6,6 @@ import '../Config/api_urls.dart';
 import '../data/bill.dart';
 import 'OrderDetailAd.dart';
 
-
 class OrdersPage extends StatefulWidget {
   @override
   _OrdersPageState createState() => _OrdersPageState();
@@ -68,29 +67,37 @@ class _OrdersPageState extends State<OrdersPage> {
           ? Center(child: CircularProgressIndicator())
           : _error.isNotEmpty
               ? Center(child: Text(_error))
-              : ListView.builder(
-                  itemCount: _bills.length,
-                  itemBuilder: (context, index) {
-                    final bill = _bills[index];
-                    return ListTile(
-                      title: Text(bill.fullName),
-                      subtitle: Text(
-                        '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
-                      ),
-                      trailing: Icon(Icons.arrow_forward),
-                      onTap: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OrderDetailPage(billID: bill.id),
+              : RefreshIndicator(
+                  onRefresh: _fetchOrders,
+                  child: ListView.builder(
+                    itemCount: _bills.length,
+                    itemBuilder: (context, index) {
+                      final bill = _bills[index];
+                      return Card(
+                        margin: EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Icon(Icons.receipt, color: Theme.of(context).colorScheme.secondary),
+                          title: Text(bill.fullName),
+                          subtitle: Text(
+                            '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
+                            style: TextStyle(color: Colors.grey[600]),
                           ),
-                        );
-                        if (result == true) {
-                          _fetchOrders(); // Reload dữ liệu nếu đơn hàng đã bị xóa
-                        }
-                      },
-                    );
-                  },
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          onTap: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetailPage(billID: bill.id),
+                              ),
+                            );
+                            if (result == true) {
+                              _fetchOrders(); // Reload data if an order has been deleted
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
     );
   }
