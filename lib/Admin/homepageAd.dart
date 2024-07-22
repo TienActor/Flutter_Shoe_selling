@@ -17,6 +17,7 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   int productCount = 0;
   int brandsCount = 0;
+  int discountCount = 0;
   final Dio _dio = Dio();
 
   @override
@@ -24,6 +25,16 @@ class _AdminHomeState extends State<AdminHome> {
     super.initState();
     fetchProductCount();
     fetchBrandsCount();
+    fetchDiscountCount();
+  }
+
+  Future<void> fetchDiscountCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> allDiscounts = prefs.getStringList('discounts') ?? [];
+    print("Loaded discounts: ${allDiscounts.length}"); // Log để kiểm tra
+    setState(() {
+      discountCount = allDiscounts.length; // Cập nhật số lượng
+    });
   }
 
   Future<void> fetchBrandsCount() async {
@@ -76,7 +87,7 @@ class _AdminHomeState extends State<AdminHome> {
 
   Future<void> _refreshDashboard() async {
     await fetchProductCount();
-    // Add any other fetch methods for other dashboard items here if necessary
+    await fetchDiscountCount();
   }
 
   @override
@@ -169,18 +180,22 @@ class _AdminHomeState extends State<AdminHome> {
                   ),
                   DashboardTileWithImage(
                     title: 'Mã giảm giá',
-                    value: '0',
-                    imagePath:
-                        'assets/images/discount.png', // Ensure the image is in assets
+                    value: discountCount
+                        .toString(), // Cập nhật số lượng mã giảm giá
+                    imagePath: 'assets/images/discount.png',
                     onTap: () async {
                       final token = await _getToken();
                       if (token != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DiscountPage(),
-                          ),
-                        );
+                              builder: (context) => DiscountPage()),
+                        ).then((value) {
+                          // Gọi lại khi trở về
+                          if (value == true) {
+                            fetchDiscountCount();
+                          }
+                        });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(

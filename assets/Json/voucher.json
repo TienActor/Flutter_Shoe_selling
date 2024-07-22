@@ -1,12 +1,13 @@
 {
-    "discounts": [
-      {
-        "title": "Giảm tới đá 15k",
-        "minOrder": "Đơn tối thiểu đ50k",
-        "discount": "80% - Tối Đa 15K",
-        "validity": "2023-12-01T00:00:00Z", 
-        "quantity": 100
-      }
-    ]
-  }
-  
+  "discounts": [
+    {
+      "code": "Giam15",
+      "title": "Giảm tới đá 15k",
+      "minOrder": "Đơn tối thiểu đ50k",
+      "discount": "80% - Tối Đa 15K",
+      "creationTime": "2023-01-01T00:00:00Z", 
+      "validity": "2023-12-01T00:00:00Z", 
+      "quantity": 100
+    }
+  ]
+}
