@@ -16,8 +16,6 @@ class ProductModel {
     required this.categoryID,
     required this.categoryName,
   });
-  
-  
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(

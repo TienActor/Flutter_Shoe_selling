@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../data/model.dart'; // Chỉ sử dụng model.dart để import RegisterModel
+import '../../data/register.dart';
 import '../Login/login_page.dart';
 import '../components/have_account.dart';
+import '../components/custom_textfield.dart';
+import '../../Config/api_urls.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _accIdController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _confirmPassController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _numberIdController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _schoolYearController = TextEditingController();
+  final TextEditingController _schoolKeyController = TextEditingController();
+  final TextEditingController _imageURLController = TextEditingController();
+
+  final RegisterModel _model = RegisterModel();
+  final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
-    emailController.dispose();
-    usernameController.dispose();
-    passwordController.dispose();
+    _accIdController.dispose();
+    _passController.dispose();
+    _confirmPassController.dispose();
+    _fullNameController.dispose();
+    _numberIdController.dispose();
+    _phoneNumberController.dispose();
+    _genderController.dispose();
+    _dobController.dispose();
+    _schoolYearController.dispose();
+    _schoolKeyController.dispose();
+    _imageURLController.dispose();
     super.dispose();
   }
 
@@ -39,11 +62,15 @@ class _SignupPageState extends State<SignupPage> {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
                   },
                 ),
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 30),
               Text(
                 'Tạo tài khoản!',
                 textAlign: TextAlign.center,
@@ -70,63 +97,184 @@ class _SignupPageState extends State<SignupPage> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                      ),
+                    CustomTextField(
+                      labelText: 'Account ID',
+                      controller: _accIdController,
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icons.person,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Nhập email của bạn.';
+                          return 'Vui lòng nhập Account ID';
                         }
                         return null;
                       },
+                      onChanged: (value) {
+                        _model.accountID = value;
+                      },
                     ),
-                    const SizedBox(height: 24),
-                    TextFormField(
-                      controller: usernameController,
-                      decoration: InputDecoration(
-                        labelText: 'Tên',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                      ),
+                    CustomTextField(
+                      labelText: 'Mật khẩu',
+                      controller: _passController,
+                      isPassword: true,
+                      prefixIcon: Icons.lock,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Nhập tên của bạn.';
+                          return 'Vui lòng nhập mật khẩu';
                         }
                         return null;
                       },
+                      onChanged: (value) {
+                        _model.password = value;
+                      },
                     ),
-                    const SizedBox(height: 24),
+                    CustomTextField(
+                      labelText: 'Xác nhận mật khẩu',
+                      controller: _confirmPassController,
+                      isPassword: true,
+                      prefixIcon: Icons.lock,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng xác nhận mật khẩu';
+                        }
+                        if (value != _model.password) {
+                          return 'Mật khẩu không khớp';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.confirmpass = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Họ và tên',
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icons.person,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập họ và tên';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.fullname = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Số CMND/CCCD',
+                      controller: _numberIdController,
+                      keyboardType: TextInputType.number,
+                      prefixIcon: Icons.badge,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập số CMND/CCCD';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.numberID = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Số điện thoại',
+                      controller: _phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      prefixIcon: Icons.phone,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập số điện thoại';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.phonenumber = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Giới tính',
+                      controller: _genderController,
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icons.male,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập giới tính';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.gender = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Ngày sinh',
+                      controller: _dobController,
+                      keyboardType: TextInputType.datetime,
+                      prefixIcon: Icons.calendar_today,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập ngày sinh';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.birthday = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Niên khóa',
+                      controller: _schoolYearController,
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icons.school,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập niên khóa';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.schoolYear = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'Mã trường',
+                      controller: _schoolKeyController,
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icons.key,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập mã trường';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.schoolKey = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'URL Hình ảnh',
+                      controller: _imageURLController,
+                      keyboardType: TextInputType.url,
+                      prefixIcon: Icons.image,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập URL hình ảnh';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.urlImage = value;
+                      },
+                    ),
                     const SizedBox(height: 24),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          // Implement registration functionality
-                        }
-                      },
+                      onPressed: _register,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('Đăng ký'),
+                      child: const Text('ĐĂNG KÝ',
+                          style: TextStyle(letterSpacing: 4)),
                     ),
                     const SizedBox(height: 16),
                     AlreadyHaveAnAccountCheck(
@@ -146,5 +294,41 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _register() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // Call API to register
+      final result = await _apiRepository.register(Signup(
+        accountID: _model.accountID,
+        numberID: _model.numberID,
+        password: _model.password,
+        confirmPassword: _model.confirmpass,
+        fullName: _model.fullname,
+        phoneNumber: _model.phonenumber,
+        gender: _model.gender,
+        birthDay: _model.birthday,
+        schoolYear: _model.schoolYear,
+        schoolKey: _model.schoolKey,
+        imageUrl: _model.urlImage,
+      ));
+      if (result == "ok") {
+        // Navigate to login page on successful registration
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        }
+      } else {
+        // Show error message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result)),
+          );
+        }
+      }
+    }
   }
 }

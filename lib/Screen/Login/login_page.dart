@@ -20,14 +20,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _accIdController = TextEditingController();
-  final TextEditingController _passwController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   final LoginModel _model = LoginModel();
   final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
     _accIdController.dispose();
-    _passwController.dispose();
+    _passController.dispose();
     super.dispose();
   }
 
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                           const EdgeInsets.symmetric(vertical: defaultPadding),
                       child: CustomTextField(
                         labelText: "Mật khẩu",
-                        controller: _passwController,
+                        controller: _passController,
                         isPassword: true,
                         prefixIcon: Icons.lock,
                         validator: (value) {
