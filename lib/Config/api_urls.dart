@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/category.dart';
@@ -65,15 +67,30 @@ class APIRepository {
         options: Options(headers: header('no token')),
         data: body,
       );
+      log("Response data: ${res.data}");
       if (res.statusCode == 200) {
-        print("ok");
-        return {"success": true, "message": "Đăng ký thành công"};
+        final data = res.data;
+        if (data['success'] == true) {
+          log('Signup successful: ${data['data']}');
+          return {"success": true, "message": data['data']};
+        } else {
+          log('Signup failed: ${data['message']}');
+          return {"success": false, "message": "Đăng ký thất bại"};
+        }
+      } else if (res.statusCode == 400) {
+        final data = res.data;
+        log('Signup failed with 400: ${data['errors']}');
+        return {'success': false, 'message': data['errors']};
+      } else if (res.statusCode == 500) {
+        final data = res.data;
+        log('Signup failed with 500: ${data['error']}');
+        return {"success": false, "message": data['error']};
       } else {
-        print("fail");
-        return {"success": false, "message": "Đăng ký thất bại"};
+        log('Signup failed with status code: ${res.statusCode}');
+        return {"success": false, "message": '${res.statusCode}'};
       }
     } catch (ex) {
-      print(ex);
+      log('Signup exception: $ex');
       return {"success": false, "message": "Lỗi: $ex"};
     }
   }

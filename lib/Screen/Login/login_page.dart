@@ -141,35 +141,50 @@ class _LoginPageState extends State<LoginPage> {
       _formKey.currentState!.save();
       log('${_model.accountID}, ${_model.password}');
       final loginModel = LoginModel(
-          accountID: _accIdController.text, password: _passwController.text);
+        accountID: _accIdController.text,
+        password: _passwController.text,
+      );
       final result = await _apiRepository.login(loginModel);
       if (result['success']) {
         final token = result['token'];
-        if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
-          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AdminHome()),
-            );
-          }
-        } else {
-          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DashBoard(
-                  token: token,
-                  accountId: _model.accountID,
-                ),
-              ),
-            );
-          }
+
+        // Kiểm tra nếu widget vẫn còn mounted trước khi hiển thị dialog hoặc chuyển hướng
+        if (mounted) {
+          CustomDialog(
+            context: context,
+            message: 'Đăng nhập thành công',
+            durationTimes: 2,
+            borderRadius: 90.0,
+            textStyle:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            backgroundColor: Colors.white,
+          ).show();
         }
+
+        // Sử dụng Future.delayed để thực hiện điều hướng sau khi hiển thị dialog
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            if (_model.accountID == 'Tie2023' &&
+                _model.password == 'Tient3st') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const AdminHome()),
+              );
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DashBoard(
+                    token: token,
+                    accountId: _model.accountID,
+                  ),
+                ),
+              );
+            }
+          }
+        });
       } else {
         if (mounted) {
-          /* ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${result['message']}')),
-          ); */
           CustomDialog(
             context: context,
             message: result['message'],

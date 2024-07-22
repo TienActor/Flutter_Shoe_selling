@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/model.dart';
 import '../Login/login_page.dart';
+import '../components/custom_dialog.dart';
 import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
 import '../../Config/api_urls.dart';
@@ -266,7 +267,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     const SizedBox(height: 24),
                     ElevatedButton(
-                      onPressed: _register,
+                      onPressed: _signup,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                         backgroundColor: Colors.blue,
@@ -295,7 +296,7 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  Future<void> _register() async {
+  Future<void> _signup() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Call API to register
@@ -309,11 +310,19 @@ class _SignupPageState extends State<SignupPage> {
           );
         }
       } else {
-        // Show error message
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          /* ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(result["message"])),
-          );
+          ); */
+          CustomDialog(
+            context: context,
+            message: result['message'],
+            durationTimes: 2,
+            borderRadius: 90.0,
+            textStyle:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            backgroundColor: Colors.white,
+          ).show();
         }
       }
     }
