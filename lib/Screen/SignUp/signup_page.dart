@@ -305,7 +305,7 @@ class _SignupPageState extends State<SignupPage> {
           CustomDialog(
             context: context,
             message: "ĐĂNG KÝ THÀNH CÔNG",
-            durationTimes: 0,
+            durationTimes: 1,
             borderRadius: 90.0,
             textStyle:
                 GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),

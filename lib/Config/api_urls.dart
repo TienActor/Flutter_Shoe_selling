@@ -89,6 +89,48 @@ class APIRepository {
     }
   }
 
+  Future<Map<String, dynamic>> forgetPass(
+      String accountID, String numberID, String newPassword) async {
+    try {
+      final body = FormData.fromMap({
+        'accountID': accountID,
+        'numberID': numberID,
+        'newPass': newPassword,
+      });
+      Response res = await api.sendRequest.put(
+        ApiUrls.forgotPassword,
+        options: Options(
+          headers: header('no token'),
+          validateStatus: (status) {
+            return status == 200 || status == 400;
+          },
+        ),
+        data: body,
+      );
+      log("Response data: ${res.data}");
+      if (res.statusCode == 200) {
+        final data = res.data;
+        if (data['success'] == true) {
+          log('Đổi mật khẩu thành công: ${data['data']}');
+          return {"success": true, "message": data['data']};
+        } else {
+          log('Thất bại: ${data['error']}');
+          return {"success": false, "message": data['error']};
+        }
+      } else if (res.statusCode == 400) {
+        final data = res.data;
+        log('${data['error']}');
+        return {'success': false, 'message': data['error']};
+      } else {
+        log('Đăng ký thất bại với mã trạng thái: ${res.statusCode}');
+        return {"success": false, "message": "Đăng ký thất bại"};
+      }
+    } catch (ex) {
+      log('Exception: $ex');
+      return {'success': false, 'message': 'Lỗi: $ex'};
+    }
+  }
+
   Future<Map<String, dynamic>> login(LoginModel loginModel) async {
     try {
       final body = FormData.fromMap({
