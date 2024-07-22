@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../Config/api_urls.dart';
@@ -22,6 +22,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(product.name),
+         backgroundColor: Colors.red,
         actions: [
           IconButton(
             icon: Icon(Icons.edit, color: Colors.blue),
@@ -36,7 +37,7 @@ class ProductDetailScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: Icon(Icons.delete, color: Colors.green),
             onPressed: () => _confirmDelete(context),
           ),
         ],

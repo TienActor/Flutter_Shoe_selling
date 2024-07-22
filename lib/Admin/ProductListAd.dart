@@ -140,6 +140,7 @@ Future<void> _deleteProduct(int productId, String accountId, String token) async
     return Scaffold(
       appBar: AppBar(
         title: Text("Danh sách sản phẩm"),
+         backgroundColor: Colors.red,
         actions: [
           IconButton(
             icon: Icon(Icons.add),

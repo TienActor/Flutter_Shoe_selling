@@ -41,6 +41,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Sửa sản phẩm"),
+        backgroundColor: Colors.red,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

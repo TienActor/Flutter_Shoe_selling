@@ -49,8 +49,8 @@ class _BrandsPageState extends State<BrandsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.red,
         title: Text('Thương hiệu'),
-        backgroundColor: Colors.deepPurple,
         actions: [
           IconButton(
             icon: Icon(Icons.add),

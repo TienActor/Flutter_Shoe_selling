@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/bill.dart';
 import '../data/category.dart';
 import '../data/product.dart';
 import '../data/register.dart';
@@ -29,6 +30,7 @@ class ApiUrls {
   static const String updateCategory = "$baseUrl/updateCategory";
    static const String addCategory = "$baseUrl/addCategory";
    static const String deleteCategory = "$baseUrl/removeCategory";
+   static const String listUser ="$baseUrl/WWAdmin/listUser";
   // Bill endpoints
   static const String addBill = "$baseUrl/Order/addBill";
   static const String getBillById = "$baseUrl/Bill/getByID?billID=";
@@ -117,6 +119,32 @@ class APIRepository {
       rethrow;
     }
   }
+
+Future<List<User>> fetchUsers(String token) async {
+  try {
+    Response response = await Dio().get(
+      ApiUrls.listUser,
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Truy cập vào khóa 'data' chứa danh sách người dùng
+      var data = response.data['data'] as List;
+      List<User> users = data.map((item) => User.fromJson(item)).toList();
+      return users;
+    } else {
+      throw Exception("Failed to load users. Status code: ${response.statusCode}");
+    }
+  } catch (e) {
+    throw Exception('Failed to load users: $e');
+  }
+}
+
+
+
 
  Future<List<CategoryModel>> getCategory(
       String accountID, String token) async {
@@ -354,31 +382,32 @@ class APIRepository {
   //   }
   // }
 
-  // Future<List<BillModel>> getHistory(String token) async {
-  //   try {
-  //     Response res = await api.sendRequest
-  //         .get('/Bill/getHistory', options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => BillModel.fromJson(e))
-  //         .cast<BillModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
-  // }
+  Future<List<BillModel>> getHistory(String token) async {
+    try {
+      Response res = await api.sendRequest
+          .get('/Bill/getHistory', options: Options(headers: header(token)));
+      return res.data
+          .map((e) => BillModel.fromJson(e))
+          .cast<BillModel>()
+          .toList();
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
 
-  // Future<List<BillDetailModel>> getHistoryDetail(
-  //     String billID, String token) async {
-  //   try {
-  //     Response res = await api.sendRequest.post('/Bill/getByID?billID=$billID',
-  //         options: Options(headers: header(token)));
-  //     return res.data
-  //         .map((e) => BillDetailModel.fromJson(e))
-  //         .cast<BillDetailModel>()
-  //         .toList();
-  //   } catch (ex) {
-  //     print(ex);
-  //     rethrow;
-  //   }
+  Future<List<BillDetailModel>> getHistoryDetail(
+      String billID, String token) async {
+    try {
+      Response res = await api.sendRequest.post('/Bill/getByID?billID=$billID',
+          options: Options(headers: header(token)));
+      return res.data
+          .map((e) => BillDetailModel.fromJson(e))
+          .cast<BillDetailModel>()
+          .toList();
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+}
 }

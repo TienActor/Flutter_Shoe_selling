@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tien/Admin/OrderListAd.dart';
 import '../Config/api_urls.dart';
+import '../Screen/Login/login_page.dart';
 import '../data/category.dart';
+import '../data/user.dart';
 import 'BrandsListAd.dart';
 import 'DiscountListAd.dart';
+import 'ListUserAd.dart';
 import 'ProductListAd.dart';
 
 class AdminHome extends StatefulWidget {
@@ -17,6 +21,8 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   int productCount = 0;
   int brandsCount = 0;
+  int userCount = 0;
+  int orderCount = 0;
   int discountCount = 0;
   final Dio _dio = Dio();
 
@@ -25,7 +31,37 @@ class _AdminHomeState extends State<AdminHome> {
     super.initState();
     fetchProductCount();
     fetchBrandsCount();
-    fetchDiscountCount();
+    fetchUserCount();
+    fetchOrderCount();
+     fetchDiscountCount();
+  }
+
+  Future<void> fetchOrderCount() async {
+    final token = await _getToken();
+    if (token != null) {
+      try {
+        Response response = await _dio.get(
+          ApiUrls.getBillHistory, // API URL của bạn để lấy danh sách đơn hàng
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json'
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          var data = response.data;
+          setState(() {
+            orderCount = data.length; // Cập nhật số lượng đơn hàng
+          });
+        } else {
+          print(
+              'Failed to fetch orders with status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error fetching orders: $e');
+      }
+    }
+   
   }
 
   Future<void> fetchDiscountCount() async {
@@ -38,21 +74,22 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   Future<void> fetchBrandsCount() async {
-  final token = await _getToken();
-  if (token != null) {
-    try {
-      APIRepository apiRepository = APIRepository();
-      List<CategoryModel> categories = await apiRepository.getCategory('Tie2023', token);  // Giả sử 'Tie2023' là accountID của bạn
-      
-      setState(() {
-        brandsCount = categories.length;  // Cập nhật số lượng thương hiệu dựa trên số lượng mục nhận được
-      });
-    } catch (e) {
-      print('Error fetching brands: $e');
+    final token = await _getToken();
+    if (token != null) {
+      try {
+        APIRepository apiRepository = APIRepository();
+        List<CategoryModel> categories = await apiRepository.getCategory(
+            'Tie2023', token); // Giả sử 'Tie2023' là accountID của bạn
+
+        setState(() {
+          brandsCount = categories
+              .length; // Cập nhật số lượng thương hiệu dựa trên số lượng mục nhận được
+        });
+      } catch (e) {
+        print('Error fetching brands: $e');
+      }
     }
   }
-}
-
 
   Future<void> fetchProductCount() async {
     final token = await _getToken();
@@ -80,6 +117,26 @@ class _AdminHomeState extends State<AdminHome> {
     }
   }
 
+  Future<void> fetchUserCount() async {
+    final token = await _getToken();
+    if (token != null) {
+      try {
+        APIRepository apiRepository = APIRepository();
+        List<User> users =
+            await apiRepository.fetchUsers(token); // Sử dụng token đã có
+
+        print(
+            'Fetched ${users.length} users.'); // In ra số lượng người dùng lấy được
+
+        setState(() {
+          userCount = users.length; // Cập nhật số lượng người dùng
+        });
+      } catch (e) {
+        print('Error fetching user count: $e');
+      }
+    }
+  }
+
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -87,7 +144,11 @@ class _AdminHomeState extends State<AdminHome> {
 
   Future<void> _refreshDashboard() async {
     await fetchProductCount();
+    await fetchBrandsCount();
     await fetchDiscountCount();
+    await fetchUserCount();
+    await fetchOrderCount();
+    // Add any other fetch methods for other dashboard items here if necessary
   }
 
   @override
@@ -96,6 +157,12 @@ class _AdminHomeState extends State<AdminHome> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text('Dashboard'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app), // Icon đăng xuất
+            onPressed: _logout, // Xử lý sự kiện khi nhấn vào icon
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _refreshDashboard,
@@ -111,17 +178,15 @@ class _AdminHomeState extends State<AdminHome> {
                 children: [
                   DashboardTileWithImage(
                     title: 'Người dùng',
-                    value: '',
-                    imagePath:
-                        'assets/images/user.png', // Ensure the image is in assets
+                    value: userCount.toString(), // Hiển thị số lượng người dùng
+                    imagePath: 'assets/images/user.png',
                     onTap: () async {
                       final token = await _getToken();
                       if (token != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductListScreen(
-                                token: token, accountID: 'Tie2023'),
+                            builder: (context) => UserListPage(token: token),
                           ),
                         );
                       } else {
@@ -203,14 +268,44 @@ class _AdminHomeState extends State<AdminHome> {
                       }
                     },
                   ),
-                  DashboardTile(title: 'Đơn hàng', value: '11'),
-                  DashboardTile(title: 'Completed Order', value: '12'),
+                  DashboardTileWithImage(
+                    title: 'Đơn hàng',
+                    value: orderCount.toString(), // Hiển thị số lượng đơn hàng
+                    imagePath: 'assets/images/order.png',
+                    onTap: () async {
+                      final token = await _getToken();
+                      if (token != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrdersPage(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Authentication token is not available. Please login again.')));
+                      }
+                    },
+                  ),
+                  // DashboardTile(title: 'Completed Order', value: '12'),
                 ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _logout() async {
+    // Xóa thông tin đăng nhập từ bộ nhớ
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    // Chuyển hướng đến trang đăng nhập
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 }

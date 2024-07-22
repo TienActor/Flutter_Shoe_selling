@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import '../Config/api_urls.dart';
 import '../data/category.dart';
-import 'package:flutter/material.dart';
 
 class EditBrandPage extends StatefulWidget {
   final String token;
@@ -32,39 +32,60 @@ class _EditBrandPageState extends State<EditBrandPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sửa thương hiệu'),
+        backgroundColor: Colors.red,
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: <Widget>[
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Tên thương hiệu'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Vui lòng nhập tên thương hiệu';
-                }
-                return null;
-              },
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Tên thương hiệu',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.business),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Vui lòng nhập tên thương hiệu';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    labelText: 'Mô tả',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.description),
+                  ),
+                  maxLines: 3,
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _imageURLController,
+                  decoration: InputDecoration(
+                    labelText: 'Hình ảnh',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.image),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _updateBrand,
+                  child: Text('Cập Nhật Thương Hiệu'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  ),
+                ),
+              ],
             ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Mô tả'),
-            ),
-            TextFormField(
-              controller: _imageURLController,
-              decoration: InputDecoration(labelText: 'Hình ảnh'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _updateBrand,
-              child: Text('Cập Nhật Thương Hiệu'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
