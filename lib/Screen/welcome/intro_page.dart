@@ -66,12 +66,12 @@ class _IntroPageState extends State<IntroPage> {
                             height: 389,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/outline.png'),
+                                image: AssetImage('assets/images/outline.png'),
                                 fit: BoxFit.fitWidth,
                               ),
+                            ),
                           ),
-                        ),),
+                        ),
                         // This is the container with the image
                         Positioned(
                           top: 201,
@@ -144,7 +144,7 @@ class _IntroPageState extends State<IntroPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   const IntroPage2()),
+                                                  const IntroPage2()),
                                         );
                                       },
                                       child: Text(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../Config/api_urls.dart';
 import '../data/user.dart';
 
-
 class UserListPage extends StatefulWidget {
   final String token;
 
@@ -26,7 +25,7 @@ class _UserListPageState extends State<UserListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Danh sách người dùng"),
-         backgroundColor: Colors.red,
+        backgroundColor: Colors.red,
       ),
       body: FutureBuilder<List<User>>(
         future: _futureUsers,

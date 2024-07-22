@@ -113,7 +113,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
         imageURL: _imageURLController.text,
         price: double.tryParse(_priceController.text) ?? widget.product.price,
         categoryID: widget.product.categoryID,
-        categoryName: widget.product.categoryName, quantity: 1,
+        categoryName: widget.product.categoryName,
+        quantity: 1,
       );
 
       APIRepository apiRepository = APIRepository();

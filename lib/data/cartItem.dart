@@ -8,7 +8,7 @@ class CartItem {
 
   double get totalPrice => product.price * quantity;
 
-   Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'productID': product.id,
       'count': quantity,

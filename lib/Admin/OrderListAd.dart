@@ -76,7 +76,8 @@ class _OrdersPageState extends State<OrdersPage> {
                       return Card(
                         margin: EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Icon(Icons.receipt, color: Theme.of(context).colorScheme.secondary),
+                          leading: Icon(Icons.receipt,
+                              color: Theme.of(context).colorScheme.secondary),
                           title: Text(bill.fullName),
                           subtitle: Text(
                             '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
@@ -87,7 +88,8 @@ class _OrdersPageState extends State<OrdersPage> {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OrderDetailPage(billID: bill.id),
+                                builder: (context) =>
+                                    OrderDetailPage(billID: bill.id),
                               ),
                             );
                             if (result == true) {

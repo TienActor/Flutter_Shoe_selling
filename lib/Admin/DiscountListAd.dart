@@ -90,7 +90,8 @@ class _DiscountPageState extends State<DiscountPage> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   EditVoucherPage(discount: discounts[index])),
-                        ).then((value) {
+                        )
+                            .then((value) {
                           if (value == true) {
                             loadDiscounts();
                           }

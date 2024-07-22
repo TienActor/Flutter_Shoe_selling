@@ -74,7 +74,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
           },
         ),
       ),
-      body:  _isLoading
+      body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _error.isNotEmpty
               ? Center(child: Text(_error))
@@ -87,7 +87,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                       return Card(
                         margin: EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Icon(Icons.receipt, color: Theme.of(context).colorScheme.secondary),
+                          leading: Icon(Icons.receipt,
+                              color: Theme.of(context).colorScheme.secondary),
                           title: Text(bill.fullName),
                           subtitle: Text(
                             '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
@@ -98,7 +99,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OrderDetailPage(billID: bill.id,token: widget.token,),
+                                builder: (context) => OrderDetailPage(
+                                  billID: bill.id,
+                                  token: widget.token,
+                                ),
                               ),
                             );
                             if (result == true) {

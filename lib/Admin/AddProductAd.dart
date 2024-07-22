@@ -9,7 +9,9 @@ class AddProductScreen extends StatefulWidget {
   final String token;
   final String accountID;
 
-  const AddProductScreen({Key? key, required this.token, required this.accountID}) : super(key: key);
+  const AddProductScreen(
+      {Key? key, required this.token, required this.accountID})
+      : super(key: key);
 
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
@@ -28,7 +30,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Future<void> fetchCategories() async {
     try {
-      final fetchedCategories = await APIRepository().getCategory(widget.accountID, widget.token);
+      final fetchedCategories =
+          await APIRepository().getCategory(widget.accountID, widget.token);
       setState(() {
         categories = fetchedCategories;
         isLoading = false;
@@ -52,19 +55,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
         imageURL: _imageURLController.text,
         price: double.tryParse(_priceController.text) ?? 0,
         categoryID: selectedCategory?.id ?? 0,
-        categoryName: selectedCategory?.name ?? '', quantity: 1,
+        categoryName: selectedCategory?.name ?? '',
+        quantity: 1,
       );
 
       try {
-        bool success = await APIRepository().addProduct(newProduct, widget.token);
+        bool success =
+            await APIRepository().addProduct(newProduct, widget.token);
         if (success) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Thêm sản phẩm thành công')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Thêm sản phẩm thành công')));
           Navigator.pop(context, true); // Return true to indicate success
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Thêm sản phẩm thất bại')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Thêm sản phẩm thất bại')));
         }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error adding product: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error adding product: $e')));
         return false;
       }
     }
@@ -107,7 +115,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
               ),
               SizedBox(height: 16),
-              
+
               // Product Description Field
               TextFormField(
                 controller: _descriptionController,
@@ -119,7 +127,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 maxLines: 3,
               ),
               SizedBox(height: 16),
-              
+
               // Product Price Field
               TextFormField(
                 controller: _priceController,
@@ -129,7 +137,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.attach_money),
                 ),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Vui lòng nhập giá sản phẩm';
@@ -138,7 +148,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
               ),
               SizedBox(height: 16),
-              
+
               // Product Image URL Field
               TextFormField(
                 controller: _imageURLController,
@@ -149,7 +159,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
               ),
               SizedBox(height: 16),
-              
+
               // Category Dropdown
               isLoading
                   ? Center(child: CircularProgressIndicator())
@@ -179,21 +189,25 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       },
                     ),
               SizedBox(height: 20),
-              
+
               // Add Product Button
               ElevatedButton(
                 onPressed: () async {
                   bool success = await addProduct();
                   if (success) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Thêm sản phẩm thành công')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Thêm sản phẩm thành công')));
                     Navigator.pop(context);
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Thêm sản phẩm thất bại')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Thêm sản phẩm thất bại')));
                   }
                 },
                 child: Text('Thêm sản phẩm'),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, padding: EdgeInsets.symmetric(vertical: 14), backgroundColor: Colors.blue, // Text color
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  backgroundColor: Colors.blue, // Text color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -209,6 +223,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<CategoryModel?>('selectedCategory', selectedCategory));
+    properties.add(DiagnosticsProperty<CategoryModel?>(
+        'selectedCategory', selectedCategory));
   }
 }

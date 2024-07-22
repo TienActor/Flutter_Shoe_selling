@@ -16,7 +16,7 @@ class BillModel {
       id: json['id'],
       fullName: json['fullName'],
       dateCreated: json['dateCreated'],
-      total: json['total' ].toDouble(),
+      total: json['total'].toDouble(),
     );
   }
 }

@@ -34,7 +34,8 @@ class _SettingPageState extends State<SettingPage> {
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print('User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
+        print(
+            'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
@@ -106,7 +107,8 @@ class _SettingPageState extends State<SettingPage> {
                   children: [
                     if (userProfileImage != null)
                       ClipOval(
-                        child: Image.network(userProfileImage!, width: 70, height: 70, fit: BoxFit.cover),
+                        child: Image.network(userProfileImage!,
+                            width: 70, height: 70, fit: BoxFit.cover),
                       )
                     else
                       const Icon(Icons.account_circle, size: 70),
@@ -201,7 +203,8 @@ class _SettingPageState extends State<SettingPage> {
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, // Text color
                   backgroundColor: Colors.blue, // Button color
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

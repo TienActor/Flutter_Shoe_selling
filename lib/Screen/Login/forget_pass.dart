@@ -1,33 +1,29 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
-import 'package:tien/Screen/Home/mainPage.dart';
-import '../../Admin/homepageAd.dart';
+import 'package:tien/Screen/Login/login_page.dart';
 import '../../Config/api_urls.dart';
-import '../../data/model.dart';
-import '../SignUp/signup_page.dart';
-import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
 import '../components/custom_dialog.dart';
-import '../Login/forget_pass.dart'; // Import trang đổi mật khẩu
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
+
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _accIdController = TextEditingController();
+  final TextEditingController _numberIdController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
-  final LoginModel _model = LoginModel();
   final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
     _accIdController.dispose();
+    _numberIdController.dispose();
     _passController.dispose();
     super.dispose();
   }
@@ -41,9 +37,22 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 110),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 30),
               Text(
-                'Xin Chào!',
+                'Bạn quên mật khẩu?',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.pacifico(
                   color: Colors.black,
@@ -54,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Text(
-                'Chào mừng trở lại. Shop rất nhớ bạn!',
+                'Tôi sẽ giúp bạn!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.aBeeZee(
                   color: Colors.grey,
@@ -67,10 +76,10 @@ class _LoginPageState extends State<LoginPage> {
               Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Center(
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: defaultPadding),
                       child: CustomTextField(
                         labelText: "AccountID",
                         controller: _accIdController,
@@ -82,68 +91,50 @@ class _LoginPageState extends State<LoginPage> {
                           }
                           return null;
                         },
-                        onChanged: (value) {
-                          _model.accountID = value;
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: defaultPadding),
+                      child: CustomTextField(
+                        labelText: "NumberID",
+                        controller: _numberIdController,
+                        keyboardType: TextInputType.text,
+                        prefixIcon: Icons.badge,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập NumberID';
+                          }
+                          return null;
                         },
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Center(
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: defaultPadding),
                       child: CustomTextField(
-                        labelText: "Mật khẩu",
+                        labelText: "Mật khẩu mới",
                         controller: _passController,
                         isPassword: true,
                         prefixIcon: Icons.lock,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập mật khẩu';
+                            return 'Vui lòng nhập mật khẩu mới';
                           }
                           return null;
                         },
-                        onChanged: (value) {
-                          _model.password = value;
-                        },
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ForgotPasswordPage()),
-                            );
-                          },
-                          child: const Text(
-                            'Quên mật khẩu?',
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    ),
+                    const SizedBox(height: defaultPadding),
                     ElevatedButton(
-                      onPressed: _login,
+                      onPressed: _resetPassword,
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text("ĐĂNG NHẬP",
+                      child: const Text("ĐẶT LẠI MẬT KHẨU",
                           style: TextStyle(letterSpacing: 4)),
-                    ),
-                    const SizedBox(height: defaultPadding),
-                    AlreadyHaveAnAccountCheck(
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupPage()),
-                        );
-                      },
                     ),
                   ],
                 ),
@@ -155,46 +146,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _login() async {
+  Future<void> _resetPassword() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      log('${_model.accountID}, ${_model.password}');
-      final loginModel = LoginModel(
-        accountID: _accIdController.text,
-        password: _passController.text,
+      final result = await _apiRepository.forgetPass(
+        _accIdController.text,
+        _numberIdController.text,
+        _passController.text,
       );
-      final result = await _apiRepository.login(loginModel);
       if (result['success']) {
-        final token = result['token'];
         if (mounted) {
           CustomDialog(
             context: context,
-            message: "ĐĂNG NHẬP THÀNH CÔNG",
+            message: "Đổi mật khẩu thành công",
             durationTimes: 1,
             borderRadius: 90.0,
-            textStyle:
-                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            textStyle: GoogleFonts.roboto(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
             backgroundColor: Colors.white,
           ).show();
-        }
-        await Future.delayed(const Duration(seconds: 2));
-        if (mounted) {
-          if (_model.accountID == 'Tie2023' && _model.password == 'Tient3st') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AdminHome()),
-            );
-          } else {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DashBoard(
-                  token: token,
-                  accountId: _model.accountID,
-                ),
-              ),
-            );
-          }
+          await Future.delayed(const Duration(seconds: 2));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
         }
       } else {
         if (mounted) {
@@ -202,9 +179,11 @@ class _LoginPageState extends State<LoginPage> {
             context: context,
             message: result['message'],
             durationTimes: 2,
-            borderRadius: 90.0,
-            textStyle:
-                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            borderRadius: 30,
+            textStyle: GoogleFonts.roboto(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
             backgroundColor: Colors.white,
           ).show();
         }

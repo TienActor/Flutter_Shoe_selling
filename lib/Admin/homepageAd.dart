@@ -33,7 +33,7 @@ class _AdminHomeState extends State<AdminHome> {
     fetchBrandsCount();
     fetchUserCount();
     fetchOrderCount();
-     fetchDiscountCount();
+    fetchDiscountCount();
   }
 
   Future<void> fetchOrderCount() async {
@@ -61,7 +61,6 @@ class _AdminHomeState extends State<AdminHome> {
         print('Error fetching orders: $e');
       }
     }
-   
   }
 
   Future<void> fetchDiscountCount() async {
@@ -157,7 +156,7 @@ class _AdminHomeState extends State<AdminHome> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text('Dashboard'),
-          automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(Icons.exit_to_app), // Icon đăng xuất

@@ -8,16 +8,15 @@ class ProductModel {
   final String categoryName;
   int quantity;
 
-  ProductModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.imageURL,
-    required this.price,
-    required this.categoryID,
-    required this.categoryName,
-    required this.quantity
-  });
+  ProductModel(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.imageURL,
+      required this.price,
+      required this.categoryID,
+      required this.categoryName,
+      required this.quantity});
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
@@ -28,7 +27,7 @@ class ProductModel {
       price: json['price'].toDouble(),
       categoryID: json['categoryID'],
       categoryName: json['categoryName'],
-        quantity: json['quantity'] ?? 1,
+      quantity: json['quantity'] ?? 1,
     );
   }
 }

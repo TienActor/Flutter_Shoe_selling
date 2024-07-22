@@ -6,10 +6,8 @@ import 'package:tien/Screen/Cart/cartProvider.dart';
 import 'package:tien/Screen/Cart/orderStorage.dart';
 import 'package:tien/Screen/Cart/userprovider.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
-import 'package:tien/Screen/Home/test.dart';
-
 import '../../data/cart.dart';
-import '../../data/orderInfo.dart';
+//import '../../data/orderInfo.dart';
 import '../../data/product.dart';
 import '../../data/user.dart';
 
@@ -20,6 +18,7 @@ class PaymentPage extends StatefulWidget {
   final String token; // Thêm token
   final UserData userData;
 
+  // ignore: prefer_const_constructors_in_immutables
   PaymentPage(
       {Key? key,
       required this.totalAmount,
@@ -30,6 +29,7 @@ class PaymentPage extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaymentPageState createState() => _PaymentPageState();
 }
 
@@ -39,10 +39,10 @@ class _PaymentPageState extends State<PaymentPage> {
   final OrderStorage orderStorage = OrderStorage();
 
   Future<void> _checkout() async {
-    
     final user = Provider.of<UserProvider>(context, listen: false).user;
+    // ignore: avoid_print
     print("Token: ${widget.token}");
-    List<OrderInfo> orders = widget.products.map((product) {
+    /* List<OrderInfo> orders = widget.products.map((product) {
       return OrderInfo(
         productId: product.id,
         count: product.quantity,
@@ -51,7 +51,7 @@ class _PaymentPageState extends State<PaymentPage> {
         address: widget.userData.addresses[selectedAddressIndex],
         paymentMethod: selectedPaymentMethod,
       );
-    }).toList();
+    }).toList(); */
 
     // Chuyển đổi danh sách ProductModel thành danh sách Cart
     List<Cart> cartItems = widget.products.map((product) {
@@ -60,9 +60,9 @@ class _PaymentPageState extends State<PaymentPage> {
 
     bool success = await APIRepository().addBill(cartItems, widget.token);
     if (success) {
-      for (var order in orders) {
+      /* for (var order in orders) {
         await orderStorage.writeOrder(order);
-      }
+      } */
       // Xóa giỏ hàng khi thanh toán thành công
       Provider.of<CartProvider>(context, listen: false).clearCart();
 
@@ -89,7 +89,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
+    //final user = Provider.of<UserProvider>(context).user;
 
     double finalAmount = widget.totalAmount - widget.discount;
 

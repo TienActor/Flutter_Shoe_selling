@@ -7,7 +7,12 @@ class EditBrandPage extends StatefulWidget {
   final String accountID;
   final CategoryModel brand;
 
-  const EditBrandPage({Key? key, required this.token, required this.accountID, required this.brand}) : super(key: key);
+  const EditBrandPage(
+      {Key? key,
+      required this.token,
+      required this.accountID,
+      required this.brand})
+      : super(key: key);
 
   @override
   _EditBrandPageState createState() => _EditBrandPageState();
@@ -23,7 +28,8 @@ class _EditBrandPageState extends State<EditBrandPage> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.brand.name);
-    _descriptionController = TextEditingController(text: widget.brand.description);
+    _descriptionController =
+        TextEditingController(text: widget.brand.description);
     _imageURLController = TextEditingController(text: widget.brand.imageURL);
   }
 
@@ -79,7 +85,8 @@ class _EditBrandPageState extends State<EditBrandPage> {
                   onPressed: _updateBrand,
                   child: Text('Cập Nhật Thương Hiệu'),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue, // Text color
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   ),
                 ),
@@ -101,16 +108,15 @@ class _EditBrandPageState extends State<EditBrandPage> {
       );
 
       APIRepository apiRepository = APIRepository();
-      bool success = await apiRepository.updateCategory(updatedCategory.id!, updatedCategory, widget.accountID, widget.token);
+      bool success = await apiRepository.updateCategory(
+          updatedCategory.id!, updatedCategory, widget.accountID, widget.token);
       if (success) {
         Navigator.pop(context, true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Cập nhật thành công'))
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Cập nhật thành công')));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Cập nhật thất bại'))
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Cập nhật thất bại')));
       }
     }
   }

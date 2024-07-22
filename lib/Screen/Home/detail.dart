@@ -4,11 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
 import 'package:tien/Screen/Cart/cartPage.dart';
 import 'package:tien/data/product.dart';
-import 'package:tien/Screen/Cart/cartPage.dart';
 
 // trang chi tiet
 class DetailPage extends StatelessWidget {
-   final int productId;
+  final int productId;
   final String productName;
   final String productImage;
   final double productPrice;
@@ -16,16 +15,16 @@ class DetailPage extends StatelessWidget {
   final List<ProductModel> relatedProducts;
   final String token;
 
-  const DetailPage({
-    Key? key,
-    required this.productId,
-    required this.productName,
-    required this.productImage,
-    required this.productPrice,
-    required this.productDescription,
-    required this.relatedProducts,
-    required this.token
-  }) : super(key: key);
+  const DetailPage(
+      {Key? key,
+      required this.productId,
+      required this.productName,
+      required this.productImage,
+      required this.productPrice,
+      required this.productDescription,
+      required this.relatedProducts,
+      required this.token})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,10 @@ class DetailPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartDetail(token: token,)),
+                MaterialPageRoute(
+                    builder: (context) => CartDetail(
+                          token: token,
+                        )),
               );
             },
           ),
@@ -87,7 +89,7 @@ class DetailPage extends StatelessWidget {
                         productDescription,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 16.0 ),
+                        style: TextStyle(fontSize: 16.0),
                         textAlign: TextAlign.justify,
                       ),
                       secondChild: Text(
@@ -138,7 +140,7 @@ class DetailPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailPage(
-                            productId:  relatedProduct.id,
+                            productId: relatedProduct.id,
                             productName: relatedProduct.name,
                             productImage: relatedProduct.imageURL,
                             productPrice: relatedProduct.price,
@@ -189,15 +191,16 @@ class DetailPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     final product = ProductModel(
-                      id: productId, // Bạn cần sử dụng id thực tế từ sản phẩm của bạn
-                      name: productName,
-                      description: productDescription,
-                      imageURL: productImage,
-                      price: productPrice,
-                      categoryID: 0, // Bạn cần sử dụng categoryID thực tế từ sản phẩm của bạn
-                      categoryName: '',
-                      quantity: 1
-                    );
+                        id:
+                            productId, // Bạn cần sử dụng id thực tế từ sản phẩm của bạn
+                        name: productName,
+                        description: productDescription,
+                        imageURL: productImage,
+                        price: productPrice,
+                        categoryID:
+                            0, // Bạn cần sử dụng categoryID thực tế từ sản phẩm của bạn
+                        categoryName: '',
+                        quantity: 1);
 
                     Provider.of<CartProvider>(context, listen: false)
                         .addProduct(product);

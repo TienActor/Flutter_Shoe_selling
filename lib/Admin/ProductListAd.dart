@@ -8,7 +8,9 @@ import 'ProductDetailAd.dart';
 class ProductListScreen extends StatefulWidget {
   final String token;
   final String accountID;
-  const ProductListScreen({Key? key, required this.token, required this.accountID}) : super(key: key);
+  const ProductListScreen(
+      {Key? key, required this.token, required this.accountID})
+      : super(key: key);
 
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
@@ -37,11 +39,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
-        title: Text(product.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(product.name,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         subtitle: Text(product.categoryName),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(product.imageURL, width: 50, height: 50, fit: BoxFit.cover),
+          child: Image.network(product.imageURL,
+              width: 50, height: 50, fit: BoxFit.cover),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -59,74 +63,79 @@ class _ProductListScreenState extends State<ProductListScreen> {
         onTap: () => _navigateToProductDetails(context, product),
       ),
     );
-    
   }
-void _navigateToProductDetails(BuildContext context, ProductModel product) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ProductDetailScreen(product: product, token: widget.token, accountID: widget.accountID),
-    ),
-  ).then((value) {
-    if (value == true) { // If 'true' is received, refresh the list
-      _refreshProductList(); // Assuming this method refreshes the data
-    }
-  });
-}
 
+  void _navigateToProductDetails(BuildContext context, ProductModel product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailScreen(
+            product: product, token: widget.token, accountID: widget.accountID),
+      ),
+    ).then((value) {
+      if (value == true) {
+        // If 'true' is received, refresh the list
+        _refreshProductList(); // Assuming this method refreshes the data
+      }
+    });
+  }
 
   void _navigateToEditProduct(BuildContext context, ProductModel product) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditProductScreen(product: product, token: widget.token, accountID: widget.accountID),
+        builder: (context) => EditProductScreen(
+            product: product, token: widget.token, accountID: widget.accountID),
       ),
-    ).then((_) => _refreshProductList()); 
+    ).then((_) => _refreshProductList());
   }
 
-void _confirmDelete(BuildContext context, ProductModel product) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Xác nhận xóa"),
-        content: Text("Bạn có chắc muốn xóa sản phẩm ${product.name}?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text("Hủy"),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop(); // Close the dialog first
-              await _deleteProduct(product.id, widget.accountID, widget.token);
-            },
-            child: Text("Xóa"),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _deleteProduct(int productId, String accountId, String token) async {
-  bool success = await APIRepository().removeProduct(productId, accountId, token);
-  if (success) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sản phẩm đã được xóa thành công')));
-    _refreshProductList(); // Refresh the product list to reflect the deletion
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Không thể xóa sản phẩm')));
+  void _confirmDelete(BuildContext context, ProductModel product) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Xác nhận xóa"),
+          content: Text("Bạn có chắc muốn xóa sản phẩm ${product.name}?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog first
+                await _deleteProduct(
+                    product.id, widget.accountID, widget.token);
+              },
+              child: Text("Xóa"),
+            ),
+          ],
+        );
+      },
+    );
   }
-}
 
-
-
+  Future<void> _deleteProduct(
+      int productId, String accountId, String token) async {
+    bool success =
+        await APIRepository().removeProduct(productId, accountId, token);
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sản phẩm đã được xóa thành công')));
+      _refreshProductList(); // Refresh the product list to reflect the deletion
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Không thể xóa sản phẩm')));
+    }
+  }
 
   void _openAddProductScreen() async {
     bool? result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddProductScreen(token: widget.token, accountID: widget.accountID),
+        builder: (context) =>
+            AddProductScreen(token: widget.token, accountID: widget.accountID),
       ),
     );
 
@@ -140,7 +149,7 @@ Future<void> _deleteProduct(int productId, String accountId, String token) async
     return Scaffold(
       appBar: AppBar(
         title: Text("Danh sách sản phẩm"),
-         backgroundColor: Colors.red,
+        backgroundColor: Colors.red,
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -160,7 +169,8 @@ Future<void> _deleteProduct(int productId, String accountId, String token) async
             } else if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => _buildProductItem(context, snapshot.data![index]),
+                itemBuilder: (context, index) =>
+                    _buildProductItem(context, snapshot.data![index]),
               );
             } else {
               return Center(child: Text("No products found"));

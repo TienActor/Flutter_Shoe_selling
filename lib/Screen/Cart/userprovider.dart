@@ -13,9 +13,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-UserAddress get userAddress {
-    return UserAddress(addresses: _user.addresses); // Giả sử _user có thuộc tính addresses
+  UserAddress get userAddress {
+    return UserAddress(
+        addresses: _user.addresses); // Giả sử _user có thuộc tính addresses
   }
+
   void updateUser({
     String? email,
     String? phone,
@@ -27,9 +29,10 @@ UserAddress get userAddress {
     // Handle address and payment method updates if necessary
     notifyListeners();
   }
+
   Future<UserData> loadUserData() async {
-  final jsonString = await rootBundle.loadString('assets/user_data.json');
-  final jsonResponse = json.decode(jsonString);
-  return UserData.fromJson(jsonResponse);
-}
+    final jsonString = await rootBundle.loadString('assets/user_data.json');
+    final jsonResponse = json.decode(jsonString);
+    return UserData.fromJson(jsonResponse);
+  }
 }

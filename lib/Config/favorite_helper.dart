@@ -17,7 +17,8 @@ class FavoritesHelper {
     } else {
       favorites.add(id);
     }
-    await prefs.setStringList(favoritesKey, favorites.map((id) => id.toString()).toList());
+    await prefs.setStringList(
+        favoritesKey, favorites.map((id) => id.toString()).toList());
   }
 
   static Future<bool> isFavorite(int id) async {

@@ -15,7 +15,7 @@ class OrderInfo {
     required this.paymentMethod,
   });
 
-   factory OrderInfo.fromJson(Map<String, dynamic> json) {
+  factory OrderInfo.fromJson(Map<String, dynamic> json) {
     return OrderInfo(
       productId: json['productId'],
       count: json['count'],

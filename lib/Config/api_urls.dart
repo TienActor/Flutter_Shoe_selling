@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,8 +7,8 @@ import 'package:tien/data/billDetail.dart';
 import '../data/bill.dart';
 import '../data/cart.dart';
 import '../data/category.dart';
+import '../data/model.dart';
 import '../data/product.dart';
-import '../data/register.dart';
 import '../data/user.dart';
 
 class ApiUrls {
@@ -27,14 +28,14 @@ class ApiUrls {
   static const String getListProduct =
       "$baseUrl/Product/getList?accountID=Tie2023";
   static const String getListByCatId =
-      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023"; 
+      "$baseUrl/Product/getListByCatId?categoryID=1&accountID=Tie2023";
   static const String updateProduct = "$baseUrl/updateProduct";
   static const String addProduct = "$baseUrl/addProduct";
   static const String deleteProduct = "$baseUrl/removeProduct";
   static const String updateCategory = "$baseUrl/updateCategory";
-   static const String addCategory = "$baseUrl/addCategory";
-   static const String deleteCategory = "$baseUrl/removeCategory";
-   static const String listUser ="$baseUrl/WWAdmin/listUser";
+  static const String addCategory = "$baseUrl/addCategory";
+  static const String deleteCategory = "$baseUrl/removeCategory";
+  static const String listUser = "$baseUrl/WWAdmin/listUser";
   // Bill endpoints
   static const String addBill = "$baseUrl/Order/addBill";
   static const String getBillById = "$baseUrl/Bill/getByID?billID=";
@@ -54,63 +55,128 @@ class APIRepository {
     };
   }
 
-  Future<String> register(Signup user) async {
+  Future<Map<String, dynamic>> signup(SignupModel signupModel) async {
     try {
       final body = FormData.fromMap({
-        "numberID": user.numberID,
-        "accountID": user.accountID,
-        "fullName": user.fullName,
-        "phoneNumber": user.phoneNumber,
-        "imageURL": user.imageUrl,
-        "birthDay": user.birthDay,
-        "gender": user.gender,
-        "schoolYear": user.schoolYear,
-        "schoolKey": user.schoolKey,
-        "password": user.password,
-        "confirmPassword": user.confirmPassword
+        "numberID": signupModel.numberID,
+        "accountID": signupModel.accountID,
+        "fullName": signupModel.fullname,
+        "phoneNumber": signupModel.phonenumber,
+        "imageURL": signupModel.urlImage,
+        "birthDay": signupModel.birthday,
+        "gender": signupModel.gender,
+        "schoolYear": signupModel.schoolYear,
+        "schoolKey": signupModel.schoolKey,
+        "password": signupModel.password,
+        "confirmPassword": signupModel.confirmpass,
       });
-      Response res = await api.sendRequest.post('/Student/signUp',
-          options: Options(headers: header('no token')), data: body);
+      Response res = await api.sendRequest.post(
+        ApiUrls.register,
+        options: Options(headers: header('no token')),
+        data: body,
+      );
+      log("Response data: ${res.data}");
       if (res.statusCode == 200) {
-        print("ok");
-        return "ok";
+        final data = res.data;
+        if (data['success'] == true) {
+          if (data['data'] == "Đăng ký thành công") {
+            return {"success": true, "message": data['data']};
+          } else if (data['data'] == "AccountID đã tồn tại") {
+            return {"success": false, "message": data['data']};
+          } else {
+            return {"success": false, "message": data['data']};
+          }
+        } else {
+          return {"success": false, "message": data['message']};
+        }
       } else {
-        print("fail");
-        return "signup fail";
+        return {"success": false, "message": "Đăng ký thất bại"};
       }
     } catch (ex) {
-      print(ex);
-      rethrow;
+      /* log('Signup exception: $ex'); */
+      return {"success": false, "message": "Lỗi: $ex"};
     }
   }
 
-  Future<Map<String, dynamic>> login(String accountID, String password) async {
+  Future<Map<String, dynamic>> forgetPass(
+      String accountID, String numberID, String newPassword) async {
     try {
-      final body =
-          FormData.fromMap({'AccountID': accountID, 'Password': password});
-      Response res = await api.sendRequest.post(ApiUrls.login,
-          options: Options(headers: header('no token')), data: body);
+      final body = FormData.fromMap({
+        'accountID': accountID,
+        'numberID': numberID,
+        'newPass': newPassword,
+      });
+      Response res = await api.sendRequest.put(
+        ApiUrls.forgotPassword,
+        options: Options(
+          headers: header('no token'),
+          validateStatus: (status) {
+            return status == 200 || status == 400;
+          },
+        ),
+        data: body,
+      );
+      log("Response data: ${res.data}");
+      if (res.statusCode == 200) {
+        final data = res.data;
+        if (data['success'] == true) {
+          log('Đổi mật khẩu thành công: ${data['data']}');
+          return {"success": true, "message": data['data']};
+        } else {
+          log('Thất bại: ${data['error']}');
+          return {"success": false, "message": data['error']};
+        }
+      } else if (res.statusCode == 400) {
+        final data = res.data;
+        log('${data['error']}');
+        return {'success': false, 'message': data['error']};
+      } else {
+        log('Đăng ký thất bại với mã trạng thái: ${res.statusCode}');
+        return {"success": false, "message": "Đăng ký thất bại"};
+      }
+    } catch (ex) {
+      log('Exception: $ex');
+      return {'success': false, 'message': 'Lỗi: $ex'};
+    }
+  }
 
+  Future<Map<String, dynamic>> login(LoginModel loginModel) async {
+    try {
+      final body = FormData.fromMap({
+        'AccountID': loginModel.accountID,
+        'Password': loginModel.password,
+      });
+      Response res = await api.sendRequest.post(
+        ApiUrls.login,
+        options: Options(
+          headers: header('no token'),
+          validateStatus: (status) {
+            return status == 200 || status == 401 || status == 500;
+          },
+        ),
+        data: body,
+      );
       if (res.statusCode == 200) {
         final data = res.data;
         if (data['success'] == true) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           final tokenData = data['data']['token'];
           prefs.setString('token', tokenData);
-          prefs.setString('accountID', accountID);
-          return {'success': true, 'token': tokenData};
-        } else {
-          return {'success': false, 'message': data['message']};
+          prefs.setString('accountID', loginModel.accountID!);
+          return {'success': data['success'], 'token': tokenData};
         }
+        return {'success': data['success']};
+      } else if (res.statusCode == 401) {
+        final data = res.data;
+        return {'success': data['success'], 'message': data['error']};
+      } else if (res.statusCode == 500) {
+        return {'success': false, 'message': 'Tài khoản không tồn tại'};
       } else {
-        return {
-          'success': false,
-          'message': 'Login failed with status code: ${res.statusCode}'
-        };
+        return {'success': false, 'message': '${res.statusCode}'};
       }
     } catch (ex) {
-      print(ex);
-      return {'success': false, 'message': 'Error sending request: $ex'};
+      //print(ex);
+      return {'success': false, 'message': 'Lỗi: $ex'};
     }
   }
 
@@ -124,41 +190,39 @@ class APIRepository {
     }
   }
 
-Future<List<User>> fetchUsers(String token) async {
-  try {
-    Response response = await Dio().get(
-      ApiUrls.listUser,
-      options: Options(headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json'
-      }),
-    );
+  Future<List<User>> fetchUsers(String token) async {
+    try {
+      Response response = await Dio().get(
+        ApiUrls.listUser,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      // Truy cập vào khóa 'data' chứa danh sách người dùng
-      var data = response.data['data'] as List;
-      List<User> users = data.map((item) => User.fromJson(item)).toList();
-      return users;
-    } else {
-      throw Exception("Failed to load users. Status code: ${response.statusCode}");
+      if (response.statusCode == 200) {
+        // Truy cập vào khóa 'data' chứa danh sách người dùng
+        var data = response.data['data'] as List;
+        List<User> users = data.map((item) => User.fromJson(item)).toList();
+        return users;
+      } else {
+        throw Exception(
+            "Failed to load users. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception('Failed to load users: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to load users: $e');
   }
-}
 
-
-
-
- Future<List<CategoryModel>> getCategory(
+  Future<List<CategoryModel>> getCategory(
       String accountID, String token) async {
     try {
-       Response res = await Dio().get(
-      '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID', 
-      options: Options(headers: {
-        'Authorization': 'Bearer $token',
-      }),
-    );
+      Response res = await Dio().get(
+        '${ApiUrls.baseUrl}/Category/getList?accountID=$accountID',
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }),
+      );
       return res.data
           .map((e) => CategoryModel.fromJson(e))
           .cast<CategoryModel>()
@@ -413,9 +477,7 @@ Future<List<User>> fetchUsers(String token) async {
       print(ex);
       rethrow;
     }
-}
-
-
+  }
 
   Future<bool> addBill(List<Cart> products, String token) async {
     var list = products
@@ -444,12 +506,15 @@ Future<List<User>> fetchUsers(String token) async {
       rethrow;
     }
   }
-Future<User> currentUser(String token) async {
+
+  Future<User> currentUser(String token) async {
     try {
-      Response res = await _dio.get('${ApiUrls.baseUrl}/Auth/current', options: Options(headers: header(token)));
+      Response res = await _dio.get('${ApiUrls.baseUrl}/Auth/current',
+          options: Options(headers: header(token)));
       if (res.statusCode == 200) {
         if (res.data != null) {
-          print('API Response: ${res.data}'); // Thông báo gỡ lỗi để kiểm tra phản hồi của API
+          print(
+              'API Response: ${res.data}'); // Thông báo gỡ lỗi để kiểm tra phản hồi của API
           return User.fromJson(res.data);
         } else {
           throw Exception('Dữ liệu trả về từ API là null');
@@ -462,8 +527,4 @@ Future<User> currentUser(String token) async {
       rethrow;
     }
   }
-
-   
-
-
 }

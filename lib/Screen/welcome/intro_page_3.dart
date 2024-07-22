@@ -137,10 +137,9 @@ class Intro_page_3Widget extends StatelessWidget {
                                                 width: 8,
                                                 height: 5,
                                                 decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                      customBorderRadius,
-                                                  color: Colors.white
-                                                ))),
+                                                    borderRadius:
+                                                        customBorderRadius,
+                                                    color: Colors.white))),
                                       ]))),
                             ]))),
                   ]))),

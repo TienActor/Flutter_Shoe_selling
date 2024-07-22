@@ -93,7 +93,10 @@ class _EditVoucherPageState extends State<EditVoucherPage> {
               ),
               ElevatedButton(
                 onPressed: _saveChanges,
-                child: Text('Lưu',style: TextStyle(fontSize: 15),),
+                child: Text(
+                  'Lưu',
+                  style: TextStyle(fontSize: 15),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -102,9 +105,12 @@ class _EditVoucherPageState extends State<EditVoucherPage> {
               SizedBox(height: 5),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('Hủy',style: TextStyle(fontSize: 15),),
+                child: Text(
+                  'Hủy',
+                  style: TextStyle(fontSize: 15),
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,  
+                  backgroundColor: Colors.red,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
               ),

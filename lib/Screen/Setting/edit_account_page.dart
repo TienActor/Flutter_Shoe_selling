@@ -100,19 +100,19 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                   ],
                 ),
               ),
-               EditItem(
+              EditItem(
                 title: "idNumber",
-              widget: Text(user?.idNumber ?? ''),
+                widget: Text(user?.idNumber ?? ''),
               ),
               const SizedBox(height: 40),
-               EditItem(
+              EditItem(
                 title: "accountId",
                 widget: Text(user?.accountId ?? ''),
               ),
               const SizedBox(height: 40),
-               EditItem(
+              EditItem(
                 title: "fullName",
-                 widget: Text(user?.fullName ?? ''),
+                widget: Text(user?.fullName ?? ''),
               ),
               const SizedBox(height: 40),
               EditItem(
@@ -120,25 +120,24 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 widget: Text(user?.phoneNumber ?? ''),
               ),
               const SizedBox(height: 40),
-               EditItem(
+              EditItem(
                 title: "birthDay",
-              widget: Text(user?.birthDay ?? ''),
+                widget: Text(user?.birthDay ?? ''),
               ),
               const SizedBox(height: 40),
               EditItem(
                 title: "gender",
-               widget: Text(user?.gender ?? ''),
+                widget: Text(user?.gender ?? ''),
               ),
               const SizedBox(height: 40),
-               EditItem(
+              EditItem(
                 title: "schoolYear",
-                
-                 widget: Text(user?.schoolYear ?? ''),
+                widget: Text(user?.schoolYear ?? ''),
               ),
               const SizedBox(height: 40),
-            EditItem(
+              EditItem(
                 title: "schoolKey",
-              widget: Text(user?.schoolKey ?? ''),
+                widget: Text(user?.schoolKey ?? ''),
               ),
               const SizedBox(height: 40),
               // const EditItem(

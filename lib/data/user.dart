@@ -76,7 +76,6 @@ class User {
   }
 }
 
-
 class UserAddress {
   final List<String> addresses;
 

@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:tien/data/billDetail.dart';
 import '../Config/api_urls.dart';
-import '../data/bill.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final String billID;

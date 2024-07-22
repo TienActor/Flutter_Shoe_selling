@@ -36,6 +36,7 @@ class OrderStorage {
     final file = await _localFile;
     List<OrderInfo> orders = await readOrders();
     orders.add(order);
-    return file.writeAsString(json.encode({'orders': orders.map((e) => e.toJson()).toList()}));
+    return file.writeAsString(
+        json.encode({'orders': orders.map((e) => e.toJson()).toList()}));
   }
 }

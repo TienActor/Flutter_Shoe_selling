@@ -18,18 +18,17 @@ class OrderDetailPage extends StatefulWidget {
 class _OrderDetailPageState extends State<OrderDetailPage> {
   late Future<List<BillDetailModel>> futureOrderDetails;
 
- List<BillDetailModel> _details = [];
+  List<BillDetailModel> _details = [];
   bool _isLoading = true;
   String _error = '';
 
   @override
   void initState() {
     super.initState();
-   _fetchDetails();
+    _fetchDetails();
   }
 
-
-Future<void> _fetchDetails() async {
+  Future<void> _fetchDetails() async {
     try {
       final token = await _getToken();
       if (token != null) {
@@ -57,11 +56,12 @@ Future<void> _fetchDetails() async {
       });
     }
   }
- Future<String?> _getToken() async {
+
+  Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,8 +126,6 @@ Future<void> _fetchDetails() async {
                               'Tổng cộng: ${NumberFormat('###,###,###').format(detail.total)} VND',
                               style: const TextStyle(fontSize: 18),
                             ),
-
-                           
                           ],
                         ),
                       ),

@@ -216,11 +216,10 @@ class IntroPage2 extends StatelessWidget {
                                                           height: 5,
                                                           decoration:
                                                               const BoxDecoration(
-                                                            borderRadius:
-                                                                customBorderRadius,
-                                                            color:
-                                                                Colors.white
-                                                          ))),
+                                                                  borderRadius:
+                                                                      customBorderRadius,
+                                                                  color: Colors
+                                                                      .white))),
                                                   Positioned(
                                                       top: 0,
                                                       left: 59.000186920166016,
@@ -229,49 +228,42 @@ class IntroPage2 extends StatelessWidget {
                                                           height: 5,
                                                           decoration:
                                                               const BoxDecoration(
-                                                            borderRadius:
-                                                                customBorderRadius,
-                                                            color:
-                                                                Colors.white
-                                                          ))),
+                                                                  borderRadius:
+                                                                      customBorderRadius,
+                                                                  color: Colors
+                                                                      .white))),
                                                 ]))),
                                       ]))),
                             ]))),
                     Stack(
                       children: <Widget>[
                         Positioned(
-                          top:
-                              80, 
+                          top: 80,
                           left: 0,
                           right: 0,
                           child: Container(
-                            height:
-                                400, 
+                            height: 400,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image:
                                     AssetImage('assets/images/outline_2.png'),
-                                fit: BoxFit
-                                    .cover, 
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
                         ),
                         Positioned(
-                          top:
-                              180, 
+                          top: 180,
                           left: 0,
-                          right: 0, 
+                          right: 0,
                           child: SizedBox(
                             width: 340,
                             child: Column(
                               children: <Widget>[
                                 Image.asset(
-                                  'assets/images/2333.png', 
-                                  height:
-                                      220, 
-                                  fit: BoxFit
-                                      .fill, 
+                                  'assets/images/2333.png',
+                                  height: 220,
+                                  fit: BoxFit.fill,
                                 ),
                               ],
                             ),

@@ -6,7 +6,6 @@ import 'package:tien/Screen/Cart/paymentPage.dart';
 import 'package:tien/data/user.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import '../../data/product.dart';
 
 Future<UserData> loadUserData() async {
   final jsonString = await rootBundle.loadString('assets/json/user_data.json');

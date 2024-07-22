@@ -4,16 +4,13 @@ import 'package:tien/Screen/Login/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
 
-
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => CartProvider()),
-         ChangeNotifierProvider(create: (context) => UserProvider()),
-      ],
-    child:  MainApp()),
-    );
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => CartProvider()),
+      ChangeNotifierProvider(create: (context) => UserProvider()),
+    ], child: MainApp()),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -27,4 +24,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-  

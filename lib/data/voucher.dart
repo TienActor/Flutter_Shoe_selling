@@ -3,19 +3,18 @@ class Discount {
   String title;
   String minOrder;
   String discount;
-  DateTime validity; 
+  DateTime validity;
   DateTime creationTime;
   int quantity;
 
-  Discount({
-    required this.code,
-    required this.title,
-    required this.minOrder,
-    required this.discount,
-    required this.validity,
-    required this.creationTime,
-    required this.quantity
-  });
+  Discount(
+      {required this.code,
+      required this.title,
+      required this.minOrder,
+      required this.discount,
+      required this.validity,
+      required this.creationTime,
+      required this.quantity});
 
   factory Discount.fromJson(Map<String, dynamic> json) {
     return Discount(

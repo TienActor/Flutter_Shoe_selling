@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
-import 'package:tien/Screen/Cart/cartPage.dart';
 import 'package:tien/Screen/Cart/orderHistory.dart';
 import 'package:tien/Screen/Login/login_page.dart';
-import 'package:tien/Screen/Setting/setting_page.dart';
-
 import '../../data/user.dart';
 
 class Navbar extends StatefulWidget {
@@ -34,7 +31,8 @@ class _NavbarState extends State<Navbar> {
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print('User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
+        print(
+            'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
@@ -83,49 +81,70 @@ class _NavbarState extends State<Navbar> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text(userName ?? '', style: const TextStyle(color: Colors.white)), // Màu chữ trắng
-              accountEmail: Text(userName != null ? 'Chào $userName' : '', style: const TextStyle(color: Colors.white)), // Màu chữ trắng
-              currentAccountPicture: userProfileImage != null && userProfileImage!.isNotEmpty
-                  ? CircleAvatar(
-                      backgroundImage: NetworkImage(userProfileImage!),
-                    )
-                  : const CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/user.png'),
-                    ),
-              decoration: const BoxDecoration(color: Color(0xFF1A2530)), // Đảm bảo nền của header là màu đen
+              accountName: Text(userName ?? '',
+                  style: const TextStyle(color: Colors.white)), // Màu chữ trắng
+              accountEmail: Text(userName != null ? 'Chào $userName' : '',
+                  style: const TextStyle(color: Colors.white)), // Màu chữ trắng
+              currentAccountPicture:
+                  userProfileImage != null && userProfileImage!.isNotEmpty
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage(userProfileImage!),
+                        )
+                      : const CircleAvatar(
+                          backgroundImage: AssetImage('assets/images/user.png'),
+                        ),
+              decoration: const BoxDecoration(
+                  color:
+                      Color(0xFF1A2530)), // Đảm bảo nền của header là màu đen
             ),
             ListTile(
-              leading: const Icon(Icons.account_circle, color: Colors.white), // White icon color
-              title: const Text('Thông tin cá nhân', style: TextStyle(color: Colors.white)), // White text color
+              leading: const Icon(Icons.account_circle,
+                  color: Colors.white), // White icon color
+              title: const Text('Thông tin cá nhân',
+                  style: TextStyle(color: Colors.white)), // White text color
               onTap: () => print('Thông tin cá nhân'),
             ),
             ListTile(
-              leading: const Icon(Icons.home, color: Colors.white), // White icon color
-              title: const Text('Trang chủ', style: TextStyle(color: Colors.white)), // White text color
+              leading: const Icon(Icons.home,
+                  color: Colors.white), // White icon color
+              title: const Text('Trang chủ',
+                  style: TextStyle(color: Colors.white)), // White text color
               onTap: () => print('Trang chủ'),
             ),
             ListTile(
-              leading: const Icon(Icons.shopping_cart, color: Colors.white), // White icon color
-              title: const Text('Giỏ hàng', style: TextStyle(color: Colors.white)), // White text color
+              leading: const Icon(Icons.shopping_cart,
+                  color: Colors.white), // White icon color
+              title: const Text('Giỏ hàng',
+                  style: TextStyle(color: Colors.white)), // White text color
               onTap: () => print('Giỏ hàng'),
             ),
             ListTile(
-              leading: const Icon(Icons.favorite, color: Colors.white), // White icon color
-              title: const Text('Yêu thích', style: TextStyle(color: Colors.white)), // White text color
+              leading: const Icon(Icons.favorite,
+                  color: Colors.white), // White icon color
+              title: const Text('Yêu thích',
+                  style: TextStyle(color: Colors.white)), // White text color
               onTap: () => print('Yêu thích'),
             ),
             ListTile(
-              leading: const Icon(Icons.assignment, color: Colors.white), // White icon color
-              title: const Text('Đơn đặt hàng', style: TextStyle(color: Colors.white)), // White text color
+              leading: const Icon(Icons.assignment,
+                  color: Colors.white), // White icon color
+              title: const Text('Đơn đặt hàng',
+                  style: TextStyle(color: Colors.white)), // White text color
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistoryPage(token: widget.token)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OrderHistoryPage(token: widget.token)));
               },
             ),
             const SizedBox(height: 100),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.logout, color: Colors.white), // Màu icon trắng
-              title: const Text('Đăng xuất', style: TextStyle(color: Colors.white)), // Màu chữ trắng
+              leading: const Icon(Icons.logout,
+                  color: Colors.white), // Màu icon trắng
+              title: const Text('Đăng xuất',
+                  style: TextStyle(color: Colors.white)), // Màu chữ trắng
               onTap: _showLogoutConfirmationDialog,
             ),
           ],

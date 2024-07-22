@@ -1,6 +1,6 @@
 name: tien
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -32,12 +32,11 @@ dependencies:
   provider: ^6.0.3
   cached_network_image: ^3.3.1
   path_provider: ^2.0.9
-    
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  
 
 flutter:
   uses-material-design: true
@@ -49,4 +48,3 @@ flutter:
     - assets/fonts/
     - assets/json/user_data.json
     - assets/json/voucher.json
-    

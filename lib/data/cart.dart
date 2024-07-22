@@ -14,6 +14,4 @@ class Cart {
       'count': count,
     };
   }
-
-  
 }

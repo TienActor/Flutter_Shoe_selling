@@ -6,7 +6,8 @@ class AddBrandPage extends StatefulWidget {
   final String token;
   final String accountID;
 
-  const AddBrandPage({Key? key, required this.token, required this.accountID}) : super(key: key);
+  const AddBrandPage({Key? key, required this.token, required this.accountID})
+      : super(key: key);
 
   @override
   _AddBrandPageState createState() => _AddBrandPageState();
@@ -35,9 +36,11 @@ class _AddBrandPageState extends State<AddBrandPage> {
       );
 
       APIRepository apiRepository = APIRepository();
-      bool success = await apiRepository.addCategory(newCategory, widget.accountID, widget.token);
+      bool success = await apiRepository.addCategory(
+          newCategory, widget.accountID, widget.token);
       if (success) {
-        Navigator.pop(context, true); // Return true to indicate addition was successful
+        Navigator.pop(
+            context, true); // Return true to indicate addition was successful
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Thêm thành công')),
         );
@@ -55,7 +58,6 @@ class _AddBrandPageState extends State<AddBrandPage> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: Text('Thêm thương hiệu'),
-        
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -79,7 +81,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
                 },
               ),
               SizedBox(height: 16),
-              
+
               // Description Field
               TextFormField(
                 controller: _descriptionController,
@@ -91,7 +93,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
                 maxLines: 3,
               ),
               SizedBox(height: 16),
-              
+
               // Image URL Field
               TextFormField(
                 controller: _imageURLController,
@@ -102,7 +104,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
                 ),
               ),
               SizedBox(height: 20),
-              
+
               // Add Brand Button
               ElevatedButton(
                 onPressed: _addBrand,

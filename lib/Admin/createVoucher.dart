@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tien/data/voucher.dart';
 
 class CreateDiscountPage extends StatefulWidget {
   const CreateDiscountPage({super.key});
