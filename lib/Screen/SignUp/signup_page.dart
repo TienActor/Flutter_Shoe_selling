@@ -299,21 +299,30 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _signup() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Call API to register
       final result = await _apiRepository.signup(_model);
       if (result["success"]) {
-        // Navigate to login page on successful registration
         if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-          );
+          CustomDialog(
+            context: context,
+            message: "ĐĂNG KÝ THÀNH CÔNG",
+            durationTimes: 0,
+            borderRadius: 90.0,
+            textStyle:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
+            backgroundColor: Colors.white,
+          ).show();
         }
+        await Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          }
+        });
       } else {
+        // Show error message
         if (mounted) {
-          /* ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result["message"])),
-          ); */
           CustomDialog(
             context: context,
             message: result['message'],

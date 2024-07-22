@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/category.dart';
@@ -71,26 +70,21 @@ class APIRepository {
       if (res.statusCode == 200) {
         final data = res.data;
         if (data['success'] == true) {
-          log('Signup successful: ${data['data']}');
-          return {"success": true, "message": data['data']};
+          if (data['data'] == "Đăng ký thành công") {
+            return {"success": true, "message": data['data']};
+          } else if (data['data'] == "AccountID đã tồn tại") {
+            return {"success": false, "message": data['data']};
+          } else {
+            return {"success": false, "message": data['data']};
+          }
         } else {
-          log('Signup failed: ${data['message']}');
-          return {"success": false, "message": "Đăng ký thất bại"};
+          return {"success": false, "message": data['message']};
         }
-      } else if (res.statusCode == 400) {
-        final data = res.data;
-        log('Signup failed with 400: ${data['errors']}');
-        return {'success': false, 'message': data['errors']};
-      } else if (res.statusCode == 500) {
-        final data = res.data;
-        log('Signup failed with 500: ${data['error']}');
-        return {"success": false, "message": data['error']};
       } else {
-        log('Signup failed with status code: ${res.statusCode}');
-        return {"success": false, "message": '${res.statusCode}'};
+        return {"success": false, "message": "Đăng ký thất bại"};
       }
     } catch (ex) {
-      log('Signup exception: $ex');
+      /* log('Signup exception: $ex'); */
       return {"success": false, "message": "Lỗi: $ex"};
     }
   }
@@ -118,11 +112,7 @@ class APIRepository {
           final tokenData = data['data']['token'];
           prefs.setString('token', tokenData);
           prefs.setString('accountID', loginModel.accountID!);
-          return {
-            'success': data['success'],
-            'message': 'Đăng nhập thành công',
-            'token': tokenData
-          };
+          return {'success': data['success'], 'token': tokenData};
         }
         return {'success': data['success']};
       } else if (res.statusCode == 401) {
