@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    //const SizedBox(height: 4),
                     Center(
                       child: CustomTextField(
                         labelText: "Mật khẩu",
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    //const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

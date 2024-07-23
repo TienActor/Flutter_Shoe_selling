@@ -57,7 +57,8 @@ class SignupModel {
   set schoolKey(String? value) => _schoolKey = value?.trim();
 
   String? get urlImage => _urlImage;
-  set urlImage(String? value) => _urlImage = value?.trim();
+  set urlImage(String? value) => _urlImage = value?.trim() ??
+      "https://media.istockphoto.com/id/1409715003/vector/man-avatar-placeholder-icon-design.jpg?s=612x612&w=0&k=20&c=Lk44BhYJIOpbSCYkymK0GGuziooahH0Mo_2Gzpzuw2Q=";
 
   SignupModel({
     String? accountID,
@@ -81,5 +82,6 @@ class SignupModel {
         _birthday = birthday,
         _schoolYear = schoolYear,
         _schoolKey = schoolKey,
-        _urlImage = urlImage;
+        _urlImage = urlImage ??
+            "https://media.istockphoto.com/id/1409715003/vector/man-avatar-placeholder-icon-design.jpg?s=612x612&w=0&k=20&c=Lk44BhYJIOpbSCYkymK0GGuziooahH0Mo_2Gzpzuw2Q=";
 }
