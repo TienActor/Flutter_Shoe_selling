@@ -52,9 +52,20 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingPage(
+                                  token: '',
+                                )),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 30),
                 Text(
