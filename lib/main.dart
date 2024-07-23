@@ -9,7 +9,7 @@ void main() {
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => CartProvider()),
       ChangeNotifierProvider(create: (context) => UserProvider()),
-    ], child: const MainApp()),
+    ], child: MainApp()),
   );
 }
 

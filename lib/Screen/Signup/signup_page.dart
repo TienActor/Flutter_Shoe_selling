@@ -3,10 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../data/model.dart';
 import '../Login/login_page.dart';
 import '../components/custom_dialog.dart';
-import '../components/custom_textfield.dart';
 import '../components/have_account.dart';
+import '../components/custom_textfield.dart';
 import '../../Config/api_urls.dart';
-import 'package:intl/intl.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -27,6 +26,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _schoolYearController = TextEditingController();
   final TextEditingController _schoolKeyController = TextEditingController();
+  final TextEditingController _imageURLController = TextEditingController();
 
   final SignupModel _model = SignupModel();
   final APIRepository _apiRepository = APIRepository();
@@ -43,6 +43,7 @@ class _SignupPageState extends State<SignupPage> {
     _dobController.dispose();
     _schoolYearController.dispose();
     _schoolKeyController.dispose();
+    _imageURLController.dispose();
     super.dispose();
   }
 
@@ -160,13 +161,13 @@ class _SignupPageState extends State<SignupPage> {
                       },
                     ),
                     CustomTextField(
-                      labelText: 'NumberID',
+                      labelText: 'Số CMND/CCCD',
                       controller: _numberIdController,
                       keyboardType: TextInputType.number,
                       prefixIcon: Icons.badge,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập NumberID';
+                          return 'Vui lòng nhập số CMND/CCCD';
                         }
                         return null;
                       },
@@ -204,38 +205,29 @@ class _SignupPageState extends State<SignupPage> {
                         _model.gender = value;
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: GestureDetector(
-                        onTap: () => _selectDate(context),
-                        child: AbsorbPointer(
-                          child: TextFormField(
-                            controller: _dobController,
-                            decoration: InputDecoration(
-                              labelText: 'Ngày sinh',
-                              prefixIcon: const Icon(Icons.calendar_today),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Vui lòng chọn ngày sinh';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
+                    CustomTextField(
+                      labelText: 'Ngày sinh',
+                      controller: _dobController,
+                      keyboardType: TextInputType.datetime,
+                      prefixIcon: Icons.calendar_today,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập ngày sinh';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.birthday = value;
+                      },
                     ),
                     CustomTextField(
-                      labelText: 'Năm học',
+                      labelText: 'Niên khóa',
                       controller: _schoolYearController,
                       keyboardType: TextInputType.text,
                       prefixIcon: Icons.school,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập năm học';
+                          return 'Vui lòng nhập niên khóa';
                         }
                         return null;
                       },
@@ -244,18 +236,33 @@ class _SignupPageState extends State<SignupPage> {
                       },
                     ),
                     CustomTextField(
-                      labelText: 'Khóa',
+                      labelText: 'Mã trường',
                       controller: _schoolKeyController,
                       keyboardType: TextInputType.text,
                       prefixIcon: Icons.key,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập Khóa của bạn';
+                          return 'Vui lòng nhập mã trường';
                         }
                         return null;
                       },
                       onChanged: (value) {
                         _model.schoolKey = value;
+                      },
+                    ),
+                    CustomTextField(
+                      labelText: 'URL Hình ảnh',
+                      controller: _imageURLController,
+                      keyboardType: TextInputType.url,
+                      prefixIcon: Icons.image,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập URL hình ảnh';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _model.urlImage = value;
                       },
                     ),
                     const SizedBox(height: 24),
@@ -289,21 +296,6 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _dobController.text = DateFormat('dd/MM/yyyy').format(picked);
-        _model.birthday = _dobController.text;
-      });
-    }
-  }
-
   Future<void> _signup() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -329,12 +321,13 @@ class _SignupPageState extends State<SignupPage> {
           }
         });
       } else {
+        // Show error message
         if (mounted) {
           CustomDialog(
             context: context,
             message: result['message'],
             durationTimes: 2,
-            borderRadius: 30.0,
+            borderRadius: 90.0,
             textStyle:
                 GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 14),
             backgroundColor: Colors.white,
