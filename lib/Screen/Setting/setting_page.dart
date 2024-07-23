@@ -6,6 +6,7 @@ import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/Edit_account_page.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
 import '../../data/user.dart';
+import 'AddressSetting.dart'; // Đảm bảo đường dẫn đúng
 
 class SettingPage extends StatefulWidget {
   final String token;
@@ -15,16 +16,63 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
+class SettingItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color bgColor;
+  final Color iconColor;
+  final VoidCallback onTap;
+  final Widget? trailing;
+
+  const SettingItem({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.bgColor,
+    required this.iconColor,
+    required this.onTap,
+    this.trailing,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: iconColor, size: 24),
+            const SizedBox(width: 20),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+            const Spacer(),
+            if (trailing != null) trailing!,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SettingPageState extends State<SettingPage> {
   bool isDarkMode = false;
   String? userName;
   String? userProfileImage;
+  String? selectedAddress;
   late SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadUserAddress();
   }
 
   Future<void> _loadUserData() async {
@@ -34,8 +82,7 @@ class _SettingPageState extends State<SettingPage> {
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print(
-            'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
+        print('User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
@@ -44,6 +91,18 @@ class _SettingPageState extends State<SettingPage> {
         print('Không thể tải dữ liệu người dùng: $e');
       }
     }
+  }
+
+  Future<void> _loadUserAddress() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedAddress = prefs.getString('address');
+    });
+  }
+
+  Future<void> _saveUserAddress(String address) async {
+    prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', address);
   }
 
   void _showLogoutConfirmationDialog() {
@@ -63,8 +122,7 @@ class _SettingPageState extends State<SettingPage> {
             TextButton(
               child: const Text('Có'),
               onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.clear(); // Xóa thông tin đăng nhập đã lưu
+                // await prefs.clear(); // Xóa thông tin đăng nhập đã lưu
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );
@@ -74,6 +132,23 @@ class _SettingPageState extends State<SettingPage> {
         );
       },
     );
+  }
+
+  void _navigateToAddressPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddressListPage(token: widget.token),
+      ),
+    );
+
+    if (result != null && result is String) {
+      setState(() {
+        selectedAddress = result;
+      });
+      await _saveUserAddress(result);
+      print("Địa chỉ được chọn: $selectedAddress");
+    }
   }
 
   @override
@@ -183,7 +258,8 @@ class _SettingPageState extends State<SettingPage> {
                 icon: Ionicons.location_outline,
                 bgColor: Colors.green.shade100,
                 iconColor: Colors.green,
-                onTap: () {},
+                onTap: _navigateToAddressPage,
+                trailing: selectedAddress != null ? Text(selectedAddress!) : null,
               ),
               const SizedBox(height: 20),
               SettingItem(
@@ -203,8 +279,7 @@ class _SettingPageState extends State<SettingPage> {
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, // Text color
                   backgroundColor: Colors.blue, // Button color
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

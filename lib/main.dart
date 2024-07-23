@@ -3,6 +3,7 @@ import 'package:tien/Screen/Cart/userprovider.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
+import 'package:tien/Screen/welcome/intro_page.dart';
 
 void main() {
   runApp(
@@ -20,7 +21,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: IntroPage(),
     );
   }
 }

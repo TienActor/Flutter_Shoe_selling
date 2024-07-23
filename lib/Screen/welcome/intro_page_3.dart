@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Screen/Login/login_page.dart';
 
 class Intro_page_3Widget extends StatelessWidget {
   const Intro_page_3Widget({super.key});
@@ -76,31 +77,39 @@ class Intro_page_3Widget extends StatelessWidget {
                             height: 54,
                             child: Stack(children: <Widget>[
                               Positioned(
-                                  top: 0,
-                                  left: 230,
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: customBorderRadius,
-                                      color: Color.fromRGBO(91, 158, 225, 1),
-                                    ),
+                                top: 0,
+                                left: 230,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromRGBO(
+                                        91, 158, 225, 1), // Background color
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 32, vertical: 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text(
-                                          'Tiếp',
-                                          textAlign: TextAlign.left,
-                                          style: GoogleFonts.zillaSlab(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                              height: 1),
-                                        ),
-                                      ],
+                                    shape: const RoundedRectangleBorder(
+                                      // Border Radius
+                                      borderRadius: customBorderRadius,
                                     ),
-                                  )),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Tiếp',
+                                    style: GoogleFonts.zillaSlab(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Positioned(
                                   top: 24.99982261657715,
                                   left: 0,
