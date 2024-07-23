@@ -57,29 +57,6 @@ class SignupModel {
   set schoolKey(String? value) => _schoolKey = value?.trim();
 
   String? get urlImage => _urlImage;
-  set urlImage(String? value) => _urlImage = value?.trim();
-
-  SignupModel({
-    String? accountID,
-    String? password,
-    String? confirmpass,
-    String? fullname,
-    String? numberID,
-    String? phonenumber,
-    String? gender,
-    String? birthday,
-    String? schoolYear,
-    String? schoolKey,
-    String? urlImage,
-  })  : _accountID = accountID,
-        _password = password,
-        _confpass = confirmpass,
-        _fullname = fullname,
-        _numberID = numberID,
-        _phoneNumber = phonenumber,
-        _gender = gender,
-        _birthday = birthday,
-        _schoolYear = schoolYear,
-        _schoolKey = schoolKey,
-        _urlImage = urlImage;
+  set urlImage(String? value) => _urlImage = value?.trim() ??
+      "https://media.istockphoto.com/id/1409715003/vector/man-avatar-placeholder-icon-design.jpg?s=612x612&w=0&k=20&c=Lk44BhYJIOpbSCYkymK0GGuziooahH0Mo_2Gzpzuw2Q=";
 }

@@ -10,7 +10,7 @@ import '../SignUp/signup_page.dart';
 import '../components/have_account.dart';
 import '../components/custom_textfield.dart';
 import '../components/custom_dialog.dart';
-import '../Login/forget_pass.dart'; // Import trang đổi mật khẩu
+import '../Login/forget_pass.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    //const SizedBox(height: 4),
                     Center(
                       child: CustomTextField(
                         labelText: "Mật khẩu",
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    //const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
