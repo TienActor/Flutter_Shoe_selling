@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
 import 'package:tien/Screen/Cart/orderStorage.dart';
@@ -34,8 +35,14 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  User? user;
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
   int selectedAddressIndex = 0;
-  String selectedPaymentMethod = 'Paypal Card';
+  String selectedPaymentMethod = 'Chuyển khoản ngân hàng';
   final OrderStorage orderStorage = OrderStorage();
 
   Future<void> _checkout() async {
@@ -133,42 +140,38 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget buildContactInfoSection(UserData userData) {
+   Widget buildContactInfoSection(UserData userData) {
     return Card(
+      margin: const EdgeInsets.only(bottom: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Thông tin liên lạc',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
+            const Text('Thông tin liên lạc', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.people),
+                SizedBox(width: 10,),
+                Text('${user?.fullName ?? ''}'),
+                const SizedBox(width: 10),
+              ],
+            ),
+            const SizedBox(height: 10,),
             Row(
               children: [
                 const Icon(Icons.email),
-                const SizedBox(width: 8),
-                Text(userData.email),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    // Handle email edit
-                  },
-                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text(userData.email)),
               ],
             ),
+            const SizedBox(height: 10),
             Row(
               children: [
                 const Icon(Icons.phone),
-                const SizedBox(width: 8),
-                Text(userData.phone),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    // Handle phone edit
-                  },
-                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text('${user?.phoneNumber ?? ''}')),
               ],
             ),
           ],
@@ -177,37 +180,28 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget buildAddressSection(UserData userData) {
+   Widget buildAddressSection(UserData userData) {
     return Card(
+      margin: const EdgeInsets.only(bottom: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Địa chỉ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
+            const Text('Địa chỉ', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
             DropdownButton<int>(
               value: selectedAddressIndex,
-              items: List.generate(
-                userData.addresses.length,
-                (index) => DropdownMenuItem(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width *
-                        0.7, // Adjust the width as needed
-                    child: Text(
-                      userData.addresses[index],
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      softWrap: true,
-                    ),
-                  ),
-                  value: index,
-                ),
-              ),
-              onChanged: (value) {
+              isExpanded: true,
+              items: userData.addresses.map<DropdownMenuItem<int>>((String address) {
+                return DropdownMenuItem<int>(
+                  value: userData.addresses.indexOf(address),
+                  child: Text(address),
+                );
+              }).toList(),
+              onChanged: (int? newValue) {
                 setState(() {
-                  selectedAddressIndex = value!;
+                  selectedAddressIndex = newValue!;
                 });
               },
             ),
@@ -219,38 +213,26 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Widget buildPaymentMethodSection() {
     return Card(
+      margin: const EdgeInsets.only(bottom: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Phương thức thanh toán',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
+            const Text('Phương thức thanh toán', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
             DropdownButton<String>(
               value: selectedPaymentMethod,
-              items: [
-                DropdownMenuItem(
-                  child: Row(
-                    children: [
-                      Image.network(
-                        'https://dms.inet.vn/uploads/public/2021/06/03/1622682588188_zalopay.png',
-                        width: 30,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Thanh toán zalo pay'),
-                    ],
-                  ),
-                  value: 'Paypal Card',
-                ),
-                const DropdownMenuItem(
-                  child: Text('Cash on Delivery'),
-                  value: 'Cash on Delivery',
-                ),
-              ],
-              onChanged: (value) {
+              isExpanded: true,
+              items: <String>['Chuyển khoản ngân hàng', 'Thanh toán khi nhận hàng'].map<DropdownMenuItem<String>>((String method) {
+                return DropdownMenuItem<String>(
+                  value: method,
+                  child: Text(method),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
                 setState(() {
-                  selectedPaymentMethod = value!;
+                  selectedPaymentMethod = newValue!;
                 });
               },
             ),
@@ -287,6 +269,23 @@ class _PaymentPageState extends State<PaymentPage> {
                   fontWeight: isTotal ? FontWeight.bold : FontWeight.normal)),
         ],
       ),
-    );
+    );   
+  }
+    Future<void> _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    if (token != null) {
+      APIRepository apiRepository = APIRepository();
+      try {
+        User userData = await apiRepository.currentUser(token);
+        print(
+            'User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
+        setState(() {
+          user = userData;
+        });
+      } catch (e) {
+        print('Không thể tải dữ liệu người dùng: $e');
+      }
+    }
   }
 }
