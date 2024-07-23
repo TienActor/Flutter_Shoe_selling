@@ -4,7 +4,6 @@ import '../data/user.dart';
 
 class UserListPage extends StatefulWidget {
   final String token;
-
   const UserListPage({Key? key, required this.token}) : super(key: key);
 
   @override
