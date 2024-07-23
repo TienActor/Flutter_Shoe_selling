@@ -12,6 +12,7 @@ import 'package:tien/Screen/Home/detail.dart';
 
 import '../../Config/const.dart';
 import '../../data/product.dart';
+import 'AllProductsPage.dart';
 
 class ShoeStoreHome extends StatefulWidget {
   final String token;
@@ -231,13 +232,23 @@ void _filterProducts(String query) {
                   children: [
                     Text('Nike Jordan', style: GoogleFonts.nunito(fontSize: 16)),
                     InkWell(
-                      onTap: () {}, // Add navigation to all products page
-                      child: Text('Tất cả',
-                          style: GoogleFonts.nunito(
-                              color: Colors.blue,
-                              fontSize: 16,
-                              decoration: TextDecoration.underline)),
-                    )
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AllProductsPage(token: widget.token, accountID: widget.accountID),
+      ),
+    );
+  },
+  child: Text('Tất cả',
+    style: GoogleFonts.nunito(
+      color: Colors.blue,
+      fontSize: 16,
+      decoration: TextDecoration.underline
+    ),
+  ),
+)
+
                   ],
                 ),
                 const SizedBox(height: 8),
