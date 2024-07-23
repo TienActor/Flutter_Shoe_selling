@@ -27,14 +27,38 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   int selectedBrandIndex = -1;
   List<ProductModel> favoriteProducts = [];
   String selectedBrand = "";
+    List<ProductModel> allProducts = []; // Danh sách tất cả sản phẩm
+  List<ProductModel> filteredProducts = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _loadProducts();
   }
 
+void _loadProducts() async {
+  List<ProductModel> products = await APIRepository().fetchProducts(widget.accountID, widget.token);
+  setState(() {
+    allProducts = products;
+    filteredProducts = products; // Thiết lập ban đầu
+  });
+}
+
+void _filterProducts(String query) {
+  setState(() {
+    if (query.isEmpty) {
+      filteredProducts = List.from(allProducts); // Khôi phục lại danh sách ban đầu nếu không có tìm kiếm
+    } else {
+      filteredProducts = allProducts.where((product) =>
+        product.name.toLowerCase().contains(query.toLowerCase())
+      ).toList();
+    }
+  });
+}
   @override
   void dispose() {
+    searchController.dispose();
     super.dispose();
   }
 
@@ -56,7 +80,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
         title: Image.asset('assets/images/logo.png', height: 80, width: 80),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search, color: Colors.black)),
+         
           Consumer<CartProvider>(
             builder: (context, cart, child) {
               return Stack(
@@ -111,6 +135,37 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                   // Thanh tìm kiếm
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Tìm kiếm',
+                      icon: Icon(Icons.search, color: Colors.grey),
+                    ),
+                    onSubmitted: (query) {
+                      _filterProducts(query);
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchResultPage(products: filteredProducts, searchQuery: query,token: widget.token,)));
+                    },
+                  ),
+                ),
+              ),
                 CarouselSlider(
                   options: CarouselOptions(
                       autoPlay: true,
@@ -213,7 +268,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                           ),
                           itemCount: filteredProducts.length,
                           itemBuilder: (context, index) {
-                            var product = filteredProducts[index];
+                            var product = filteredProducts[index]; // Sử dụng filteredProducts
                             var relatedProducts = snapshot.data!
                                 .where((p) => p.categoryID == product.categoryID)
                                 .toList();

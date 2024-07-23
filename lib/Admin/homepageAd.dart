@@ -145,7 +145,6 @@ class _AdminHomeState extends State<AdminHome> {
     await fetchProductCount();
     await fetchBrandsCount();
     await fetchDiscountCount();
-    await fetchUserCount();
     await fetchOrderCount();
     // Add any other fetch methods for other dashboard items here if necessary
   }
@@ -299,10 +298,8 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   Future<void> _logout() async {
-    // Xóa thông tin đăng nhập từ bộ nhớ
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-
+    await prefs.remove('token'); // Chỉ xóa token, không xóa toàn bộ dữ liệu
     // Chuyển hướng đến trang đăng nhập
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => LoginPage()),

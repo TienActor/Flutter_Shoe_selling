@@ -26,6 +26,7 @@ class _EditVoucherPageState extends State<EditVoucherPage> {
   @override
   void initState() {
     super.initState();
+    _codeController = TextEditingController(text: widget.discount.code);
     _titleController = TextEditingController(text: widget.discount.title);
     _minOrderController = TextEditingController(text: widget.discount.minOrder);
     _discountController = TextEditingController(text: widget.discount.discount);

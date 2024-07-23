@@ -1,18 +1,18 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/data/voucher.dart';
-import 'EditDiscount.dart';
-import 'createVoucher.dart'; // Giả sử đây là trang để tạo mã giảm giá mới
+ // Giả sử đây là trang để tạo mã giảm giá mới
 
-class DiscountPage extends StatefulWidget {
-  const DiscountPage({super.key});
+class VoucherPage extends StatefulWidget {
+  const VoucherPage({super.key});
 
   @override
-  State<DiscountPage> createState() => _DiscountPageState();
+  State<VoucherPage> createState() => _DiscountPageState();
 }
 
-class _DiscountPageState extends State<DiscountPage> {
+class _DiscountPageState extends State<VoucherPage> {
   List<Discount> discounts = [];
 
   @override
@@ -30,6 +30,7 @@ class _DiscountPageState extends State<DiscountPage> {
       return d.validity.isAfter(now);
     }).toList();
 
+    await prefs.setStringList('discounts', activeDiscounts);
     discounts = activeDiscounts
         .map((discount) => Discount.fromJson(jsonDecode(discount)))
         .toList();
@@ -41,7 +42,7 @@ class _DiscountPageState extends State<DiscountPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mã Giảm Giá'),
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: RefreshIndicator(
         onRefresh: loadDiscounts,
@@ -78,52 +79,10 @@ class _DiscountPageState extends State<DiscountPage> {
                   ],
                 ),
                 isThreeLine: true,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .push(
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  EditVoucherPage(discount: discounts[index])),
-                        )
-                            .then((value) {
-                          if (value == true) {
-                            loadDiscounts();
-                          }
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        _showDeleteDialog(index);
-                      },
-                    ),
-                  ],
-                ),
               ),
             );
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-            MaterialPageRoute(builder: (context) => CreateDiscountPage()),
-          )
-              .then((value) {
-            if (value == true) {
-              loadDiscounts();
-            }
-          });
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.green,
       ),
     );
   }
@@ -140,32 +99,5 @@ class _DiscountPageState extends State<DiscountPage> {
     await prefs.setStringList('discounts', updatedDiscounts);
     // Cập nhật giao diện
     setState(() {});
-  }
-
-  void _showDeleteDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Xác nhận'),
-          content: Text('Bạn có chắc chắn muốn xóa mã giảm giá này không?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Không'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog mà không làm gì cả
-              },
-            ),
-            TextButton(
-              child: Text('Có'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog và xóa mã giảm giá
-                _deleteDiscount(index);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

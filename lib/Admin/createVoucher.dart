@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +37,7 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
                 decoration: const InputDecoration(labelText: 'Code'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Code đề không được để trống';
+                    return 'Code không được để trống';
                   }
                   return null;
                 },
@@ -83,13 +84,11 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Align(
-                  alignment:
-                      Alignment.centerLeft, // Điều chỉnh vị trí title sang trái
+                  alignment: Alignment.centerLeft,
                   child: Text('Chọn ngày bắt đầu'),
                 ),
                 subtitle: Padding(
-                  padding: EdgeInsets.only(
-                      left: 0), // Thêm khoảng cách vào bên trái cho subtitle
+                  padding: EdgeInsets.only(left: 0),
                   child: Text(_startDate == null
                       ? 'Chưa chọn ngày'
                       : 'Ngày bắt đầu: ${_startDate!.toIso8601String().substring(0, 10)}'),
@@ -102,13 +101,11 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Align(
-                  alignment:
-                      Alignment.centerLeft, // Điều chỉnh vị trí title sang trái
+                  alignment: Alignment.centerLeft,
                   child: Text('Chọn ngày hết hạn'),
                 ),
                 subtitle: Padding(
-                  padding: EdgeInsets.only(
-                      left: 0), // Thêm khoảng cách vào bên trái cho subtitle
+                  padding: EdgeInsets.only(left: 0),
                   child: Text(_expiryDate == null
                       ? 'Chưa chọn ngày'
                       : 'Ngày hết hạn: ${_expiryDate!.toIso8601String().substring(0, 10)}'),
@@ -171,11 +168,10 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
       'creationTime': _startDate?.toIso8601String(),
       'validity': _expiryDate?.toIso8601String(),
       'quantity': int.parse(_quantityController.text),
-      'isActive': true,
     };
 
     discounts.add(jsonEncode(newDiscount));
     await prefs.setStringList('discounts', discounts);
-    Navigator.pop(context);
+    Navigator.pop(context, true); // Trả về true để thông báo cần load lại dữ liệu
   }
 }

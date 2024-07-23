@@ -4,6 +4,7 @@ import 'package:tien/Screen/Home/test.dart';
 import 'package:tien/Screen/Setting/setting_page.dart';
 
 import '../../data/product.dart';
+import '../Favorite/Voucher.dart';
 import '../Favorite/favorite.dart';
 
 class DashBoard extends StatefulWidget {
@@ -39,6 +40,7 @@ class _DashBoardState extends State<DashBoard> {
         accountID: 'Tie2023',
       ),
       FavoritePage(accountID: 'Tie2023', token: widget.token),
+      const VoucherPage(),
       SettingPage(
         token: widget.token,
       ),
@@ -49,7 +51,8 @@ class _DashBoardState extends State<DashBoard> {
     return [
       ShoeStoreHome(token: widget.token, accountID: 'Tie2023'),
       //CartPage(product: '', token: widget.token),
-      FavoritePage(accountID: 'Tie2023', token: widget.token),
+      //FavoritePage(accountID: 'Tie2023', token: widget.token),
+      const VoucherPage(),
       SettingPage(
         token: widget.token,
       ),
@@ -78,7 +81,7 @@ class _DashBoardState extends State<DashBoard> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.price_change), label: "Favorite"),
+                icon: Icon(Icons.price_change), label: "Voucher"),
             BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Love"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings), label: "Setting")
