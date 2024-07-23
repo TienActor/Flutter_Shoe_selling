@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/data/billDetail.dart';
@@ -177,6 +176,56 @@ class APIRepository {
     } catch (ex) {
       //print(ex);
       return {'success': false, 'message': 'Lỗi: $ex'};
+    }
+  }
+
+  Future<Map<String, dynamic>> updateProfile(
+      String numberID,
+      String fullName,
+      String phoneNumber,
+      String gender,
+      String birthDay,
+      String schoolYear,
+      String schoolKey,
+      String imageURL,
+      String token) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('token') ?? '';
+
+      final body = FormData.fromMap({
+        "NumberID": numberID,
+        "FullName": fullName,
+        "PhoneNumber": phoneNumber,
+        "Gender": gender,
+        "BirthDay": birthDay,
+        "SchoolYear": schoolYear,
+        "SchoolKey": schoolKey,
+        "ImageURL": imageURL
+      });
+
+      Response res = await api.sendRequest.put(
+        ApiUrls.updateInfo,
+        options: Options(headers: header(token)),
+        data: body,
+      );
+
+      if (res.statusCode == 200) {
+        var data = res.data;
+        if (data['success'] == true) {
+          return {"success": true, "message": "Cập nhật thông tin thành công"};
+        } else {
+          return {"success": false, "message": data['message']};
+        }
+      } else {
+        return {
+          "success": false,
+          "message":
+              "Cập nhật thông tin thất bại với mã trạng thái: ${res.statusCode}"
+        };
+      }
+    } catch (ex) {
+      return {"success": false, "message": "Lỗi khi cập nhật thông tin: $ex"};
     }
   }
 
