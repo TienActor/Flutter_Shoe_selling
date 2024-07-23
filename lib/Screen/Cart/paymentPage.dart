@@ -36,11 +36,15 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   User? user;
+  List<String> addresses = [];
+  
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadAddresses();
   }
+  
   int selectedAddressIndex = 0;
   String selectedPaymentMethod = 'Chuyển khoản ngân hàng';
   final OrderStorage orderStorage = OrderStorage();
@@ -49,16 +53,6 @@ class _PaymentPageState extends State<PaymentPage> {
     final user = Provider.of<UserProvider>(context, listen: false).user;
     // ignore: avoid_print
     print("Token: ${widget.token}");
-    /* List<OrderInfo> orders = widget.products.map((product) {
-      return OrderInfo(
-        productId: product.id,
-        count: product.quantity,
-        email: user.accountId!,
-        phone: user.phoneNumber!,
-        address: widget.userData.addresses[selectedAddressIndex],
-        paymentMethod: selectedPaymentMethod,
-      );
-    }).toList(); */
 
     // Chuyển đổi danh sách ProductModel thành danh sách Cart
     List<Cart> cartItems = widget.products.map((product) {
@@ -67,9 +61,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
     bool success = await APIRepository().addBill(cartItems, widget.token);
     if (success) {
-      /* for (var order in orders) {
-        await orderStorage.writeOrder(order);
-      } */
       // Xóa giỏ hàng khi thanh toán thành công
       Provider.of<CartProvider>(context, listen: false).clearCart();
 
@@ -94,10 +85,15 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+  Future<void> _loadAddresses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      addresses = prefs.getStringList('addresses') ?? [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    //final user = Provider.of<UserProvider>(context).user;
-
     double finalAmount = widget.totalAmount - widget.discount;
 
     return Scaffold(
@@ -140,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-   Widget buildContactInfoSection(UserData userData) {
+  Widget buildContactInfoSection(UserData userData) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Padding(
@@ -180,7 +176,7 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-   Widget buildAddressSection(UserData userData) {
+  Widget buildAddressSection(UserData userData) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Padding(
@@ -193,9 +189,9 @@ class _PaymentPageState extends State<PaymentPage> {
             DropdownButton<int>(
               value: selectedAddressIndex,
               isExpanded: true,
-              items: userData.addresses.map<DropdownMenuItem<int>>((String address) {
+              items: addresses.map<DropdownMenuItem<int>>((String address) {
                 return DropdownMenuItem<int>(
-                  value: userData.addresses.indexOf(address),
+                  value: addresses.indexOf(address),
                   child: Text(address),
                 );
               }).toList(),
@@ -271,15 +267,15 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
     );   
   }
-    Future<void> _loadUserData() async {
+  
+  Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     if (token != null) {
       APIRepository apiRepository = APIRepository();
       try {
         User userData = await apiRepository.currentUser(token);
-        print(
-            'User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
+        print('User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           user = userData;
         });
