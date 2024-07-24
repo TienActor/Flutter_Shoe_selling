@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
+import 'package:tien/Screen/Login/login_page.dart';
 
 class Intro_page_3Widget extends StatelessWidget {
   const Intro_page_3Widget({super.key});
@@ -61,46 +62,107 @@ class Intro_page_3Widget extends StatelessWidget {
                                   BorderRadius.all(Radius.elliptical(16, 16)),
                             ))),
                   ]))),
-          Positioned(
-              top: 791,
-              left: 28,
-              child: SizedBox(
-                  width: 343,
-                  height: 54,
-                  child: Stack(children: <Widget>[
-                    Positioned(
-                        top: 0,
-                        left: 0,
+         Positioned(
+                        top: 471,
+                        left: 41,
                         child: SizedBox(
                             width: 343,
-                            height: 54,
+                            height: 360,
                             child: Stack(children: <Widget>[
                               Positioned(
                                   top: 0,
-                                  left: 230,
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      borderRadius: customBorderRadius,
-                                      color: Color.fromRGBO(91, 158, 225, 1),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 32, vertical: 16),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text(
-                                          'Tiếp',
-                                          textAlign: TextAlign.left,
-                                          style: GoogleFonts.zillaSlab(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                              height: 1),
+                                  left: 10,
+                                  child: SizedBox(
+                                      width: 302,
+                                      height: 184,
+                                      child: Stack(children: <Widget>[
+                                        Positioned(
+                                            top: 0,
+                                            left: 0,
+                                            child: SizedBox(
+                                                width: 302,
+                                                height: 184,
+                                                child: Stack(children: <Widget>[
+                                                  Positioned(
+                                                      top: 0,
+                                                      left: 0,
+                                                      right: 20,
+                                                      child: Text(
+                                                        'Bắt đầu cuộc hành trình nào !!',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: GoogleFonts
+                                                            .pacifico(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 30,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                height: 1.6),
+                                                      )),
+                                                 
+                                                ]))),
+                                      ]))),
+                              Positioned(
+                                  top: 280,
+                                  left: 0,
+                                  child: SizedBox(
+                                      width: 400,
+                                      height: 85,
+                                      child: Stack(children: <Widget>[
+                                        Positioned(
+                                          top: 0,
+                                          left: 170,
+                                          width: 170,
+                                          height: 80,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(50),
+                                                topRight: Radius.circular(50),
+                                                bottomLeft: Radius.circular(50),
+                                                bottomRight:
+                                                    Radius.circular(50),
+                                              ),
+                                              color: Color.fromRGBO(
+                                                  91, 158, 225, 1),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 32, vertical: 16),
+                                            child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 10),
+                                                  backgroundColor:
+                                                      const Color.fromRGBO(
+                                                          91, 158, 225, 1),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const LoginPage()),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  'Tiếp',
+                                                  style: GoogleFonts.zillaSlab(
+                                                      fontSize: 18,
+                                                      color: Colors.white),
+                                                )),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  )),
                               Positioned(
                                   top: 24.99982261657715,
                                   left: 0,
@@ -143,27 +205,7 @@ class Intro_page_3Widget extends StatelessWidget {
                                       ]))),
                             ]))),
                   ]))),
-          Positioned(
-              top: 476,
-              left: 28,
-              child: SizedBox(
-                  width: 350,
-                  height: 142,
-                  child: Stack(children: <Widget>[
-                    Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Text(
-                          'Bắt đầu cuộc hành trình nào!',
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.pacifico(
-                              color: const Color.fromRGBO(26, 36, 47, 1),
-                              fontSize: 40,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.normal,
-                              height: 1.4),
-                        )),
-                  ]))),
+      
           Positioned(
               top: 82,
               left: 42,

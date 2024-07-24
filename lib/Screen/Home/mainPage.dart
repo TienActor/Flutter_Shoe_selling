@@ -87,7 +87,7 @@ class _DashBoardState extends State<DashBoard> {
                 icon: Icon(Icons.settings), label: "Setting")
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[600],
+          selectedItemColor: Colors.blue,
           unselectedItemColor: Colors.grey,
           onTap: onItemTapped,
         ),

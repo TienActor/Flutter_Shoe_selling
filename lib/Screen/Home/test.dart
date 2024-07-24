@@ -8,7 +8,9 @@ import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
 import 'package:tien/Screen/Cart/cartPage.dart';
 import 'package:tien/Screen/Favorite/nav_item.dart';
+import 'package:tien/Screen/Home/AllProduct.dart';
 import 'package:tien/Screen/Home/detail.dart';
+import 'package:tien/Screen/Home/search.dart';
 
 import '../../Config/const.dart';
 import '../../data/product.dart';
@@ -27,7 +29,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   int selectedBrandIndex = -1;
   List<ProductModel> favoriteProducts = [];
   String selectedBrand = "";
-    List<ProductModel> allProducts = []; // Danh sách tất cả sản phẩm
+  List<ProductModel> allProducts = []; // Danh sách tất cả sản phẩm
   List<ProductModel> filteredProducts = [];
   TextEditingController searchController = TextEditingController();
 
@@ -37,25 +39,29 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
     _loadProducts();
   }
 
-void _loadProducts() async {
-  List<ProductModel> products = await APIRepository().fetchProducts(widget.accountID, widget.token);
-  setState(() {
-    allProducts = products;
-    filteredProducts = products; // Thiết lập ban đầu
-  });
-}
+  void _loadProducts() async {
+    List<ProductModel> products =
+        await APIRepository().fetchProducts(widget.accountID, widget.token);
+    setState(() {
+      allProducts = products;
+      filteredProducts = products; // Thiết lập ban đầu
+    });
+  }
 
-void _filterProducts(String query) {
-  setState(() {
-    if (query.isEmpty) {
-      filteredProducts = List.from(allProducts); // Khôi phục lại danh sách ban đầu nếu không có tìm kiếm
-    } else {
-      filteredProducts = allProducts.where((product) =>
-        product.name.toLowerCase().contains(query.toLowerCase())
-      ).toList();
-    }
-  });
-}
+  void _filterProducts(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredProducts = List.from(
+            allProducts); // Khôi phục lại danh sách ban đầu nếu không có tìm kiếm
+      } else {
+        filteredProducts = allProducts
+            .where((product) =>
+                product.name.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -80,13 +86,13 @@ void _filterProducts(String query) {
         title: Image.asset('assets/images/logo.png', height: 80, width: 80),
         centerTitle: true,
         actions: [
-         
           Consumer<CartProvider>(
             builder: (context, cart, child) {
               return Stack(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.shopping_cart_outlined, color: Colors.deepPurple),
+                    icon: const Icon(Icons.shopping_cart_outlined,
+                        color: Colors.deepPurple),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -114,7 +120,7 @@ void _filterProducts(String query) {
                           '${cart.itemCount}',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 10,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -135,37 +141,43 @@ void _filterProducts(String query) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                   // Thanh tìm kiếm
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Tìm kiếm',
-                      icon: Icon(Icons.search, color: Colors.grey),
+                // Thanh tìm kiếm
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
                     ),
-                    onSubmitted: (query) {
-                      _filterProducts(query);
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchResultPage(products: filteredProducts, searchQuery: query,token: widget.token,)));
-                    },
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Tìm kiếm',
+                        icon: Icon(Icons.search, color: Colors.grey),
+                      ),
+                      onSubmitted: (query) {
+                        _filterProducts(query);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchResultPage(
+                                      products: filteredProducts,
+                                      searchQuery: query,
+                                      token: widget.token,
+                                    )));
+                      },
+                    ),
                   ),
                 ),
-              ),
                 CarouselSlider(
                   options: CarouselOptions(
                       autoPlay: true,
@@ -174,7 +186,8 @@ void _filterProducts(String query) {
                       height: 180),
                   items: bannerList
                       .map((item) => Center(
-                          child: Image.network(item, fit: BoxFit.cover, width: 1000)))
+                          child: Image.network(item,
+                              fit: BoxFit.cover, width: 1000)))
                       .toList(),
                 ),
                 const SizedBox(height: 24),
@@ -229,9 +242,19 @@ void _filterProducts(String query) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Nike Jordan', style: GoogleFonts.nunito(fontSize: 16)),
+                    Text('Nike Jordan',
+                        style: GoogleFonts.nunito(fontSize: 16)),
                     InkWell(
-                      onTap: () {}, // Add navigation to all products page
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AllProductsPage(
+                                token: widget.token,
+                                accountID: widget.accountID),
+                          ),
+                        );
+                      }, // Add navigation to all products page
                       child: Text('Tất cả',
                           style: GoogleFonts.nunito(
                               color: Colors.blue,
@@ -251,11 +274,13 @@ void _filterProducts(String query) {
                         return Text("Lỗi: ${snapshot.error}",
                             style: GoogleFonts.nunito());
                       } else if (snapshot.hasData) {
-                        List<ProductModel> filteredProducts = selectedBrand.isEmpty
-                            ? snapshot.data!
-                            : snapshot.data!
-                                .where((product) => product.categoryName == selectedBrand)
-                                .toList();
+                        List<ProductModel> filteredProducts =
+                            selectedBrand.isEmpty
+                                ? snapshot.data!
+                                : snapshot.data!
+                                    .where((product) =>
+                                        product.categoryName == selectedBrand)
+                                    .toList();
                         return GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -268,9 +293,11 @@ void _filterProducts(String query) {
                           ),
                           itemCount: filteredProducts.length,
                           itemBuilder: (context, index) {
-                            var product = filteredProducts[index]; // Sử dụng filteredProducts
+                            var product = filteredProducts[
+                                index]; // Sử dụng filteredProducts
                             var relatedProducts = snapshot.data!
-                                .where((p) => p.categoryID == product.categoryID)
+                                .where(
+                                    (p) => p.categoryID == product.categoryID)
                                 .toList();
                             return ShoeCard(
                               product: product,
@@ -297,13 +324,15 @@ class ShoeCard extends StatefulWidget {
   final ProductModel product;
   final String token;
   final List<ProductModel> relatedProducts;
-  ShoeCard({required this.product,required this.token, required this.relatedProducts});
+  ShoeCard(
+      {required this.product,
+      required this.token,
+      required this.relatedProducts});
   @override
   _ShoeCardState createState() => _ShoeCardState();
 }
 
 class _ShoeCardState extends State<ShoeCard> {
-
   bool isFavorite = false;
 
   @override
@@ -335,21 +364,20 @@ class _ShoeCardState extends State<ShoeCard> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content:
-            Text(isFavorite ? "Đã yêu thích" : "Đã xóa yêu thích"),
+        content: Text(isFavorite ? "Đã yêu thích" : "Đã xóa yêu thích"),
         duration: Duration(seconds: 2),
       ),
     );
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 4,
       child: InkWell(
         onTap: () {
- Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => DetailPage(
@@ -363,7 +391,6 @@ class _ShoeCardState extends State<ShoeCard> {
               ),
             ),
           );
-
         },
         child: Column(
           children: [
@@ -371,20 +398,16 @@ class _ShoeCardState extends State<ShoeCard> {
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                    child: Image.network(widget.product.imageURL, fit: BoxFit.cover),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                    child: Image.network(widget.product.imageURL,
+                        fit: BoxFit.cover),
                   ),
                   Positioned(
                     top: 8,
                     right: 108,
                     child: GestureDetector(
-                      onTap:_toggleFavorite
-                      //  () {
-                      //   setState(() {
-                      //     isFavorite = !isFavorite;
-                      //   });
-                      // }
-                      ,
+                      onTap: _toggleFavorite,
                       child: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
                         color: isFavorite ? Colors.red : Colors.grey,
@@ -400,8 +423,14 @@ class _ShoeCardState extends State<ShoeCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold),maxLines: 1,),
-                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: TextStyle(color: Colors.red)),
+                  Text(
+                    widget.product.name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                  ),
+                  Text(
+                      '${NumberFormat('###,###,###').format(widget.product.price)} VND',
+                      style: TextStyle(color: Colors.red)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -415,10 +444,13 @@ class _ShoeCardState extends State<ShoeCard> {
                             child: IconButton(
                               icon: Icon(Icons.add, color: Colors.white),
                               onPressed: () {
-                                Provider.of<CartProvider>(context, listen: false).addProduct(widget.product);
+                                Provider.of<CartProvider>(context,
+                                        listen: false)
+                                    .addProduct(widget.product);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Đã thêm vào giỏ hàng thành công"),
+                                    content:
+                                        Text("Đã thêm vào giỏ hàng thành công"),
                                     duration: Duration(seconds: 2),
                                   ),
                                 );

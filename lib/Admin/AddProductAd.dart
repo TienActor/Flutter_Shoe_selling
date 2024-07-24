@@ -124,6 +124,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.description),
                 ),
+                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Vui lòng nhập mô tả';
+                  }
+                  return null;
+                },
                 maxLines: 3,
               ),
               SizedBox(height: 16),
@@ -157,6 +163,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.image),
                 ),
+                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Vui lòng nhập hình ảnh';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 16),
 

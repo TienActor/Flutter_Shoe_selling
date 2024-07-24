@@ -40,15 +40,47 @@ class DetailPage extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CartDetail(
-                          token: token,
-                        )),
+          Consumer<CartProvider>(
+            builder: (context, cart, child) {
+              return Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined,
+                        color: Colors.deepPurple),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartDetail(token:token),
+                        ),
+                      );
+                    },
+                  ),
+                  if (cart.itemCount > 0)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cart.itemCount}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
               );
             },
           ),
@@ -214,12 +246,12 @@ class DetailPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   ),
                   child: Text(
-                    'Đặt hàng',
+                    'Thêm giỏ hàng',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

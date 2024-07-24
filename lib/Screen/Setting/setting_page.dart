@@ -6,6 +6,7 @@ import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/Edit_account_page.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
 import '../../data/user.dart';
+import 'AddressSetting.dart';
 
 class SettingPage extends StatefulWidget {
   final String token;
@@ -15,18 +16,74 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
+class SettingItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color bgColor;
+  final Color iconColor;
+  final VoidCallback onTap;
+  final Widget? trailing;
+
+  const SettingItem({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.bgColor,
+    required this.iconColor,
+    required this.onTap,
+    this.trailing,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: iconColor, size: 24),
+            const SizedBox(width: 20),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+            const Spacer(),
+            if (trailing != null) trailing!,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SettingPageState extends State<SettingPage> {
   bool isDarkMode = false;
   String? userName;
   String? userProfileImage;
   late SharedPreferences prefs;
-
+String? selectedAddress;
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadUserAddress();
+  }
+ Future<void> _loadUserAddress() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedAddress = prefs.getString('address');
+    });
   }
 
+  Future<void> _saveUserAddress(String address) async {
+    prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', address);
+  }
   Future<void> _loadUserData() async {
     prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -63,8 +120,7 @@ class _SettingPageState extends State<SettingPage> {
             TextButton(
               child: const Text('Có'),
               onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.clear(); // Xóa thông tin đăng nhập đã lưu
+               
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );
@@ -74,6 +130,22 @@ class _SettingPageState extends State<SettingPage> {
         );
       },
     );
+  }
+ void _navigateToAddressPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddressListPage(token: widget.token),
+      ),
+    );
+
+    if (result != null && result is String) {
+      setState(() {
+        selectedAddress = result;
+      });
+      await _saveUserAddress(result);
+      print("Địa chỉ được chọn: $selectedAddress");
+    }
   }
 
   @override
@@ -140,7 +212,7 @@ class _SettingPageState extends State<SettingPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const EditAccountScreen(),
+                            builder: (context) =>  AccountInfoScreen(token: widget.token,),
                           ),
                         );
                       },
@@ -156,22 +228,22 @@ class _SettingPageState extends State<SettingPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
-              SettingSwitch(
-                title: "Dark Mode",
-                icon: Ionicons.earth,
-                bgColor: Colors.purple.shade100,
-                iconColor: Colors.purple,
-                value: isDarkMode,
-                onTap: (value) {
-                  setState(() {
-                    isDarkMode = value;
-                  });
-                },
-              ),
+              // const SizedBox(height: 20),
+              // SettingSwitch(
+              //   title: "Dark Mode",
+              //   icon: Ionicons.earth,
+              //   bgColor: Colors.purple.shade100,
+              //   iconColor: Colors.purple,
+              //   value: isDarkMode,
+              //   onTap: (value) {
+              //     setState(() {
+              //       isDarkMode = value;
+              //     });
+              //   },
+              // ),
               const SizedBox(height: 20),
               SettingItem(
-                title: "Cài đặt thông báo",
+                title: "Chỉnh sửa tài khoản ",
                 icon: Ionicons.notifications,
                 bgColor: Colors.blue.shade100,
                 iconColor: Colors.blue,
@@ -183,33 +255,37 @@ class _SettingPageState extends State<SettingPage> {
                 icon: Ionicons.location_outline,
                 bgColor: Colors.green.shade100,
                 iconColor: Colors.green,
-                onTap: () {},
+                onTap: _navigateToAddressPage,
+                trailing: selectedAddress != null ? Text(selectedAddress!) : null,
               ),
-              const SizedBox(height: 20),
-              SettingItem(
-                title: "Phương thức thanh toán",
-                icon: Ionicons.card_outline,
-                bgColor: Colors.orange.shade100,
-                iconColor: Colors.orange,
-                onTap: () {},
-              ),
-              const SizedBox(height: 150),
+              // const SizedBox(height: 20),
+              // SettingItem(
+              //   title: "Phương thức thanh toán",
+              //   icon: Ionicons.card_outline,
+              //   bgColor: Colors.orange.shade100,
+              //   iconColor: Colors.orange,
+              //   onTap: () {},
+              // ),
+              const SizedBox(height: 120),
               const Divider(
                 color: Colors.black,
               ),
-              ElevatedButton(
-                onPressed: _showLogoutConfirmationDialog,
-                child: const Text('Đăng xuất'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, // Text color
-                  backgroundColor: Colors.blue, // Button color
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: _showLogoutConfirmationDialog,
+                  child: const Text('Đăng xuất'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: Colors.blue, // Button color
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

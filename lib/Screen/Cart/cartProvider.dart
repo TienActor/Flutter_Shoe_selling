@@ -23,6 +23,20 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void incrementQuantity(ProductModel product) {
+    CartItem item = _items.firstWhere((item) => item.product.id == product.id);
+    item.quantity++;
+    notifyListeners();
+  }
+
+  void decrementQuantity(ProductModel product) {
+    CartItem item = _items.firstWhere((item) => item.product.id == product.id);
+    if (item.quantity > 1) {
+      item.quantity--;
+      notifyListeners();
+    }
+  }
+
   void removeProduct(ProductModel product) {
     _items.removeWhere((item) => item.product.id == product.id);
     notifyListeners();

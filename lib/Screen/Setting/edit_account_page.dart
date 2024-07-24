@@ -2,22 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
+import 'package:tien/Screen/Setting/edit_account.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
 import 'package:tien/data/user.dart';
 
-class EditAccountScreen extends StatefulWidget {
-  const EditAccountScreen({super.key});
+class AccountInfoScreen extends StatefulWidget {
+  final String token;
+ const AccountInfoScreen({Key? key,required this.token}) : super(key: key);
 
   @override
-  State<EditAccountScreen> createState() => _EditAccountScreenState();
+  State<AccountInfoScreen> createState() => _AccountInfoScreenState();
 }
 
-class _EditAccountScreenState extends State<EditAccountScreen> {
+class _AccountInfoScreenState extends State<AccountInfoScreen> {
   User? user;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _numberIdController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _schoolYearController = TextEditingController();
+  final TextEditingController _schoolKeyController = TextEditingController();
+  final TextEditingController _imageUrlController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+  }
+
+  final APIRepository _apiRepository = APIRepository();
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _numberIdController.dispose();
+    _phoneNumberController.dispose();
+    _genderController.dispose();
+    _dobController.dispose();
+    _schoolYearController.dispose();
+    _schoolKeyController.dispose();
+    _imageUrlController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserData() async {
@@ -60,7 +87,9 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditAccountScreen(token:widget.token ,)));
+              },
               style: IconButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
                 shape: RoundedRectangleBorder(
@@ -69,7 +98,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 fixedSize: const Size(60, 50),
                 elevation: 3,
               ),
-              icon: const Icon(Ionicons.checkmark, color: Colors.white),
+              icon: const Icon(Icons.admin_panel_settings_outlined, color: Colors.white),
             ),
           ),
         ],
@@ -140,15 +169,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 widget: Text(user?.schoolKey ?? ''),
               ),
               const SizedBox(height: 40),
-              // const EditItem(
-              //   widget: TextField(),
-              //   title: "Age",
-              // ),
-              // const SizedBox(height: 40),
-              // const EditItem(
-              //   widget: TextField(),
-              //   title: "Email",
-              // ),
+        
             ],
           ),
         ),
