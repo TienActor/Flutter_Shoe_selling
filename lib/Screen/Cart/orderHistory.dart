@@ -66,16 +66,16 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lịch sử đơn hàng'),
+        title: const Text('Lịch sử đơn hàng'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: const CircularProgressIndicator())
           : _error.isNotEmpty
               ? Center(child: Text(_error))
               : RefreshIndicator(
@@ -85,7 +85,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                     itemBuilder: (context, index) {
                       final bill = _bills[index];
                       return Card(
-                        margin: EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.all(8.0),
                         child: ListTile(
                           leading: Icon(Icons.receipt,
                               color: Theme.of(context).colorScheme.secondary),
@@ -94,7 +94,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                             '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
                             style: TextStyle(color: Colors.grey[600]),
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios),
+                          trailing: const Icon(Icons.arrow_forward_ios),
                           onTap: () async {
                             final result = await Navigator.push(
                               context,

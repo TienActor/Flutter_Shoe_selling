@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/Edit_account_page.dart';
+import 'package:tien/Screen/Setting/edit_account.dart';
 import 'package:tien/Screen/Setting/edit_componet.dart';
 import '../../data/user.dart';
 import 'AddressSetting.dart';
@@ -152,11 +153,8 @@ String? selectedAddress;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cài đặt'),
-        leading: IconButton(
-          icon: const Icon(Ionicons.chevron_back_outline),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title:  Text('Cài đặt' ,style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -247,7 +245,9 @@ String? selectedAddress;
                 icon: Ionicons.notifications,
                 bgColor: Colors.blue.shade100,
                 iconColor: Colors.blue,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> EditAccountScreen(token: widget.token)));
+                },
               ),
               const SizedBox(height: 20),
               SettingItem(
@@ -258,14 +258,7 @@ String? selectedAddress;
                 onTap: _navigateToAddressPage,
                 trailing: selectedAddress != null ? Text(selectedAddress!) : null,
               ),
-              // const SizedBox(height: 20),
-              // SettingItem(
-              //   title: "Phương thức thanh toán",
-              //   icon: Ionicons.card_outline,
-              //   bgColor: Colors.orange.shade100,
-              //   iconColor: Colors.orange,
-              //   onTap: () {},
-              // ),
+          
               const SizedBox(height: 120),
               const Divider(
                 color: Colors.black,

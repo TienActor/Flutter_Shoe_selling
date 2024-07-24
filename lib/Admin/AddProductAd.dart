@@ -67,8 +67,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
               SnackBar(content: Text('Thêm sản phẩm thành công')));
           Navigator.pop(context, true); // Return true to indicate success
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Thêm sản phẩm thất bại')));
+          // ScaffoldMessenger.of(context)
+          //     .showSnackBar(SnackBar(content: Text('Thêm sản phẩm thất bại')));
         }
       } catch (e) {
         ScaffoldMessenger.of(context)
@@ -211,8 +211,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         SnackBar(content: Text('Thêm sản phẩm thành công')));
                     Navigator.pop(context);
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Thêm sản phẩm thất bại')));
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //     SnackBar(content: Text('Thêm sản phẩm thất bại')));
                   }
                 },
                 child: Text('Thêm sản phẩm'),

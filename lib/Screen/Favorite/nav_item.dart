@@ -6,7 +6,6 @@ import 'package:tien/Screen/Cart/orderHistory.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/edit_account_page.dart';
-import 'package:tien/Screen/Setting/setting_page.dart';
 
 import '../../data/user.dart';
 
@@ -93,9 +92,9 @@ class _NavbarState extends State<Navbar> {
                   ? CircleAvatar(
                       backgroundImage: NetworkImage(userProfileImage!),
                     )
-                  : CircleAvatar(
+                  : const CircleAvatar(
                       backgroundColor: Colors.black,
-                      child: Icon(Icons.person, color: Colors.white),
+                      child: const Icon(Icons.person, color: Colors.white),
                     ),
               decoration: const BoxDecoration(color: Color(0xFF1A2530)), // Đảm bảo nền của header là màu đen
             ),

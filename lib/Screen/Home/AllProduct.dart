@@ -37,10 +37,10 @@ class _AllProductsPageState extends State<AllProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tất cả sản phẩm"),
+        title: const Text("Tất cả sản phẩm"),
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
@@ -103,7 +103,7 @@ class _ShoeCardState extends State<ShoeCard> {
       SnackBar(
         content:
             Text(isFavorite ? "Đã yêu thích" : "Đã xóa yêu thích"),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -137,7 +137,7 @@ class _ShoeCardState extends State<ShoeCard> {
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                     child: Image.network(widget.product.imageURL, fit: BoxFit.cover),
                   ),
                   Positioned(
@@ -166,26 +166,26 @@ class _ShoeCardState extends State<ShoeCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold),maxLines: 1,),
-                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: TextStyle(color: Colors.red)),
+                  Text(widget.product.name, style: const TextStyle(fontWeight: FontWeight.bold),maxLines: 1,),
+                  Text('${NumberFormat('###,###,###').format(widget.product.price)} VND', style: const TextStyle(color: Colors.red)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 8, bottom: 8),
+                          padding: const EdgeInsets.only(right: 8, bottom: 8),
                           child: CircleAvatar(
                             radius: 20,
                             backgroundColor: Colors.blue,
                             child: IconButton(
-                              icon: Icon(Icons.add, color: Colors.white),
+                              icon: const Icon(Icons.add, color: Colors.white),
                               onPressed: () {
                                 Provider.of<CartProvider>(context, listen: false).addProduct(widget.product);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text("Đã thêm vào giỏ hàng thành công"),
-                                    duration: Duration(seconds: 2),
+                                    duration: const Duration(seconds: 2),
                                   ),
                                 );
                               },

@@ -168,7 +168,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             backgroundColor: Colors.white,
           ).show();
           await Future.delayed(const Duration(seconds: 2));
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),
           );

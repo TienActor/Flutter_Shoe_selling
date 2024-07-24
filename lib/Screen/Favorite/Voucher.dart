@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/data/voucher.dart';
- // Giả sử đây là trang để tạo mã giảm giá mới
 
 class VoucherPage extends StatefulWidget {
   const VoucherPage({super.key});

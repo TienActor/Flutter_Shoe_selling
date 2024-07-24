@@ -40,10 +40,10 @@ class _UserListPageState extends State<UserListPage> {
               itemBuilder: (context, index) {
                 User user = snapshot.data![index];
                 return ListTile(
-                  title: Text(user.fullName ?? "Không có tên"),
-                  subtitle: Text(user.phoneNumber ?? "Không có số điện thoại"),
+                  title: Text(user.fullName),
+                  subtitle: Text(user.phoneNumber ),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(user.imageURL ?? ''),
+                    backgroundImage: NetworkImage(user.imageURL),
                   ),
                 );
               },

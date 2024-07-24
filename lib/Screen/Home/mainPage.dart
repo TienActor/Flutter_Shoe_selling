@@ -39,8 +39,9 @@ class _DashBoardState extends State<DashBoard> {
         token: widget.token,
         accountID: 'Tie2023',
       ),
+       const VoucherPage(),
       FavoritePage(accountID: 'Tie2023', token: widget.token),
-      const VoucherPage(),
+     
       SettingPage(
         token: widget.token,
       ),
@@ -51,8 +52,9 @@ class _DashBoardState extends State<DashBoard> {
     return [
       ShoeStoreHome(token: widget.token, accountID: 'Tie2023'),
       //CartPage(product: '', token: widget.token),
-      //FavoritePage(accountID: 'Tie2023', token: widget.token),
+      
       const VoucherPage(),
+      FavoritePage(accountID: 'Tie2023', token: widget.token),
       SettingPage(
         token: widget.token,
       ),

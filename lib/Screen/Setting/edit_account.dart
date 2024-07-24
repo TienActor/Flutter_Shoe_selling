@@ -46,6 +46,16 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title:  Text(
+                  'Chỉnh sửa tài khoản!',
+                  style: GoogleFonts.pacifico(fontSize: 30),
+                ),
+                leading:   IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -54,16 +64,9 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  'Chỉnh sửa tài khoản!',
-                  style: GoogleFonts.pacifico(fontSize: 30),
-                ),
-                const SizedBox(height: 48),
+              
+               
+                const SizedBox(height: 18),
                 // Define all custom text fields
                 CustomTextField(
                   labelText: 'Họ và tên',

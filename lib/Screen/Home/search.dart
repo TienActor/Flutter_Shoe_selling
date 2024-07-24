@@ -17,7 +17,7 @@ class SearchResultPage extends StatelessWidget {
         title: Text('Kết quả tìm kiếm cho "$searchQuery"'),
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,

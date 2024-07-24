@@ -55,7 +55,7 @@ class _AddressListPageState extends State<AddressListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quản lý Địa Chỉ"),
+        title: const Text("Quản lý Địa Chỉ"),
       ),
       body: ListView.builder(
         itemCount: addresses.length,
@@ -69,13 +69,13 @@ class _AddressListPageState extends State<AddressListPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                   onPressed: () {
                     _showEditAddressDialog(index);
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     _deleteAddress(index);
                   },
@@ -87,7 +87,7 @@ class _AddressListPageState extends State<AddressListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddAddressDialog,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -98,15 +98,15 @@ class _AddressListPageState extends State<AddressListPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Thêm Địa Chỉ Mới'),
+          title: const Text('Thêm Địa Chỉ Mới'),
           content: TextField(
             controller: addressController,
-            decoration: InputDecoration(hintText: 'Nhập địa chỉ mới'),
+            decoration: const InputDecoration(hintText: 'Nhập địa chỉ mới'),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Hủy'),
+              child: const Text('Hủy'),
             ),
             TextButton(
               onPressed: () {
@@ -115,7 +115,7 @@ class _AddressListPageState extends State<AddressListPage> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Lưu'),
+              child: const Text('Lưu'),
             ),
           ],
         );
@@ -130,15 +130,15 @@ class _AddressListPageState extends State<AddressListPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Chỉnh sửa Địa Chỉ'),
+          title: const Text('Chỉnh sửa Địa Chỉ'),
           content: TextField(
             controller: addressController,
-            decoration: InputDecoration(hintText: 'Nhập địa chỉ mới'),
+            decoration: const InputDecoration(hintText: 'Nhập địa chỉ mới'),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Hủy'),
+              child: const Text('Hủy'),
             ),
             TextButton(
               onPressed: () {
@@ -147,7 +147,7 @@ class _AddressListPageState extends State<AddressListPage> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Lưu'),
+              child: const Text('Lưu'),
             ),
           ],
         );

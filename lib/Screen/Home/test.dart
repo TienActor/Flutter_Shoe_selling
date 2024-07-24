@@ -63,15 +63,13 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
   }
 
   @override
-  void dispose() {
+  void dispose  () {
     searchController.dispose();
     super.dispose();
   }
 
   Future<void> _refreshProducts() async {
     setState(() {
-      // Here, you should fetch or refresh your data
-      // For example, re-fetch the product list
     });
   }
 
@@ -107,18 +105,18 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                       right: 8,
                       top: 8,
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minWidth: 16,
                           minHeight: 16,
                         ),
                         child: Text(
                           '${cart.itemCount}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),
@@ -135,7 +133,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
       body: RefreshIndicator(
         onRefresh: _refreshProducts,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -145,7 +143,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30.0),
@@ -154,12 +152,12 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 3), // changes position of shadow
+                          offset: const Offset(0, 3), // changes position of shadow
                         ),
                       ],
                     ),
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Tìm kiếm',
                         icon: Icon(Icons.search, color: Colors.grey),
@@ -210,7 +208,7 @@ class _ShoeStoreHomeState extends State<ShoeStoreHome> {
                           });
                         },
                         child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                           width: 70,
                           height: 70,
@@ -365,7 +363,7 @@ class _ShoeCardState extends State<ShoeCard> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(isFavorite ? "Đã yêu thích" : "Đã xóa yêu thích"),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -399,7 +397,7 @@ class _ShoeCardState extends State<ShoeCard> {
                 children: [
                   ClipRRect(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
+                        const BorderRadius.vertical(top: Radius.circular(20)),
                     child: Image.network(widget.product.imageURL,
                         fit: BoxFit.cover),
                   ),
@@ -425,30 +423,30 @@ class _ShoeCardState extends State<ShoeCard> {
                 children: [
                   Text(
                     widget.product.name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     maxLines: 1,
                   ),
                   Text(
                       '${NumberFormat('###,###,###').format(widget.product.price)} VND',
-                      style: TextStyle(color: Colors.red)),
+                      style: const TextStyle(color: Colors.red)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 8, bottom: 8),
+                          padding: const EdgeInsets.only(right: 8, bottom: 8),
                           child: CircleAvatar(
                             radius: 20,
                             backgroundColor: Colors.blue,
                             child: IconButton(
-                              icon: Icon(Icons.add, color: Colors.white),
+                              icon: const Icon(Icons.add, color: Colors.white),
                               onPressed: () {
                                 Provider.of<CartProvider>(context,
                                         listen: false)
                                     .addProduct(widget.product);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content:
                                         Text("Đã thêm vào giỏ hàng thành công"),
                                     duration: Duration(seconds: 2),

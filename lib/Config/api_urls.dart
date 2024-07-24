@@ -233,11 +233,11 @@ class APIRepository {
         return {
           "success": false,
           "message":
-              "Cập nhật thông tin thất bại với mã trạng thái: ${res.statusCode}"
+              "Cập nhật thông tin thất bại"
         };
       }
     } catch (ex) {
-      return {"success": false, "message": "Lỗi khi cập nhật thông tin: "};
+      return {"success": false, "message": "Lỗi khi cập nhật thông tin"};
     }
   }
 

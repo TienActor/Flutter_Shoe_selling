@@ -10,9 +10,7 @@ import 'package:tien/Screen/Cart/orderStorage.dart';
 import 'package:tien/Screen/Cart/userprovider.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
 import '../../data/cart.dart';
-//import '../../data/orderInfo.dart';
 import '../../data/cartItem.dart';
-import '../../data/product.dart';
 import '../../data/user.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -103,7 +101,7 @@ List<String> addresses = [];
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
         title: const Text('Trang thanh toán'),
       ),
       body: SingleChildScrollView(
@@ -122,7 +120,7 @@ List<String> addresses = [];
                 decoration: InputDecoration(
                   labelText: 'Mã giảm giá',
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.check),
+                    icon: const Icon(Icons.check),
                     onPressed: () => _applyDiscount(),
                   ),
                 ),
@@ -130,7 +128,7 @@ List<String> addresses = [];
               const SizedBox(height: 16),
               buildTotalSection(
                   widget.totalAmount, appliedDiscount, finalAmount),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _checkout,
                 child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
@@ -176,7 +174,7 @@ List<String> addresses = [];
         setState(() {
           appliedDiscount = discountValue;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Mã giảm giá áp dụng thành công"),
           duration: Duration(seconds: 2),
         ));
@@ -184,7 +182,7 @@ List<String> addresses = [];
       }
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Mã giảm giá không hợp lệ hoặc đã hết hạn"),
       duration: Duration(seconds: 2),
     ));
@@ -202,7 +200,7 @@ List<String> addresses = [];
             Row(
               children: [
                 const Icon(Icons.people),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 Text('${user?.fullName ?? ''}'),
                 const SizedBox(width: 10),
               ],

@@ -32,9 +32,9 @@ class DetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Giày Nam'),
+        title: const Text('Giày Nam'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -61,18 +61,18 @@ class DetailPage extends StatelessWidget {
                       right: 8,
                       top: 8,
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minWidth: 16,
                           minHeight: 16,
                         ),
                         child: Text(
                           '${cart.itemCount}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),
@@ -94,23 +94,23 @@ class DetailPage extends StatelessWidget {
             Center(
               child: Image.network(productImage),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               productName,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               '${NumberFormat('###,###,###').format(productPrice)} VND',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20.0,
                 color: Colors.red,
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return Column(
@@ -121,20 +121,20 @@ class DetailPage extends StatelessWidget {
                         productDescription,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                         textAlign: TextAlign.justify,
                       ),
                       secondChild: Text(
                         productDescription,
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                         textAlign: TextAlign.justify,
                       ),
                       crossFadeState: isExpanded
                           ? CrossFadeState.showSecond
                           : CrossFadeState.showFirst,
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -143,7 +143,7 @@ class DetailPage extends StatelessWidget {
                       },
                       child: Text(
                         isExpanded ? 'Thu gọn' : 'Xem thêm',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
                         ),
@@ -153,15 +153,15 @@ class DetailPage extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Sản phẩm liên quan',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -185,7 +185,7 @@ class DetailPage extends StatelessWidget {
                     },
                     child: Container(
                       width: 120,
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Column(
                         children: [
                           Image.network(
@@ -194,10 +194,10 @@ class DetailPage extends StatelessWidget {
                             height: 100,
                             fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 8.0),
+                          const SizedBox(height: 8.0),
                           Text(
                             relatedProduct.name,
-                            style: TextStyle(fontSize: 14.0),
+                            style: const TextStyle(fontSize: 14.0),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -209,13 +209,13 @@ class DetailPage extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Giá: ${NumberFormat('###,###,###').format(productPrice)} VND',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -238,7 +238,7 @@ class DetailPage extends StatelessWidget {
                         .addProduct(product);
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text('Đã thêm vào giỏ hàng'),
                       ),
                     );
@@ -248,9 +248,9 @@ class DetailPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Thêm giỏ hàng',
                     style: TextStyle(
                       color: Colors.white,

@@ -16,15 +16,7 @@ class AccountInfoScreen extends StatefulWidget {
 
 class _AccountInfoScreenState extends State<AccountInfoScreen> {
   User? user;
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _numberIdController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _schoolYearController = TextEditingController();
-  final TextEditingController _schoolKeyController = TextEditingController();
-  final TextEditingController _imageUrlController = TextEditingController();
+
 
   @override
   void initState() {
@@ -36,14 +28,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
 
   @override
   void dispose() {
-    _fullNameController.dispose();
-    _numberIdController.dispose();
-    _phoneNumberController.dispose();
-    _genderController.dispose();
-    _dobController.dispose();
-    _schoolYearController.dispose();
-    _schoolKeyController.dispose();
-    _imageUrlController.dispose();
+   
     super.dispose();
   }
 
@@ -119,13 +104,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                       height: 100,
                       width: 100,
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.lightBlueAccent,
-                      ),
-                      child: const Text("Cập nhật hình"),
-                    )
+                    
                   ],
                 ),
               ),

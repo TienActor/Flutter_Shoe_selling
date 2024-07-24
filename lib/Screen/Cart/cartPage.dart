@@ -3,12 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tien/Screen/Cart/cartProvider.dart';
 import 'package:tien/Screen/Cart/paymentPage.dart';
-import 'package:tien/data/product.dart';
 import 'package:tien/data/user.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../../data/cartItem.dart';
 
 Future<UserData> loadUserData() async {
   final jsonString = await rootBundle.loadString('assets/json/user_data.json');
@@ -55,15 +53,15 @@ class _CartDetailState extends State<CartDetail> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
-        title: Text("Giỏ hàng"),
+        title: const Text("Giỏ hàng"),
       ),
       body: Column(
         children: [
           Expanded(
             child: cart.items.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text("Giỏ hàng đang trống",
                         style: TextStyle(fontSize: 18, color: Colors.grey)),
                   )
@@ -72,7 +70,7 @@ class _CartDetailState extends State<CartDetail> {
                     itemBuilder: (context, index) {
                       final item = cart.items[index];
                       return Card(
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         child: ListTile(
                           leading: Image.network(item.product.imageURL,
                               width: 70, height: 70, fit: BoxFit.cover),
@@ -100,13 +98,13 @@ class _CartDetailState extends State<CartDetail> {
                                   },
                                   color: Colors.blue),
                               IconButton(
-                                icon: Icon(Icons.delete, color: Colors.red),
+                                icon: const Icon(Icons.delete, color: Colors.red),
                                 onPressed: () {
                                   cart.removeProduct(item.product);
                                   ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
+                                      .showSnackBar(const SnackBar(
                                     content:
-                                        Text('Đã xóa sản phẩm khỏi giỏ hàng'),
+                                        const Text('Đã xóa sản phẩm khỏi giỏ hàng'),
                                     duration: Duration(seconds: 2),
                                   ));
                                 },
@@ -118,19 +116,19 @@ class _CartDetailState extends State<CartDetail> {
                     },
                   ),
           ),
-          Divider(),
+          const Divider(),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tổng tiền:',
+                const Text('Tổng tiền:',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                 Text('${NumberFormat('###,###,###').format(cart.total)} VND',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               ],
             ),
           ),
@@ -152,10 +150,10 @@ class _CartDetailState extends State<CartDetail> {
                   ),
                 );
               },
-              child: Text('Thanh toán', style: TextStyle(fontSize: 18)),
+              child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(91, 158, 225, 100),
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                backgroundColor: const Color.fromRGBO(91, 158, 225, 100),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               ),
             ),
           )

@@ -154,7 +154,7 @@ class _AdminHomeState extends State<AdminHome> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Text('Dashboard'),
+        title: const Text('Admin'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
