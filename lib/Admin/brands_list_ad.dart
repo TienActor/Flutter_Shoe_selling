@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Config/api_urls.dart';
 import '../data/category.dart';
 import 'add_brand_ad.dart';
-import 'EditBrandAd.dart';
+import 'edit_brand_ad.dart';
 
 class BrandsPage extends StatefulWidget {
   final String token;

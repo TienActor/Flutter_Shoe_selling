@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tien/Admin/OrderListAd.dart';
+import 'package:tien/Admin/order_list_ad.dart';
 import '../Config/api_urls.dart';
 import '../Screen/Login/login_page.dart';
 import '../data/category.dart';
 import '../data/user.dart';
 import 'brands_list_ad.dart';
 import 'discount_list_ad.dart';
-import 'ListUserAd.dart';
-import 'ProductListAd.dart';
+import 'list_user_ad.dart';
+import 'product_list_ad.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);

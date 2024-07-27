@@ -8,7 +8,7 @@ import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Cart/cart_provider.dart';
 import 'package:tien/Screen/Cart/cart_page.dart';
 import 'package:tien/Screen/Favorite/nav_item.dart';
-import 'package:tien/Screen/Home/AllProduct.dart';
+import 'package:tien/Screen/Home/all_product.dart';
 import 'package:tien/Screen/Home/detail.dart';
 import 'package:tien/Screen/Home/search.dart';
 

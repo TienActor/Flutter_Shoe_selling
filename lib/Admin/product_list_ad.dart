@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tien/Admin/edit_product.dart';
+import 'package:tien/Admin/product_detail_ad.dart';
 import '../Config/api_urls.dart';
 import '../data/product.dart';
 import 'add_product_ad.dart'; // Đảm bảo rằng đã import màn hình thêm sản phẩm
-import 'EditProduct.dart';
-import 'ProductDetailAd.dart';
+
 
 class ProductListScreen extends StatefulWidget {
   final String token;

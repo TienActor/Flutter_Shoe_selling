@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import '../Config/api_urls.dart';
 import '../data/bill.dart';
-import 'OrderDetailAd.dart';
+import 'order_detail_ad.dart';
 
 class OrdersPage extends StatefulWidget {
   @override

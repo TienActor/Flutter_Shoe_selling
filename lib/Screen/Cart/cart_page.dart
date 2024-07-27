@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tien/Screen/Cart/cart_provider.dart';
-import 'package:tien/Screen/Cart/paymentPage.dart';
+import 'package:tien/Screen/Cart/payment_page.dart';
 import 'package:tien/data/user.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;

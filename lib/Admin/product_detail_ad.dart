@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tien/Admin/edit_product.dart';
 import '../Config/api_urls.dart';
 import '../data/product.dart';
-import 'EditProduct.dart';
+
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductModel product;

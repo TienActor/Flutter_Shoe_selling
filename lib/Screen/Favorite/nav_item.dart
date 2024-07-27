@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Cart/cart_page.dart';
 import 'package:tien/Screen/Cart/order_history.dart';
-import 'package:tien/Screen/Home/mainPage.dart';
+import 'package:tien/Screen/Home/main_page.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/edit_account_page.dart';
 
