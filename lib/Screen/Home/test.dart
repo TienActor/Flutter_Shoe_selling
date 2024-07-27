@@ -19,7 +19,7 @@ class ShoeStoreHome extends StatefulWidget {
   final String token;
   final String accountID;
 
-  ShoeStoreHome({required this.token, required this.accountID});
+  const ShoeStoreHome({super.key, required this.token, required this.accountID});
 
   @override
   _ShoeStoreHomeState createState() => _ShoeStoreHomeState();
@@ -322,8 +322,8 @@ class ShoeCard extends StatefulWidget {
   final ProductModel product;
   final String token;
   final List<ProductModel> relatedProducts;
-  ShoeCard(
-      {required this.product,
+  const ShoeCard(
+      {super.key, required this.product,
       required this.token,
       required this.relatedProducts});
   @override

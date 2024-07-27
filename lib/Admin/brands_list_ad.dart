@@ -36,6 +36,7 @@ class _BrandsPageState extends State<BrandsPage> {
       setState(() {
         isLoading = false;
       });
+       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error fetching categories: $e')));
     }
@@ -148,6 +149,7 @@ class _BrandsPageState extends State<BrandsPage> {
               child: const Text('Xóa'),
               onPressed: () async {
                 await _deleteCategory(id);
+                
                 Navigator.of(context).pop(); // Close the dialog after deletion
               },
             ),
@@ -163,9 +165,11 @@ class _BrandsPageState extends State<BrandsPage> {
         await apiRepository.removeCategory(id, widget.accountID, widget.token);
     if (success) {
       refreshBrands(); // Refresh the list after successful deletion
+       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Xóa thành công')));
     } else {
+       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Xoá thất bại')));
     }

@@ -225,7 +225,7 @@ class APIRepository {
       if (res.statusCode == 200) {
         var data = res.data;
         if (data['success'] == true) {
-          print(res);
+          log(res.toString());
           return {"success": true, "message": "Cập nhật thông tin thành công"};
         } else {
           return {"success": false, "message": data['message']};

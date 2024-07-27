@@ -60,7 +60,7 @@ List<String> addresses = [];
   }
   Future<void> _checkout() async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
-    print("Token: ${widget.token}");
+    log("Token: ${widget.token}");
 
     List<Cart> cartItems = widget.cartItems.map((cartItem) {
       return Cart(productID: cartItem.product.id, count: cartItem.quantity);

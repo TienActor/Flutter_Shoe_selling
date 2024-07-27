@@ -8,7 +8,7 @@ class SearchResultPage extends StatelessWidget {
    final String token; // Thêm token nếu cần cho mục đích xác thực hoặc thông tin khác
 
 
-  SearchResultPage({required this.products, required this.searchQuery,required this.token});
+  const SearchResultPage({super.key, required this.products, required this.searchQuery,required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class SearchResultPage extends StatelessWidget {
           return ShoeCard(
             product: products[index],
             token: token,
-            relatedProducts: [],
+            relatedProducts: const [],
           );
         },
       ),

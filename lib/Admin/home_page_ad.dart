@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,11 +56,11 @@ class _AdminHomeState extends State<AdminHome> {
             orderCount = data.length; // Cập nhật số lượng đơn hàng
           });
         } else {
-          print(
+          log(
               'Failed to fetch orders with status code: ${response.statusCode}');
         }
       } catch (e) {
-        print('Error fetching orders: $e');
+        log('Error fetching orders: $e');
       }
     }
   }
@@ -66,7 +68,7 @@ class _AdminHomeState extends State<AdminHome> {
   Future<void> fetchDiscountCount() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> allDiscounts = prefs.getStringList('discounts') ?? [];
-    print("Loaded discounts: ${allDiscounts.length}"); // Log để kiểm tra
+    log("Loaded discounts: ${allDiscounts.length}"); // Log để kiểm tra
     setState(() {
       discountCount = allDiscounts.length; // Cập nhật số lượng
     });
@@ -85,7 +87,7 @@ class _AdminHomeState extends State<AdminHome> {
               .length; // Cập nhật số lượng thương hiệu dựa trên số lượng mục nhận được
         });
       } catch (e) {
-        print('Error fetching brands: $e');
+        log('Error fetching brands: $e');
       }
     }
   }
@@ -107,11 +109,11 @@ class _AdminHomeState extends State<AdminHome> {
             productCount = data.length;
           });
         } else {
-          print(
+          log(
               'Failed to fetch products with status code: ${response.statusCode}');
         }
       } catch (e) {
-        print('Error fetching products: $e');
+        log('Error fetching products: $e');
       }
     }
   }
@@ -124,14 +126,14 @@ class _AdminHomeState extends State<AdminHome> {
         List<User> users =
             await apiRepository.fetchUsers(token); // Sử dụng token đã có
 
-        print(
+        log(
             'Fetched ${users.length} users.'); // In ra số lượng người dùng lấy được
 
         setState(() {
           userCount = users.length; // Cập nhật số lượng người dùng
         });
       } catch (e) {
-        print('Error fetching user count: $e');
+        log('Error fetching user count: $e');
       }
     }
   }

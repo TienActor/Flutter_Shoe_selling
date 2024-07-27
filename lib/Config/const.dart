@@ -8,8 +8,7 @@ const double defaultPadding = 16.0;
 const urlImage = "assets/images/";
 const urlIcon = "assets/icon/";
 const urlFonts = "assets/fonts/";
-const infoMailpho =
-    "C:\Users\TIEN\Documents\GitHub\ThucHanh_Flutter\assets\json/user_data.json";
+
 
 const BorderRadius customBorderRadius = BorderRadius.only(
   topLeft: Radius.circular(16),

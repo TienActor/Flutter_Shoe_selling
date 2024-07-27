@@ -99,6 +99,7 @@ class _ShoeCardState extends State<ShoeCard> {
     setState(() {
       isFavorite = newFavoriteStatus;
     });
+     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content:
@@ -185,7 +186,7 @@ class _ShoeCardState extends State<ShoeCard> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Đã thêm vào giỏ hàng thành công"),
-                                    duration: const Duration(seconds: 2),
+                                    duration:  Duration(seconds: 2),
                                   ),
                                 );
                               },

@@ -104,7 +104,7 @@ class _CartDetailState extends State<CartDetail> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
                                     content:
-                                        const Text('Đã xóa sản phẩm khỏi giỏ hàng'),
+                                   Text('Đã xóa sản phẩm khỏi giỏ hàng'),
                                     duration: Duration(seconds: 2),
                                   ));
                                 },
@@ -150,11 +150,11 @@ class _CartDetailState extends State<CartDetail> {
                   ),
                 );
               },
-              child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromRGBO(91, 158, 225, 100),
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
               ),
+              child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
             ),
           )
         ],

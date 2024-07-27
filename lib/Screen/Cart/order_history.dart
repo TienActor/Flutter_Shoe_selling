@@ -75,7 +75,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: const CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _error.isNotEmpty
               ? Center(child: Text(_error))
               : RefreshIndicator(

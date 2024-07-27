@@ -38,6 +38,8 @@ class _AddBrandPageState extends State<AddBrandPage> {
       APIRepository apiRepository = APIRepository();
       bool success = await apiRepository.addCategory(
           newCategory, widget.accountID, widget.token);
+
+           if (!mounted) return;
       if (success) {
         Navigator.pop(
             context, true); // Return true to indicate addition was successful
@@ -106,7 +108,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
                 decoration: const InputDecoration(
                   labelText: 'Hình ảnh',
                   border: OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.image),
+                  prefixIcon:  Icon(Icons.image),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {

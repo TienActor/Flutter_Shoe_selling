@@ -36,6 +36,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         categories = fetchedCategories;
         isLoading = false;
       });
+       if (!mounted) return;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error loading categories: $e')),
@@ -62,7 +63,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
       try {
         bool success =
             await APIRepository().addProduct(newProduct, widget.token);
+            
         if (success) {
+          
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Thêm sản phẩm thành công')));
           Navigator.pop(context, true); // Return true to indicate success
@@ -206,9 +209,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   bool success = await addProduct();
+                   if (!mounted) return;
                   if (success) {
+                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Thêm sản phẩm thành công')));
+                        
                     Navigator.pop(context);
                   } else {
                     // ScaffoldMessenger.of(context).showSnackBar(

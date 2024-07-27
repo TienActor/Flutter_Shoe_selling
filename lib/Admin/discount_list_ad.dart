@@ -122,8 +122,8 @@ class _DiscountPageState extends State<DiscountPage> {
             }
           });
         },
-        child: const Icon(Icons.add),
         backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
       ),
     );
   }
