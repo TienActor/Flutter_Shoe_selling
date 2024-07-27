@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
-import 'package:tien/Screen/Cart/cartPage.dart';
-import 'package:tien/Screen/Cart/orderHistory.dart';
+import 'package:tien/Screen/Cart/cart_page.dart';
+import 'package:tien/Screen/Cart/order_history.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/edit_account_page.dart';
@@ -36,14 +38,14 @@ class _NavbarState extends State<Navbar> {
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print('User data: ${user.fullName}, ${user.imageURL},${user.accountId}'); // Thông báo gỡ lỗi
+        log('User data: ${user.fullName}, ${user.imageURL},${user.accountId}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
           accountId = user.accountId;
         });
       } catch (e) {
-        print('Không thể tải dữ liệu người dùng: $e');
+        log('Không thể tải dữ liệu người dùng: $e');
       }
     }
   }
@@ -94,7 +96,7 @@ class _NavbarState extends State<Navbar> {
                     )
                   : const CircleAvatar(
                       backgroundColor: Colors.black,
-                      child: const Icon(Icons.person, color: Colors.white),
+                      child: Icon(Icons.person, color: Colors.white),
                     ),
               decoration: const BoxDecoration(color: Color(0xFF1A2530)), // Đảm bảo nền của header là màu đen
             ),
@@ -118,7 +120,7 @@ class _NavbarState extends State<Navbar> {
             ListTile(
               leading: const Icon(Icons.favorite, color: Colors.white), // White icon color
               title: const Text('Yêu thích', style: TextStyle(color: Colors.white)), // White text color
-              onTap: () => print('Yêu thích'),
+              onTap: () => log('Yêu thích'),
             ),
             ListTile(
               leading: const Icon(Icons.assignment, color: Colors.white), // White icon color

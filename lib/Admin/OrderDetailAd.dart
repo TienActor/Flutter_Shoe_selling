@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
-import 'package:tien/data/billDetail.dart';
+import 'package:tien/data/bill_detail.dart';
 import '../Config/api_urls.dart';
 
 class OrderDetailPage extends StatefulWidget {
@@ -183,13 +183,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                       _deleteOrder();
                                     }
                                   },
-                                  child: const Text(
-                                    'Xóa Đơn Hàng',
-                                    style: TextStyle(
-                                      color: Colors
-                                          .white, // Explicitly set text color to white
-                                    ),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red, // Button color
                                     padding: const EdgeInsets.symmetric(
@@ -200,6 +193,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Xóa Đơn Hàng',
+                                    style: TextStyle(
+                                      color: Colors
+                                          .white, // Explicitly set text color to white
                                     ),
                                   ),
                                 ),

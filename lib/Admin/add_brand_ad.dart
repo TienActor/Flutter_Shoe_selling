@@ -42,11 +42,11 @@ class _AddBrandPageState extends State<AddBrandPage> {
         Navigator.pop(
             context, true); // Return true to indicate addition was successful
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Thêm thành công')),
+          const SnackBar(content: Text('Thêm thành công')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Thêm thất bại')),
+          const SnackBar(content: Text('Thêm thất bại')),
         );
       }
     }
@@ -57,7 +57,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text('Thêm thương hiệu'),
+        title: const Text('Thêm thương hiệu'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,7 +68,7 @@ class _AddBrandPageState extends State<AddBrandPage> {
               // Brand Name Field
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Tên thương hiệu',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.business),
@@ -80,12 +80,12 @@ class _AddBrandPageState extends State<AddBrandPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Description Field
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mô tả',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.description),
@@ -98,15 +98,15 @@ class _AddBrandPageState extends State<AddBrandPage> {
                 },
                 maxLines: 3,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Image URL Field
               TextFormField(
                 controller: _imageURLController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Hình ảnh',
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.image),
+                  prefixIcon: const Icon(Icons.image),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -115,20 +115,20 @@ class _AddBrandPageState extends State<AddBrandPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Add Brand Button
               ElevatedButton(
                 onPressed: _addBrand,
-                child: Text('Thêm Thương Hiệu'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, // Text color
                   backgroundColor: Colors.blue, // Button color
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                child: const Text('Thêm Thương Hiệu'),
               ),
             ],
           ),

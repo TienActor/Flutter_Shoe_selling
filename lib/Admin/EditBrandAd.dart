@@ -37,7 +37,7 @@ class _EditBrandPageState extends State<EditBrandPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sửa thương hiệu'),
+        title: const Text('Sửa thương hiệu'),
         backgroundColor: Colors.red,
       ),
       body: SingleChildScrollView(
@@ -49,7 +49,7 @@ class _EditBrandPageState extends State<EditBrandPage> {
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Tên thương hiệu',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.business),
@@ -61,10 +61,10 @@ class _EditBrandPageState extends State<EditBrandPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Mô tả',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.description),
@@ -77,10 +77,10 @@ class _EditBrandPageState extends State<EditBrandPage> {
                 },
                   maxLines: 3,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _imageURLController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Hình ảnh',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.image),
@@ -92,14 +92,14 @@ class _EditBrandPageState extends State<EditBrandPage> {
                   return null;
                 },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _updateBrand,
-                  child: Text('Cập Nhật Thương Hiệu'),
+                  child: const Text('Cập Nhật Thương Hiệu'),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.blue, // Text color
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   ),
                 ),
               ],
@@ -125,10 +125,10 @@ class _EditBrandPageState extends State<EditBrandPage> {
       if (success) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Cập nhật thành công')));
+            .showSnackBar(const SnackBar(content: Text('Cập nhật thành công')));
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Cập nhật thất bại')));
+            .showSnackBar(const SnackBar(content: Text('Cập nhật thất bại')));
       }
     }
   }

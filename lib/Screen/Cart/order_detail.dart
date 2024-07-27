@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
-import 'package:tien/data/billDetail.dart';
+import 'package:tien/data/bill_detail.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final String billID;
   final String token;
 
-  OrderDetailPage({required this.billID, required this.token});
+  const OrderDetailPage({super.key, required this.billID, required this.token});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OrderDetailPageState createState() => _OrderDetailPageState();
 }
 

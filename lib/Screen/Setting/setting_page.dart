@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,9 +7,8 @@ import 'package:tien/Config/api_urls.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 import 'package:tien/Screen/Setting/Edit_account_page.dart';
 import 'package:tien/Screen/Setting/edit_account.dart';
-import 'package:tien/Screen/Setting/edit_componet.dart';
 import '../../data/user.dart';
-import 'AddressSetting.dart';
+import 'address_setting.dart';
 
 class SettingPage extends StatefulWidget {
   final String token;
@@ -92,14 +93,14 @@ String? selectedAddress;
       APIRepository apiRepository = APIRepository();
       try {
         User user = await apiRepository.currentUser(token);
-        print(
+        log(
             'User data: ${user.fullName}, ${user.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           userName = user.fullName;
           userProfileImage = user.imageURL;
         });
       } catch (e) {
-        print('Không thể tải dữ liệu người dùng: $e');
+        log('Không thể tải dữ liệu người dùng: $e');
       }
     }
   }
@@ -123,7 +124,7 @@ String? selectedAddress;
               onPressed: () async {
                
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
             ),
@@ -145,7 +146,7 @@ String? selectedAddress;
         selectedAddress = result;
       });
       await _saveUserAddress(result);
-      print("Địa chỉ được chọn: $selectedAddress");
+      log("Địa chỉ được chọn: $selectedAddress");
     }
   }
 
@@ -153,7 +154,7 @@ String? selectedAddress;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Cài đặt' ,style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+        title:  const Text('Cài đặt' ,style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
         
       ),
       body: SingleChildScrollView(
@@ -267,7 +268,6 @@ String? selectedAddress;
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: _showLogoutConfirmationDialog,
-                  child: const Text('Đăng xuất'),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white, // Text color
                     backgroundColor: Colors.blue, // Button color
@@ -277,6 +277,7 @@ String? selectedAddress;
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
+                  child: const Text('Đăng xuất'),
                 ),
               )
             ],

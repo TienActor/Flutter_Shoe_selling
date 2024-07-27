@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Config/api_urls.dart';
 import '../data/product.dart';
-import 'AddProductAd.dart'; // Đảm bảo rằng đã import màn hình thêm sản phẩm
+import 'add_product_ad.dart'; // Đảm bảo rằng đã import màn hình thêm sản phẩm
 import 'EditProduct.dart';
 import 'ProductDetailAd.dart';
 
@@ -40,7 +40,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
       child: ListTile(
         title: Text(product.name,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         subtitle: Text(product.categoryName),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
@@ -51,11 +51,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(Icons.edit, color: Colors.blue),
+              icon: const Icon(Icons.edit, color: Colors.blue),
               onPressed: () => _navigateToEditProduct(context, product),
             ),
             IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () => _confirmDelete(context, product),
             ),
           ],
@@ -95,12 +95,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Xác nhận xóa"),
+          title: const Text("Xác nhận xóa"),
           content: Text("Bạn có chắc muốn xóa sản phẩm ${product.name}?"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("Hủy"),
+              child: const Text("Hủy"),
             ),
             TextButton(
               onPressed: () async {
@@ -108,7 +108,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 await _deleteProduct(
                     product.id, widget.accountID, widget.token);
               },
-              child: Text("Xóa"),
+              child: const Text("Xóa"),
             ),
           ],
         );
@@ -122,11 +122,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
         await APIRepository().removeProduct(productId, accountId, token);
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sản phẩm đã được xóa thành công')));
+          const SnackBar(content: Text('Sản phẩm đã được xóa thành công')));
       _refreshProductList(); // Refresh the product list to reflect the deletion
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Không thể xóa sản phẩm')));
+          .showSnackBar(const SnackBar(content: Text('Không thể xóa sản phẩm')));
     }
   }
 
@@ -148,11 +148,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Danh sách sản phẩm"),
+        title: const Text("Danh sách sản phẩm"),
         backgroundColor: Colors.red,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: _openAddProductScreen,
           ),
         ],
@@ -163,7 +163,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           future: products,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
             } else if (snapshot.hasData) {
@@ -173,7 +173,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     _buildProductItem(context, snapshot.data![index]),
               );
             } else {
-              return Center(child: Text("No products found"));
+              return const Center(child: Text("No products found"));
             }
           },
         ),

@@ -60,11 +60,11 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách đơn hàng'),
+        title: const Text('Danh sách đơn hàng'),
         backgroundColor: Colors.red,
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _error.isNotEmpty
               ? Center(child: Text(_error))
               : RefreshIndicator(
@@ -74,7 +74,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     itemBuilder: (context, index) {
                       final bill = _bills[index];
                       return Card(
-                        margin: EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.all(8.0),
                         child: ListTile(
                           leading: Icon(Icons.receipt,
                               color: Theme.of(context).colorScheme.secondary),
@@ -83,7 +83,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             '${bill.dateCreated} - ${NumberFormat('###,###,###').format(bill.total)} VND',
                             style: TextStyle(color: Colors.grey[600]),
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios),
+                          trailing: const Icon(Icons.arrow_forward_ios),
                           onTap: () async {
                             final result = await Navigator.push(
                               context,

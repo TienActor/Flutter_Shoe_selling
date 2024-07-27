@@ -1,16 +1,17 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
-import 'package:tien/Screen/Cart/cartProvider.dart';
+import 'package:tien/Screen/Cart/cart_provider.dart';
 import 'package:tien/Screen/Cart/orderStorage.dart';
 import 'package:tien/Screen/Cart/userprovider.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
 import '../../data/cart.dart';
-import '../../data/cartItem.dart';
+import '../../data/cart_item.dart';
 import '../../data/user.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -131,7 +132,6 @@ List<String> addresses = [];
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _checkout,
-                child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
@@ -141,6 +141,7 @@ List<String> addresses = [];
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
+                child: const Text('Thanh toán', style: TextStyle(fontSize: 18)),
               ),
             ],
           ),
@@ -201,7 +202,7 @@ List<String> addresses = [];
               children: [
                 const Icon(Icons.people),
                 const SizedBox(width: 10,),
-                Text('${user?.fullName ?? ''}'),
+                Text(user?.fullName ?? ''),
                 const SizedBox(width: 10),
               ],
             ),
@@ -220,7 +221,7 @@ List<String> addresses = [];
               children: [
                 const Icon(Icons.phone),
                 const SizedBox(width: 10),
-               Expanded(child: Text('${user?.phoneNumber ?? ''}')),
+               Expanded(child: Text(user?.phoneNumber ?? '')),
               ],
             ),
           ],
@@ -338,13 +339,13 @@ List<String> addresses = [];
       APIRepository apiRepository = APIRepository();
       try {
         User userData = await apiRepository.currentUser(token);
-        print(
+        log(
             'User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           user = userData;
         });
       } catch (e) {
-        print('Không thể tải dữ liệu người dùng: $e');
+        log('Không thể tải dữ liệu người dùng: $e');
       }
     }
   }

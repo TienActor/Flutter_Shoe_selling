@@ -86,17 +86,4 @@ class _DiscountPageState extends State<VoucherPage> {
     );
   }
 
-  void _deleteDiscount(int index) async {
-    // Xóa mã giảm giá từ danh sách
-    discounts.removeAt(index);
-
-    // Cập nhật SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    // Lưu lại danh sách sau khi đã xóa
-    List<String> updatedDiscounts =
-        discounts.map((discount) => jsonEncode(discount.toJson())).toList();
-    await prefs.setStringList('discounts', updatedDiscounts);
-    // Cập nhật giao diện
-    setState(() {});
-  }
 }

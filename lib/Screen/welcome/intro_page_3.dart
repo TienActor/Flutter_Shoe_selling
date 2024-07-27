@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tien/Config/const.dart';
 import 'package:tien/Screen/Login/login_page.dart';
 
-class Intro_page_3Widget extends StatelessWidget {
-  const Intro_page_3Widget({super.key});
+class IntroPage3 extends StatelessWidget {
+  const IntroPage3({super.key});
 
   @override
   Widget build(BuildContext context) {

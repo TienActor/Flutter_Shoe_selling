@@ -40,7 +40,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sửa sản phẩm"),
+        title: const Text("Sửa sản phẩm"),
         backgroundColor: Colors.red,
       ),
       body: SingleChildScrollView(
@@ -51,49 +51,49 @@ class _EditProductScreenState extends State<EditProductScreen> {
             children: <Widget>[
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Tên sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.text_fields),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mô tả sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.description),
                 ),
                 maxLines: 3,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Giá sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.attach_money),
                 ),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _imageURLController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Hình ảnh sản phẩm',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   prefixIcon: Icon(Icons.image),
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _updateProduct,
-                child: Text('Cập nhật sản phẩm'),
+                child: const Text('Cập nhật sản phẩm'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.blue, // Foreground color (text color)
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
               )
             ],

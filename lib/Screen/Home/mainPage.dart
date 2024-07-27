@@ -4,7 +4,7 @@ import 'package:tien/Screen/Home/test.dart';
 import 'package:tien/Screen/Setting/setting_page.dart';
 
 import '../../data/product.dart';
-import '../Favorite/Voucher.dart';
+import '../Favorite/voucher.dart';
 import '../Favorite/favorite.dart';
 
 class DashBoard extends StatefulWidget {

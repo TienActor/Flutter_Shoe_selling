@@ -173,7 +173,7 @@ class IntroPage2 extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const Intro_page_3Widget()),
+                                                            const IntroPage3()),
                                                   );
                                                 },
                                                 child: Text(

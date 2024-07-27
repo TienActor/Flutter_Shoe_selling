@@ -20,7 +20,7 @@ class CustomDialog {
   void show() {
     showDialog(
       context: context,
-      barrierDismissible: true, //TODO: chạm ngoài để tắt dialog
+      barrierDismissible: true, 
       builder: (BuildContext context) {
         Future.delayed(Duration(seconds: durationTimes), () {
           if (Navigator.of(context).canPop()) {

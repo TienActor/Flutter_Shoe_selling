@@ -82,36 +82,36 @@ class _CreateDiscountPageState extends State<CreateDiscountPage> {
                 },
               ),
               ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                title: Align(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                title: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text('Chọn ngày bắt đầu'),
                 ),
                 subtitle: Padding(
-                  padding: EdgeInsets.only(left: 0),
+                  padding: const EdgeInsets.only(left: 0),
                   child: Text(_startDate == null
                       ? 'Chưa chọn ngày'
                       : 'Ngày bắt đầu: ${_startDate!.toIso8601String().substring(0, 10)}'),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _pickDate(context, true),
                 ),
               ),
               ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                title: Align(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                title: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text('Chọn ngày hết hạn'),
                 ),
                 subtitle: Padding(
-                  padding: EdgeInsets.only(left: 0),
+                  padding: const EdgeInsets.only(left: 0),
                   child: Text(_expiryDate == null
                       ? 'Chưa chọn ngày'
                       : 'Ngày hết hạn: ${_expiryDate!.toIso8601String().substring(0, 10)}'),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _pickDate(context, false),
                 ),
               ),

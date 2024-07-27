@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tien/Screen/Cart/userprovider.dart';
 import 'package:provider/provider.dart';
-import 'package:tien/Screen/Cart/cartProvider.dart';
+import 'package:tien/Screen/Cart/cart_provider.dart';
 import 'package:tien/Screen/welcome/intro_page.dart';
 
 void main() {
@@ -9,7 +9,7 @@ void main() {
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => CartProvider()),
       ChangeNotifierProvider(create: (context) => UserProvider()),
-    ], child: MainApp()),
+    ], child: const MainApp()),
   );
 }
 

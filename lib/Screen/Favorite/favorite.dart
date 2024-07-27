@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Config/api_urls.dart';
@@ -38,7 +39,7 @@ class _FavoritePageState extends State<FavoritePage> {
           widget.accountID, favoriteIds, widget.token);
       return fetchedProducts;
     } catch (e) {
-      print("Error fetching products: $e");
+      log("Error fetching products: $e");
       return [];
     }
   }
@@ -64,7 +65,7 @@ class _FavoritePageState extends State<FavoritePage> {
             'Failed to load favorite products: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching favorite products: $e');
+      log('Error fetching favorite products: $e');
       rethrow;
     }
   }

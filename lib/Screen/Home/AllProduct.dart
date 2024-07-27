@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
 import 'package:tien/data/product.dart';
 import 'package:tien/Screen/Home/detail.dart';
-import 'package:tien/Screen/Cart/cartProvider.dart';
+import 'package:tien/Screen/Cart/cart_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

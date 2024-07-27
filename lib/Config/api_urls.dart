@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tien/data/billDetail.dart';
+import 'package:tien/data/bill_detail.dart';
 import '../data/bill.dart';
 import '../data/cart.dart';
 import '../data/category.dart';
@@ -175,7 +174,7 @@ class APIRepository {
         return {'success': false, 'message': '${res.statusCode}'};
       }
     } catch (ex) {
-      //print(ex);
+      //log(ex);
       return {'success': false, 'message': 'Lỗi: $ex'};
     }
   }
@@ -189,6 +188,8 @@ class APIRepository {
       rethrow;
     }
   }
+
+
 
   Future<Map<String, dynamic>> updateProfile(
       String numberID,
@@ -224,7 +225,7 @@ class APIRepository {
       if (res.statusCode == 200) {
         var data = res.data;
         if (data['success'] == true) {
-          print(res );
+          print(res);
           return {"success": true, "message": "Cập nhật thông tin thành công"};
         } else {
           return {"success": false, "message": data['message']};
@@ -295,13 +296,13 @@ class APIRepository {
       Response res = await api.sendRequest.post(ApiUrls.addCategory,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok add category");
+        log("ok add category");
         return true;
       } else {
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -319,13 +320,13 @@ class APIRepository {
       Response res = await api.sendRequest.put(ApiUrls.updateCategory,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok update category");
+        log("ok update category");
         return true;
       } else {
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -338,13 +339,13 @@ class APIRepository {
       Response res = await api.sendRequest.delete(ApiUrls.deleteCategory,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok remove category");
+        log("ok remove category");
         return true;
       } else {
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -381,7 +382,7 @@ class APIRepository {
         throw Exception('Failed to load favorite products: ${res.statusCode}');
       }
     } catch (e) {
-      print('Error fetching favorite products: $e');
+      log('Error fetching favorite products: $e');
       rethrow;
     }
   }
@@ -405,7 +406,7 @@ class APIRepository {
   //         .cast<ProductModel>()
   //         .toList();
   //   } catch (ex) {
-  //     print(ex);
+  //     log(ex);
   //     rethrow;
   //   }
   // }
@@ -421,13 +422,13 @@ class APIRepository {
       Response res = await api.sendRequest.post(ApiUrls.addProduct,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok add product");
+        log("ok add product");
         return true;
       } else {
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -447,14 +448,14 @@ class APIRepository {
       Response res = await _dio.put(ApiUrls.updateProduct,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok update product");
+        log("ok update product");
         return true;
       } else {
-        print("Failed to update product: ${res.statusCode}");
+        log("Failed to update product: ${res.statusCode}");
         return false;
       }
     } catch (ex) {
-      print("Error updating product: $ex");
+      log("Error updating product: $ex");
       rethrow;
     }
   }
@@ -467,13 +468,13 @@ class APIRepository {
       Response res = await api.sendRequest.delete(ApiUrls.deleteProduct,
           options: Options(headers: header(token)), data: body);
       if (res.statusCode == 200) {
-        print("ok remove product");
+        log("ok remove product");
         return true;
       } else {
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -490,13 +491,13 @@ class APIRepository {
   //     Response res = await api.sendRequest.post('/Order/addBill',
   //         options: Options(headers: header(token)), data: list);
   //     if (res.statusCode == 200) {
-  //       print("add bill ok");
+  //       log("add bill ok");
   //       return true;
   //     } else {
   //       return false;
   //     }
   //   } catch (ex) {
-  //     print(ex);
+  //     log(ex);
   //     rethrow;
   //   }
   // }
@@ -510,7 +511,7 @@ class APIRepository {
           .cast<BillModel>()
           .toList();
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -525,7 +526,7 @@ class APIRepository {
           .cast<BillDetailModel>()
           .toList();
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -537,7 +538,7 @@ class APIRepository {
               'count': product.count,
             })
         .toList();
-    print("Data sent to API: $list"); // Print data to console
+    log("Data sent to API: $list"); // log data to console
 
     try {
       Response res = await api.sendRequest.post(
@@ -546,14 +547,14 @@ class APIRepository {
         data: jsonEncode(list), // Ensure data is encoded as JSON
       );
       if (res.statusCode == 200) {
-        print("add bill ok");
+        log("add bill ok");
         return true;
       } else {
-        print("add bill failed");
+        log("add bill failed");
         return false;
       }
     } catch (ex) {
-      print(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -564,7 +565,7 @@ class APIRepository {
           options: Options(headers: header(token)));
       if (res.statusCode == 200) {
         if (res.data != null) {
-          print(
+          log(
               'API Response: ${res.data}'); // Thông báo gỡ lỗi để kiểm tra phản hồi của API
           return User.fromJson(res.data);
         } else {
@@ -574,7 +575,7 @@ class APIRepository {
         throw Exception('Lỗi API: ${res.statusCode}');
       }
     } catch (e) {
-      print('Lỗi khi lấy dữ liệu người dùng: $e');
+      log('Lỗi khi lấy dữ liệu người dùng: $e');
       rethrow;
     }
   }

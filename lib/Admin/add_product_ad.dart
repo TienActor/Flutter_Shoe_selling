@@ -64,7 +64,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             await APIRepository().addProduct(newProduct, widget.token);
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Thêm sản phẩm thành công')));
+              const SnackBar(content: Text('Thêm sản phẩm thành công')));
           Navigator.pop(context, true); // Return true to indicate success
         } else {
           // ScaffoldMessenger.of(context)
@@ -90,7 +90,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text('Thêm sản phẩm mới'),
+        title: const Text('Thêm sản phẩm mới'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -102,7 +102,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               // Product Name Field
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Tên sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.text_fields),
@@ -114,12 +114,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Product Description Field
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mô tả sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.description),
@@ -132,13 +132,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
                 maxLines: 3,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Product Price Field
               TextFormField(
                 controller: _priceController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(
                   labelText: 'Giá sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.attach_money),
@@ -153,12 +153,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Product Image URL Field
               TextFormField(
                 controller: _imageURLController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Hình sản phẩm',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.image),
@@ -170,13 +170,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Category Dropdown
               isLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : DropdownButtonFormField<CategoryModel>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Hãng',
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.list_sharp),
@@ -200,7 +200,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         return null;
                       },
                     ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Add Product Button
               ElevatedButton(
@@ -208,22 +208,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   bool success = await addProduct();
                   if (success) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Thêm sản phẩm thành công')));
+                        const SnackBar(content: Text('Thêm sản phẩm thành công')));
                     Navigator.pop(context);
                   } else {
                     // ScaffoldMessenger.of(context).showSnackBar(
                     //     SnackBar(content: Text('Thêm sản phẩm thất bại')));
                   }
                 },
-                child: Text('Thêm sản phẩm'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   backgroundColor: Colors.blue, // Text color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                child: const Text('Thêm sản phẩm'),
               ),
             ],
           ),

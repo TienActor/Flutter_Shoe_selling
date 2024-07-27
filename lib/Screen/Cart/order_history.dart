@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Config/api_urls.dart';
-import 'package:tien/Screen/Cart/OrderDetail.dart';
+import 'package:tien/Screen/Cart/order_detail.dart';
 import 'package:tien/data/bill.dart';
 
 class OrderHistoryPage extends StatefulWidget {

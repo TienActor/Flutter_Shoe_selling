@@ -6,8 +6,8 @@ import '../Config/api_urls.dart';
 import '../Screen/Login/login_page.dart';
 import '../data/category.dart';
 import '../data/user.dart';
-import 'BrandsListAd.dart';
-import 'DiscountListAd.dart';
+import 'brands_list_ad.dart';
+import 'discount_list_ad.dart';
 import 'ListUserAd.dart';
 import 'ProductListAd.dart';
 
@@ -158,7 +158,7 @@ class _AdminHomeState extends State<AdminHome> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app), // Icon đăng xuất
+            icon: const Icon(Icons.exit_to_app), // Icon đăng xuất
             onPressed: _logout, // Xử lý sự kiện khi nhấn vào icon
           ),
         ],
@@ -166,14 +166,15 @@ class _AdminHomeState extends State<AdminHome> {
       body: RefreshIndicator(
         onRefresh: _refreshDashboard,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(), // Ensure scrollability
+          physics:
+              const AlwaysScrollableScrollPhysics(), // Ensure scrollability
           child: Column(
             children: [
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true, // Use it inside Scroll view
                 physics:
-                    NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                    const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                 children: [
                   DashboardTileWithImage(
                     title: 'Người dùng',
@@ -189,7 +190,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ),
                         );
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 'Authentication token is not available. Please login again.')));
                       }
@@ -214,7 +215,7 @@ class _AdminHomeState extends State<AdminHome> {
                         // Sau khi trở lại, làm mới số lượng thương hiệu
                         await fetchBrandsCount();
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 'Authentication token is not available. Please login again.')));
                       }
@@ -236,7 +237,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ),
                         );
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 'Authentication token is not available. Please login again.')));
                       }
@@ -253,7 +254,7 @@ class _AdminHomeState extends State<AdminHome> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DiscountPage()),
+                              builder: (context) => const DiscountPage()),
                         ).then((value) {
                           // Gọi lại khi trở về
                           if (value == true) {
@@ -261,7 +262,7 @@ class _AdminHomeState extends State<AdminHome> {
                           }
                         });
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 'Authentication token is not available. Please login again.')));
                       }
@@ -281,7 +282,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ),
                         );
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text(
                                 'Authentication token is not available. Please login again.')));
                       }
@@ -302,7 +303,7 @@ class _AdminHomeState extends State<AdminHome> {
     await prefs.remove('token'); // Chỉ xóa token, không xóa toàn bộ dữ liệu
     // Chuyển hướng đến trang đăng nhập
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
 }
@@ -326,7 +327,7 @@ class DashboardTileWithImage extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -335,7 +336,7 @@ class DashboardTileWithImage extends StatelessWidget {
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 3,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
             ),
           ],
         ),
@@ -343,10 +344,12 @@ class DashboardTileWithImage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(imagePath, width: 200, height: 100),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(title,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-            Text(value, style: TextStyle(fontSize: 20, color: Colors.grey)),
+                style:
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Text(value,
+                style: const TextStyle(fontSize: 20, color: Colors.grey)),
           ],
         ),
       ),

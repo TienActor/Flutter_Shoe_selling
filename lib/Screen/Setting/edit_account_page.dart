@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +26,6 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
     _loadUserData();
   }
 
-  final APIRepository _apiRepository = APIRepository();
 
   @override
   void dispose() {
@@ -39,13 +40,13 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
       APIRepository apiRepository = APIRepository();
       try {
         User userData = await apiRepository.currentUser(token);
-        print(
+        log(
             'User data: ${userData.fullName}, ${userData.imageURL}'); // Thông báo gỡ lỗi
         setState(() {
           user = userData;
         });
       } catch (e) {
-        print('Không thể tải dữ liệu người dùng: $e');
+        log('Không thể tải dữ liệu người dùng: $e');
       }
     }
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Config/api_urls.dart';
 import '../data/category.dart';
-import 'AddBrandAd.dart';
+import 'add_brand_ad.dart';
 import 'EditBrandAd.dart';
 
 class BrandsPage extends StatefulWidget {
@@ -50,10 +50,10 @@ class _BrandsPageState extends State<BrandsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text('Thương hiệu'),
+        title: const Text('Thương hiệu'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () async {
               var result = await Navigator.push(
                 context,
@@ -71,7 +71,7 @@ class _BrandsPageState extends State<BrandsPage> {
         ],
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: refreshBrands,
               child: ListView.builder(
@@ -79,10 +79,10 @@ class _BrandsPageState extends State<BrandsPage> {
                 itemBuilder: (context, index) {
                   return Card(
                     elevation: 5,
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: ListTile(
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       leading: Container(
                         width: 70,
                         height: 70,
@@ -101,7 +101,7 @@ class _BrandsPageState extends State<BrandsPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
+                            icon: const Icon(Icons.edit, color: Colors.blue),
                             onPressed: () async {
                               var result = await Navigator.push(
                                 context,
@@ -119,7 +119,7 @@ class _BrandsPageState extends State<BrandsPage> {
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
+                            icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () => _confirmDelete(brands[index].id!),
                           ),
                         ],
@@ -137,15 +137,15 @@ class _BrandsPageState extends State<BrandsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Xác nhận xóa"),
-          content: Text("Bạn có chắc muốn xóa thương hiệu này ?"),
+          title: const Text("Xác nhận xóa"),
+          content: const Text("Bạn có chắc muốn xóa thương hiệu này ?"),
           actions: <Widget>[
             TextButton(
-              child: Text('Hủy'),
+              child: const Text('Hủy'),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Xóa'),
+              child: const Text('Xóa'),
               onPressed: () async {
                 await _deleteCategory(id);
                 Navigator.of(context).pop(); // Close the dialog after deletion
@@ -164,10 +164,10 @@ class _BrandsPageState extends State<BrandsPage> {
     if (success) {
       refreshBrands(); // Refresh the list after successful deletion
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Xóa thành công')));
+          .showSnackBar(const SnackBar(content: Text('Xóa thành công')));
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Xoá thất bại')));
+          .showSnackBar(const SnackBar(content: Text('Xoá thất bại')));
     }
   }
 }

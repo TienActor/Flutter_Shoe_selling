@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/Screen/Home/mainPage.dart';
-import 'package:tien/Screen/Setting/setting_page.dart';
 import '../../Config/api_urls.dart';
 import '../components/custom_dialog.dart';
 import '../components/custom_textfield.dart';

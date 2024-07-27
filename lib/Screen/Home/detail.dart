@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tien/Screen/Cart/cartProvider.dart';
-import 'package:tien/Screen/Cart/cartPage.dart';
+import 'package:tien/Screen/Cart/cart_provider.dart';
+import 'package:tien/Screen/Cart/cart_page.dart';
 import 'package:tien/data/product.dart';
 
 // trang chi tiet

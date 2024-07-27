@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tien/data/product.dart';
-import '../../data/cartItem.dart';
+import '../../data/cart_item.dart';
 
 class CartProvider with ChangeNotifier {
-  List<CartItem> _items = [];
+  final List<CartItem> _items = [];
 
   List<CartItem> get items => _items;
 

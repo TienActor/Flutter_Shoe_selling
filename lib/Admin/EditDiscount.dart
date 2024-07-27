@@ -40,7 +40,7 @@ class _EditVoucherPageState extends State<EditVoucherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sửa Mã Giảm Giá'),
+        title: const Text('Sửa Mã Giảm Giá'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,70 +49,70 @@ class _EditVoucherPageState extends State<EditVoucherPage> {
             children: <Widget>[
               TextFormField(
                 controller: _codeController,
-                decoration: InputDecoration(labelText: 'Code'),
+                decoration: const InputDecoration(labelText: 'Code'),
               ),
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Tiêu đề'),
+                decoration: const InputDecoration(labelText: 'Tiêu đề'),
               ),
               TextFormField(
                 controller: _minOrderController,
-                decoration: InputDecoration(labelText: 'Đơn tối thiểu'),
+                decoration: const InputDecoration(labelText: 'Đơn tối thiểu'),
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _discountController,
-                decoration: InputDecoration(labelText: 'Chiết khấu (%)'),
+                decoration: const InputDecoration(labelText: 'Chiết khấu (%)'),
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _quantityController,
-                decoration: InputDecoration(labelText: 'Số lượng'),
+                decoration: const InputDecoration(labelText: 'Số lượng'),
                 keyboardType: TextInputType.number,
               ),
               ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                title: Text('Chọn ngày bắt đầu'),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                title: const Text('Chọn ngày bắt đầu'),
                 subtitle: Text(_startDate == null
                     ? 'Chưa chọn ngày'
                     : 'Ngày bắt đầu: ${_startDate!.toIso8601String().substring(0, 10)}'),
                 trailing: IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _pickDate(context, true),
                 ),
               ),
               ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                title: Text('Chọn ngày kết thúc'),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                title: const Text('Chọn ngày kết thúc'),
                 subtitle: Text(_endDate == null
                     ? 'Chưa chọn ngày'
                     : 'Ngày kết thúc: ${_endDate!.toIso8601String().substring(0, 10)}'),
                 trailing: IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _pickDate(context, false),
                 ),
               ),
               ElevatedButton(
                 onPressed: _saveChanges,
-                child: Text(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                ),
+                child: const Text(
                   'Lưu',
                   style: TextStyle(fontSize: 15),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text(
-                  'Hủy',
-                  style: TextStyle(fontSize: 15),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                ),
+                child: const Text(
+                  'Hủy',
+                  style: TextStyle(fontSize: 15),
                 ),
               ),
             ],

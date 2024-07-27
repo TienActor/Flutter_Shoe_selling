@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tien/data/voucher.dart';
 import 'EditDiscount.dart';
-import 'createVoucher.dart'; // Giả sử đây là trang để tạo mã giảm giá mới
+import 'create_voucher.dart'; // Giả sử đây là trang để tạo mã giảm giá mới
 
 class DiscountPage extends StatefulWidget {
   const DiscountPage({super.key});
@@ -82,7 +82,7 @@ class _DiscountPageState extends State<DiscountPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
+                      icon: const Icon(Icons.edit, color: Colors.blue),
                       onPressed: () {
                         Navigator.of(context)
                             .push(
@@ -98,7 +98,7 @@ class _DiscountPageState extends State<DiscountPage> {
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
+                      icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         _showDeleteDialog(index);
                       },
@@ -114,7 +114,7 @@ class _DiscountPageState extends State<DiscountPage> {
         onPressed: () {
           Navigator.of(context)
               .push(
-            MaterialPageRoute(builder: (context) => CreateDiscountPage()),
+            MaterialPageRoute(builder: (context) => const CreateDiscountPage()),
           )
               .then((value) {
             if (value == true) {
@@ -147,17 +147,17 @@ class _DiscountPageState extends State<DiscountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Xác nhận'),
-          content: Text('Bạn có chắc chắn muốn xóa mã giảm giá này không?'),
+          title: const Text('Xác nhận'),
+          content: const Text('Bạn có chắc chắn muốn xóa mã giảm giá này không?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Không'),
+              child: const Text('Không'),
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog mà không làm gì cả
               },
             ),
             TextButton(
-              child: Text('Có'),
+              child: const Text('Có'),
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog và xóa mã giảm giá
                 _deleteDiscount(index);

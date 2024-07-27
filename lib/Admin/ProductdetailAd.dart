@@ -24,7 +24,7 @@ class ProductDetailScreen extends StatelessWidget {
         backgroundColor: Colors.red,
         actions: [
           IconButton(
-            icon: Icon(Icons.edit, color: Colors.blue),
+            icon: const Icon(Icons.edit, color: Colors.blue),
             onPressed: () {
               Navigator.push(
                 context,
@@ -36,7 +36,7 @@ class ProductDetailScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.green),
+            icon: const Icon(Icons.delete, color: Colors.green),
             onPressed: () => _confirmDelete(context),
           ),
         ],
@@ -56,17 +56,17 @@ class ProductDetailScreen extends StatelessWidget {
                 children: [
                   Text(product.name,
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   Text(
                     "Giá: ${NumberFormat('###,###,###').format(product.price)} VND",
-                    style: TextStyle(fontSize: 20, color: Colors.red),
+                    style: const TextStyle(fontSize: 20, color: Colors.red),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text("Hãng: ${product.categoryName}",
                       style:
-                          TextStyle(fontSize: 18, fontStyle: FontStyle.italic)),
-                  SizedBox(height: 10),
-                  Text(product.description, style: TextStyle(fontSize: 16)),
+                          const TextStyle(fontSize: 18, fontStyle: FontStyle.italic)),
+                  const SizedBox(height: 10),
+                  Text(product.description, style: const TextStyle(fontSize: 16)),
                 ],
               ),
             ),
@@ -81,17 +81,17 @@ class ProductDetailScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Xác nhận xóa"),
+          title: const Text("Xác nhận xóa"),
           content: Text("Bạn có chắc muốn xóa ${product.name} ?"),
           actions: <Widget>[
             TextButton(
-              child: Text('Hủy'),
+              child: const Text('Hủy'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Xóa'),
+              child: const Text('Xóa'),
               onPressed: () {
                 _deleteProduct(context);
               },
@@ -110,10 +110,10 @@ class ProductDetailScreen extends StatelessWidget {
         Navigator.pop(context,
             true); // Pop the current screen and send back 'true' to indicate success
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Xóa sản phẩm thành công')));
+            .showSnackBar(const SnackBar(content: Text('Xóa sản phẩm thành công')));
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Không thể xóa sản phẩm')));
+            .showSnackBar(const SnackBar(content: Text('Không thể xóa sản phẩm')));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
