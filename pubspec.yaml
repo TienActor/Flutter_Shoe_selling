@@ -1,0 +1,52 @@
+name: tien
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ">=3.2.3 <4.0.0"
+
+fonts:
+  - family: ABeeZee
+    fonts:
+      - asset: assets/fonts/ABeeZee-Italic.ttf
+  - family: Pacifico
+    fonts:
+      - asset: assets/fonts/Pacifico-Regular.ttf
+  - family: ZillaSlab
+    fonts:
+      - asset: assets/fonts/ZillaSlab-Medium.ttf
+
+dependencies:
+  flutter:
+    sdk: flutter
+  carousel_slider: ^4.2.1
+  intl: ^0.18.0
+  flutter_svg: ^2.0.7
+  http: ^1.2.1
+  shared_preferences: ^2.2.3
+  google_fonts: ^6.2.1
+  ionicons: ^0.2.2
+  cupertino_icons: ^1.0.2
+  dio: ^5.5.0+1
+  provider: ^6.0.3
+  cached_network_image: ^3.3.1
+  path_provider: ^2.0.9
+    
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/adidaslogo.png
+    - assets/images/logo.png
+    - assets/icon/
+    - assets/fonts/
+    - assets/json/user_data.json
+    - assets/json/voucher.json
+    
